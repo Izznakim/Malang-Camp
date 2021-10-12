@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_green"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".HomeActivity">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="306dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:background="@color/dark_green"
+            android:src="@drawable/logomc_1"
+            android:contentDescription="@string/logo_malang_camp" />
+
+        <Button
+            android:id="@+id/btnAdmin"
+            android:layout_marginTop="56dp"
+            android:text="@string/admin"
+            style="@style/buttonHome" />
+
+        <Button
+            android:id="@+id/btnPelanggan"
+            android:layout_marginTop="20dp"
+            android:text="@string/pelanggan"
+            style="@style/buttonHome" />
+
+</LinearLayout>

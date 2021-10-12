@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Malang Camp</string>
+    <string name="admin">Admin</string>
+    <string name="pelanggan">Pelanggan</string>
+    <string name="login_admin">Login Admin</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="masuk">Masuk</string>
+    <string name="logo_malang_camp">Logo Malang Camp</string>
+</resources>
