@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.MalangCamp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryVariant">@color/blue_dark</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -53,5 +53,13 @@
         <item name="android:backgroundTint">@color/green</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="textClickLogReg">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginEnd">24dp</item>
+        <item name="android:textColor">@color/dark_green</item>
     </style>
 </resources>

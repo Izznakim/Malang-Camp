@@ -1,4 +1,4 @@
-package com.firmansyah.malangcamp
+package com.firmansyah.malangcamp.admin
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -52,7 +52,7 @@ class AdminLoginActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this){
                 if (it.isSuccessful){
-                    Intent(this,AdminHomeActivity::class.java).also { intent ->
+                    Intent(this, AdminHomeActivity::class.java).also { intent ->
                         intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                     }

@@ -7,4 +7,9 @@
     <string name="password">Password</string>
     <string name="masuk">Masuk</string>
     <string name="logo_malang_camp">Logo Malang Camp</string>
+    <string name="login">Login</string>
+    <string name="belum_memiliki_akun_daftar_sekarang">Belum memiliki akun?, DAFTAR SEKARANG</string>
+    <string name="daftar">Daftar</string>
+    <string name="ulangi_password">Ulangi Password</string>
+    <string name="sudah_memiliki_akun">Sudah memiliki akun?</string>
 </resources>

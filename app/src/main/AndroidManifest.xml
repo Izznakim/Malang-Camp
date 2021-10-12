@@ -10,13 +10,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MalangCamp">
         <activity
-            android:name=".AdminHomeActivity"
+            android:name=".pelanggan.PelangganRegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".AdminLoginActivity"
+            android:name=".pelanggan.PelangganHomeActivity"
             android:exported="false" />
-        <activity android:name=".HomeActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+        <activity
+            android:name=".pelanggan.PelangganLoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AdminHomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".admin.AdminLoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".SplashActivity"
             android:exported="true"

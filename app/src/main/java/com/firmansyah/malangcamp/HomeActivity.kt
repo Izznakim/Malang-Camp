@@ -3,7 +3,9 @@ package com.firmansyah.malangcamp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.firmansyah.malangcamp.admin.AdminLoginActivity
 import com.firmansyah.malangcamp.databinding.ActivityHomeBinding
+import com.firmansyah.malangcamp.pelanggan.PelangganLoginActivity
 
 class HomeActivity : AppCompatActivity() {
 
@@ -16,12 +18,16 @@ class HomeActivity : AppCompatActivity() {
 
         with(binding){
             btnAdmin.setOnClickListener {
-                Intent(this@HomeActivity,AdminLoginActivity::class.java).also {
+                Intent(this@HomeActivity, AdminLoginActivity::class.java).also {
                     startActivity(it)
                 }
             }
 
-//            btnPelanggan masuk ke activity login pelanggan
+            btnPelanggan.setOnClickListener {
+                Intent(this@HomeActivity, PelangganLoginActivity::class.java).also {
+                    startActivity(it)
+                }
+            }
         }
     }
 }
