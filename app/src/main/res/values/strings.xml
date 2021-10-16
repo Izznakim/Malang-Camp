@@ -3,7 +3,7 @@
     <string name="admin">Admin</string>
     <string name="pelanggan">Pelanggan</string>
     <string name="login_admin">Login Admin</string>
-    <string name="email">Email</string>
+    <string name="email">E-mail</string>
     <string name="password">Password</string>
     <string name="masuk">Masuk</string>
     <string name="logo_malang_camp">Logo Malang Camp</string>
@@ -12,4 +12,5 @@
     <string name="daftar">Daftar</string>
     <string name="ulangi_password">Ulangi Password</string>
     <string name="sudah_memiliki_akun">Sudah memiliki akun?</string>
+    <string name="username">Username</string>
 </resources>
