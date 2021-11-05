@@ -10,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MalangCamp">
         <activity
+            android:name=".admin.AdminHomeActivity"
+            android:exported="false"
+            android:label="@string/title_activity_admin_home" />
+        <activity
             android:name=".pelanggan.PelangganRegisterActivity"
             android:exported="false" />
         <activity
@@ -17,9 +21,6 @@
             android:exported="false" />
         <activity
             android:name=".pelanggan.PelangganLoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".admin.AdminHomeActivity"
             android:exported="false" />
         <activity
             android:name=".admin.AdminLoginActivity"

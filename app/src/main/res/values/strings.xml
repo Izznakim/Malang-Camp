@@ -13,4 +13,11 @@
     <string name="ulangi_password">Ulangi Password</string>
     <string name="sudah_memiliki_akun">Sudah memiliki akun?</string>
     <string name="username">Username</string>
+    <string name="list_booking">List Booking</string>
+    <string name="informasi_barang">Informasi Barang</string>
+    <string name="barang_sewa">Barang Sewa</string>
+    <string name="title_activity_admin_home">AdminHomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>
