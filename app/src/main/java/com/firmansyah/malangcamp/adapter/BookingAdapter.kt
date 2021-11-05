@@ -26,5 +26,5 @@ class BookingAdapter(private val listBooking: ArrayList<Booking>):RecyclerView.A
         holder.bind(listBooking[position])
     }
 
-    override fun getItemCount(): Int  = listBooking.size
+    override fun getItemCount(): Int = listBooking.size
 }

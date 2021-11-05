@@ -2,7 +2,7 @@ package com.firmansyah.malangcamp.data
 
 import com.firmansyah.malangcamp.model.Booking
 
-object BookingData {
+object DataBooking {
     private val namaPengguna=arrayOf("A","B","C","D","E")
 
     private val namaPenyewa=arrayOf("Firman","Naufal","Firman","Zuddin","Firman")

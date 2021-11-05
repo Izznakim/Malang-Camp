@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firmansyah.malangcamp.adapter.BookingAdapter
-import com.firmansyah.malangcamp.data.BookingData
+import com.firmansyah.malangcamp.data.DataBooking
 import com.firmansyah.malangcamp.databinding.FragmentListBookingBinding
 import com.firmansyah.malangcamp.model.Booking
 
@@ -38,7 +38,7 @@ class ListBookingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        list.addAll(BookingData.listData)
+        list.addAll(DataBooking.listData)
         adapter = BookingAdapter(list)
 
         binding.rvListBooking.layoutManager = LinearLayoutManager(activity)

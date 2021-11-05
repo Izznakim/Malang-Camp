@@ -20,4 +20,8 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="tipe_tenda">Tipe %1$s</string>
+    <string name="ukuran_tenda">Ukuran %1$s</string>
+    <string name="frame_tenda">Frame %1$s</string>
+    <string name="pasak_tenda">Pasak %1$s</string>
 </resources>
