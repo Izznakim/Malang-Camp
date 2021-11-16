@@ -8,6 +8,8 @@ import android.widget.Toast
 import com.firmansyah.malangcamp.databinding.ActivityPelangganLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class PelangganLoginActivity : AppCompatActivity() {
 
@@ -21,7 +23,7 @@ class PelangganLoginActivity : AppCompatActivity() {
         binding= ActivityPelangganLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        database= FirebaseDatabase.getInstance()
+        database= Firebase.database
         ref=database.getReference("PELANGGAN")
 
         auth= FirebaseAuth.getInstance()

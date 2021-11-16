@@ -1,15 +1,19 @@
 package com.firmansyah.malangcamp.pelanggan
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import com.firmansyah.malangcamp.databinding.ActivityPelangganRegisterBinding
 import com.firmansyah.malangcamp.model.Pelanggan
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
+import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
+import com.google.firebase.ktx.Firebase
 
 class PelangganRegisterActivity : AppCompatActivity() {
 
@@ -23,7 +27,7 @@ class PelangganRegisterActivity : AppCompatActivity() {
         binding= ActivityPelangganRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        database= FirebaseDatabase.getInstance()
+        database= Firebase.database
         ref=database.getReference("PELANGGAN")
 
         auth= FirebaseAuth.getInstance()
