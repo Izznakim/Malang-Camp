@@ -4,12 +4,18 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
+import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.databinding.ActivityAdminLoginBinding
-import com.firmansyah.malangcamp.pelanggan.PelangganHomeActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class AdminLoginActivity : AppCompatActivity() {
 
@@ -23,25 +29,25 @@ class AdminLoginActivity : AppCompatActivity() {
         binding= ActivityAdminLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        database= FirebaseDatabase.getInstance()
-        ref=database.getReference("ADMIN")
+        database= Firebase.database
+        ref=database.getReference("users")
 
-        auth= FirebaseAuth.getInstance()
+        auth= Firebase.auth
 
         with(binding){
             btnMasuk.setOnClickListener {
-                val username=etUsername.text.toString().trim()
+                val email=etEmail.text.toString().trim()
                 val password=etPassword.text.toString().trim()
 
-                if (username.isEmpty()){
-                    etUsername.error="Username harus diisi"
-                    etUsername.requestFocus()
+                if (email.isEmpty()){
+                    etEmail.error="Email harus diisi"
+                    etEmail.requestFocus()
                     return@setOnClickListener
                 }
 
-                if (Patterns.EMAIL_ADDRESS.matcher(username).matches()) {
-                    etUsername.error = "Username tidak valid"
-                    etUsername.requestFocus()
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    etEmail.error = "Email tidak valid"
+                    etEmail.requestFocus()
                     return@setOnClickListener
                 }
 
@@ -51,23 +57,43 @@ class AdminLoginActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
                 
-                loginAdmin(username,password)
+                loginAdmin(email,password)
             }
         }
     }
 
-    private fun loginAdmin(username: String, password: String) {
-        ref.child(username).get().addOnSuccessListener{
-            if (it.child("username").value == username && it.child("password").value.toString() == password){
-                Intent(this, AdminHomeActivity::class.java).also { intent ->
-                    intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(intent)
-                }
-            } else {
-                Toast.makeText(this,"Maaf, Anda belum terdaftar sebagai Admin",Toast.LENGTH_LONG).show()
+    override fun onStart() {
+        super.onStart()
+        if(auth.currentUser != null){
+            Intent(this, AdminHomeActivity::class.java).also { intent ->
+                intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
             }
-        }.addOnFailureListener{
-            Toast.makeText(this,"Gagal untuk memuat data",Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun loginAdmin(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this){
+                if (it.isSuccessful){
+                    val id = auth.currentUser?.uid
+                    if (id != null) {
+                        ref.child(id).get().addOnSuccessListener{ snapshot ->
+                            if (snapshot.child("isAdmin").value == true){
+                                Intent(this, AdminHomeActivity::class.java).also { intent ->
+                                    intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    startActivity(intent)
+                                }
+                            } else {
+                                Toast.makeText(this,"Maaf, Anda belum terdaftar sebagai Admin",Toast.LENGTH_LONG).show()
+                            }
+                        }.addOnFailureListener{
+                            Toast.makeText(this,"Gagal untuk memuat data",Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }else{
+                    Toast.makeText(this,it.exception?.message, Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 }
