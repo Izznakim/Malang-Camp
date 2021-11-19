@@ -24,7 +24,7 @@ class PelangganRegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         database= FirebaseDatabase.getInstance()
-        ref=database.getReference("PELANGGAN")
+        ref=database.getReference("users")
 
         auth= FirebaseAuth.getInstance()
 
@@ -93,22 +93,28 @@ class PelangganRegisterActivity : AppCompatActivity() {
     }
 
     private fun registerPelanggan(username:String,email: String, password: String) {
-        val id=ref.push().key
-        val model= Pelanggan(username, email, password, id)
-
-        ref.child(username).get().addOnSuccessListener {
-            if (it.exists()){
-                Toast.makeText(this,"Maaf, Username sudah digunakan oleh pengguna lain", Toast.LENGTH_SHORT).show()
-            }else{
-                Toast.makeText(this,"Pembuatan akun sukses", Toast.LENGTH_SHORT).show()
-                ref.child(username).setValue(model)
-                Intent(this, PelangganHomeActivity::class.java).also { intent ->
-                    intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(intent)
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) {
+                if (it.isSuccessful){
+                    val id=auth.currentUser?.uid
+                    val model= Pelanggan(username, email, password, id)
+                    if (id != null) {
+                        ref.child(id).get().addOnSuccessListener {
+                            Toast.makeText(this, "Pembuatan akun sukses", Toast.LENGTH_SHORT)
+                                .show()
+                            ref.child(id).setValue(model)
+                            Intent(this, PelangganHomeActivity::class.java).also { intent ->
+                                intent.flags =
+                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                startActivity(intent)
+                            }
+                        }.addOnFailureListener{
+                            Toast.makeText(this,"Gagal untuk memuat data",Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }else{
+                    Toast.makeText(this,it.exception?.message,Toast.LENGTH_SHORT).show()
                 }
             }
-        }.addOnFailureListener{
-            Toast.makeText(this,"Gagal untuk memuat data",Toast.LENGTH_SHORT).show()
-        }
     }
 }
