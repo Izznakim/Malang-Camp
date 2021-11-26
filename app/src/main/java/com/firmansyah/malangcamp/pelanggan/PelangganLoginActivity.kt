@@ -67,8 +67,8 @@ class PelangganLoginActivity : AppCompatActivity() {
                 if (it.isSuccessful){
                     val id = auth.currentUser?.uid
                     if (id != null) {
-                        ref.child(id).get().addOnSuccessListener {
-                            if (!it.child("isAdmin").exists()){
+                        ref.child(id).get().addOnSuccessListener { snapshot ->
+                            if (!snapshot.child("isAdmin").exists()){
                                 Intent(this@PelangganLoginActivity, PelangganHomeActivity::class.java).also { intent ->
                                     intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                     startActivity(intent)
@@ -76,8 +76,8 @@ class PelangganLoginActivity : AppCompatActivity() {
                             } else {
                                 Toast.makeText(this,"Pelanggan belum terdaftar",Toast.LENGTH_SHORT).show()
                             }
-                        }.addOnFailureListener{
-                            Toast.makeText(this,"Gagal untuk memuat data",Toast.LENGTH_SHORT).show()
+                        }.addOnFailureListener{ e->
+                            Toast.makeText(this,e.message,Toast.LENGTH_SHORT).show()
                         }
                     }
                 }else{

@@ -1,28 +1,35 @@
 package com.firmansyah.malangcamp.admin.ui.informasibarang
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.firmansyah.malangcamp.adapter.BookingAdapter
+import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.adapter.InfoBarangAdapter
-import com.firmansyah.malangcamp.data.DataBooking
-import com.firmansyah.malangcamp.data.DataTenda
 import com.firmansyah.malangcamp.databinding.FragmentInformasiBarangBinding
-import com.firmansyah.malangcamp.model.Booking
-import com.firmansyah.malangcamp.model.Tenda
+import com.firmansyah.malangcamp.model.Barang
+import com.firmansyah.malangcamp.model.Pelanggan
+import com.firmansyah.malangcamp.pelanggan.PelangganLoginActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class InformasiBarangFragment : Fragment() {
 
     private lateinit var dashboardViewModel: DashboardViewModel
     private var _binding: FragmentInformasiBarangBinding? = null
     private lateinit var adapter: InfoBarangAdapter
-    private var list:ArrayList<Tenda> = arrayListOf()
+    private lateinit var listBarang:ArrayList<Barang>
+    private lateinit var database: FirebaseDatabase
+    private lateinit var ref: DatabaseReference
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -32,20 +39,44 @@ class InformasiBarangFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         dashboardViewModel =
             ViewModelProvider(this).get(DashboardViewModel::class.java)
 
+        database=Firebase.database
+        ref=database.getReference("barang")
+
         _binding = FragmentInformasiBarangBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-        return root
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        list.addAll(DataTenda.listData)
-        adapter = InfoBarangAdapter(list)
 
+        initAdapter()
+        listBarang= arrayListOf()
+
+        ref.get().addOnSuccessListener { snapshot->
+            snapshot.children.forEach {
+                val barang=it.getValue(Barang::class.java)
+                if (barang!=null){
+                    listBarang.add(barang)
+                }
+            }
+            adapter.setData(listBarang)
+        }.addOnFailureListener {
+            Toast.makeText(activity,it.message, Toast.LENGTH_SHORT).show()
+        }
+
+        binding.fabAdd.setOnClickListener {
+            val tambahBarangFragment=TambahBarangFragment()
+            val mFragmentManager=childFragmentManager
+            tambahBarangFragment.show(mFragmentManager,TambahBarangFragment::class.java.simpleName)
+        }
+    }
+
+    private fun initAdapter() {
+        adapter = InfoBarangAdapter(arrayListOf())
         binding.rvInfoBarang.layoutManager = LinearLayoutManager(activity)
         binding.rvInfoBarang.adapter = adapter
     }

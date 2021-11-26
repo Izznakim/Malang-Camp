@@ -3,16 +3,23 @@ package com.firmansyah.malangcamp.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.databinding.ListBookingBinding
-import com.firmansyah.malangcamp.model.Booking
+import com.firmansyah.malangcamp.model.Pelanggan
 
-class BookingAdapter(private val listBooking: ArrayList<Booking>):RecyclerView.Adapter<BookingAdapter.ListViewHolder>() {
+class BookingAdapter(private val listPelanggan: ArrayList<Pelanggan>):RecyclerView.Adapter<BookingAdapter.ListViewHolder>() {
+    fun setData(data:List<Pelanggan>){
+        listPelanggan.clear()
+        listPelanggan.addAll(data)
+        notifyDataSetChanged()
+    }
+
     inner class ListViewHolder(private val binding:ListBookingBinding):RecyclerView.ViewHolder(binding.root) {
-        fun bind(booking:Booking){
+        fun bind(user:Pelanggan){
             with(binding){
-                namaPengguna.text=booking.namaPengguna
-                namaPenyewa.text=booking.namaPenyewa
-                nomerTelpPenyewa.text=booking.nomerTelp
+                namaPengguna.text=user.username
+                namaPenyewa.text=itemView.context.getString(R.string.nama_penyewa, user.namaDepan, user.namaBelakang)
+                nomerTelpPenyewa.text= user.noTelp
             }
         }
     }
@@ -23,8 +30,8 @@ class BookingAdapter(private val listBooking: ArrayList<Booking>):RecyclerView.A
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        holder.bind(listBooking[position])
+        holder.bind(listPelanggan[position])
     }
 
-    override fun getItemCount(): Int = listBooking.size
+    override fun getItemCount(): Int  = listPelanggan.size
 }
