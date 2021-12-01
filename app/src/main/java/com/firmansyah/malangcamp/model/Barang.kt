@@ -1,8 +1,18 @@
 package com.firmansyah.malangcamp.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Barang(
-    var nama:String?=null,
-    var stock:Int?=0,
-    var harga:Int?=0,
-    var gambarBarang:Int?=0
-)
+    var jenis: String? = "",
+    var nama: String? = "",
+    var bahan: String? = "",
+    var tipe: String? = "",
+    var ukuran: String? = "",
+    var frame: String? = "",
+    var pasak: String? = "",
+    var warna: String? = "",
+    var caraPemasangan: String? = "",
+    var gambar: String? = ""
+) : Parcelable

@@ -1,48 +1,48 @@
 package com.firmansyah.malangcamp.pelanggan
 
-import android.content.ContentValues.TAG
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
-import com.firmansyah.malangcamp.databinding.ActivityPelangganRegisterBinding
+import androidx.appcompat.app.AppCompatActivity
 import com.firmansyah.malangcamp.model.Pelanggan
+import com.firmansyah.malangcamp.databinding.ActivityPelangganRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
-import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class PelangganRegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPelangganRegisterBinding
     private lateinit var auth: FirebaseAuth
     private lateinit var database: FirebaseDatabase
-    private lateinit var ref:DatabaseReference
+    private lateinit var ref: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= ActivityPelangganRegisterBinding.inflate(layoutInflater)
+        binding = ActivityPelangganRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        database= Firebase.database
-        ref=database.getReference("PELANGGAN")
+        database = FirebaseDatabase.getInstance()
+        ref = database.getReference("users")
 
-        auth= FirebaseAuth.getInstance()
+        auth = FirebaseAuth.getInstance()
 
         bnd()
     }
 
     private fun bnd() {
-        with(binding){
+        with(binding) {
             btnDaftar.setOnClickListener {
-                val username=etUsername.text.toString().trim()
+                val username = etUsername.text.toString().trim()
+                val namaDepan = etNamaDepan.text.toString().trim()
+                val namaBelakang = etNamaBelakang.text.toString().trim()
+                val noTelp = etNoTelp.text.toString().trim()
                 val email = etEmail.text.toString().trim()
                 val password = etPassword.text.toString().trim()
-                val ulangiPassword=etUlangiPassword.text.toString().trim()
+                val ulangiPassword = etUlangiPassword.text.toString().trim()
 
+//                Username
                 if (username.isEmpty()) {
                     etUsername.error = "Username harus diisi"
                     etUsername.requestFocus()
@@ -61,6 +61,39 @@ class PelangganRegisterActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
 
+//                Nama Depan
+                if (namaDepan.isEmpty()) {
+                    etNamaDepan.error = "Nama Depan harus diisi"
+                    etNamaDepan.requestFocus()
+                    return@setOnClickListener
+                }
+
+                if (Patterns.EMAIL_ADDRESS.matcher(namaDepan).matches()) {
+                    etNamaDepan.error = "Nama Depan tidak valid"
+                    etNamaDepan.requestFocus()
+                    return@setOnClickListener
+                }
+
+//                Nama Belakang
+                if (Patterns.EMAIL_ADDRESS.matcher(namaBelakang).matches()) {
+                    etNamaBelakang.error = "Nama Belakang tidak valid"
+                    etNamaBelakang.requestFocus()
+                    return@setOnClickListener
+                }
+
+//                Nomor Telepon
+                if (noTelp.isEmpty()) {
+                    etNoTelp.error = "Nomor telepon harus diisi"
+                    etNoTelp.requestFocus()
+                    return@setOnClickListener
+                }
+
+                if (!Patterns.PHONE.matcher(noTelp).matches()) {
+                    etNoTelp.error = "Nomor telepon tidak valid"
+                    etNoTelp.requestFocus()
+                    return@setOnClickListener
+                }
+//                E-mail
                 if (email.isEmpty()) {
                     etEmail.error = "Email harus diisi"
                     etEmail.requestFocus()
@@ -73,46 +106,62 @@ class PelangganRegisterActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
 
+//                Password
                 if (password.isEmpty() || password.length < 6) {
                     etPassword.error = "Password harus lebih dari 6 karakter"
                     etPassword.requestFocus()
                     return@setOnClickListener
                 }
 
-                if (ulangiPassword!=password){
+                if (ulangiPassword != password) {
                     etUlangiPassword.error = "Password yang anda masukkan tidak sama"
                     etUlangiPassword.requestFocus()
                     return@setOnClickListener
                 }
 
-                registerPelanggan(username,email,password)
+                registerPelanggan(username, email, namaDepan, namaBelakang, noTelp, password)
             }
 
             tvLogin.setOnClickListener {
-                Intent(this@PelangganRegisterActivity,PelangganLoginActivity::class.java).also {
+                Intent(this@PelangganRegisterActivity, PelangganLoginActivity::class.java).also {
                     startActivity(it)
                 }
             }
         }
     }
 
-    private fun registerPelanggan(username:String,email: String, password: String) {
-        val id=ref.push().key
-        val model= Pelanggan(username, email, password, id)
-
-        ref.child(username).get().addOnSuccessListener {
-            if (it.exists()){
-                Toast.makeText(this,"Maaf, Username sudah digunakan oleh pengguna lain", Toast.LENGTH_SHORT).show()
-            }else{
-                Toast.makeText(this,"Pembuatan akun sukses", Toast.LENGTH_SHORT).show()
-                ref.child(username).setValue(model)
-                Intent(this, PelangganHomeActivity::class.java).also { intent ->
-                    intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(intent)
+    private fun registerPelanggan(
+        username: String,
+        email: String,
+        namaDepan: String,
+        namaBelakang: String,
+        noTelp: String,
+        password: String
+    ) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) {
+                if (it.isSuccessful) {
+                    val id = auth.currentUser?.uid
+                    if (id != null) {
+                        val model =
+                            Pelanggan(username, email, namaDepan, namaBelakang, noTelp, password, id)
+                        ref.child(id).get().addOnSuccessListener {
+                            Toast.makeText(this, "Pembuatan akun sukses", Toast.LENGTH_SHORT)
+                                .show()
+                            ref.child(id).setValue(model)
+                            Intent(this, PelangganHomeActivity::class.java).also { intent ->
+                                intent.flags =
+                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                startActivity(intent)
+                            }
+                        }.addOnFailureListener { e->
+                            Toast.makeText(this, e.message, Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    }
+                } else {
+                    Toast.makeText(this, it.exception?.message, Toast.LENGTH_SHORT).show()
                 }
             }
-        }.addOnFailureListener{
-            Toast.makeText(this,"Gagal untuk memuat data",Toast.LENGTH_SHORT).show()
-        }
     }
 }

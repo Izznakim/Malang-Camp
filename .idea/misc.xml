@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/fragment_tambah_barang.xml" value="0.25" />
+        <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/list_infobarang.xml" value="0.33" />
         <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/drawable-v23/splash_screen.xml" value="0.240625" />
         <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/drawable/back.xml" value="0.240625" />
         <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.240625" />
