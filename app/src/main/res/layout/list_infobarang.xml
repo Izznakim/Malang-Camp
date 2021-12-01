@@ -20,16 +20,20 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/gambarTenda"
+                android:id="@+id/gambarBarang"
                 android:layout_width="120dp"
                 android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/tenda_1" />
+                tools:src="@drawable/tenda_1"
+                android:contentDescription="@string/gambar_barang" />
 
             <TextView
-                android:id="@+id/namaTenda"
+                android:id="@+id/tvNamaBarang"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
@@ -37,12 +41,24 @@
                 android:layout_marginEnd="8dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/gambarTenda"
+                app:layout_constraintStart_toEndOf="@+id/gambarBarang"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Nama Tenda" />
+                tools:text="Nama Barang" />
 
             <TextView
-                android:id="@+id/tipeTenda"
+                android:id="@+id/tvBahanBarang"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/bahan_barang"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/gambarBarang"
+                app:layout_constraintTop_toBottomOf="@+id/tvNamaBarang" />
+
+            <TextView
+                android:id="@+id/tvTipeBarang"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
@@ -50,24 +66,32 @@
                 android:layout_marginEnd="8dp"
                 android:text="@string/tipe_tenda"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/gambarTenda"
-                app:layout_constraintTop_toBottomOf="@+id/namaTenda" />
+                app:layout_constraintStart_toEndOf="@+id/gambarBarang"
+                app:layout_constraintTop_toBottomOf="@+id/tvNamaBarang" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="tvTipeBarang,tvBahanBarang"
+                tools:layout_editor_absoluteY="205dp" />
 
             <TextView
-                android:id="@+id/ukuranTenda"
+                android:id="@+id/tvUkuranBarang"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="8dp"
-                android:text="@string/ukuran_tenda"
+                android:text="@string/ukuran_barang"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.523"
-                app:layout_constraintStart_toEndOf="@+id/gambarTenda"
-                app:layout_constraintTop_toBottomOf="@+id/tipeTenda" />
+                app:layout_constraintStart_toEndOf="@+id/gambarBarang"
+                app:layout_constraintTop_toBottomOf="@+id/barrier4" />
 
             <TextView
-                android:id="@+id/frame"
+                android:id="@+id/tvFrame"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
@@ -76,11 +100,23 @@
                 android:text="@string/frame_tenda"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.481"
-                app:layout_constraintStart_toEndOf="@+id/gambarTenda"
-                app:layout_constraintTop_toBottomOf="@+id/ukuranTenda" />
+                app:layout_constraintStart_toEndOf="@+id/gambarBarang"
+                app:layout_constraintTop_toBottomOf="@+id/tvUkuranBarang" />
 
             <TextView
-                android:id="@+id/pasak"
+                android:id="@+id/tvWarnaBarang"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/warna_barang"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/gambarBarang"
+                app:layout_constraintTop_toBottomOf="@+id/tvFrame" />
+
+            <TextView
+                android:id="@+id/tvPasak"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
@@ -88,8 +124,41 @@
                 android:layout_marginEnd="8dp"
                 android:text="@string/pasak_tenda"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/gambarTenda"
-                app:layout_constraintTop_toBottomOf="@+id/frame" />
+                app:layout_constraintStart_toEndOf="@+id/gambarBarang"
+                app:layout_constraintTop_toBottomOf="@+id/tvWarnaBarang" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/gambarBarang"
+                app:layout_constraintTop_toBottomOf="@+id/tvPasak">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cara_pemasangan"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvCaraPemasangan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="@tools:sample/lorem" />
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="tvPasak,tvWarnaBarang,tvFrame,linearLayout2"
+                tools:layout_editor_absoluteY="189dp" />
 
             <ImageView
                 android:id="@+id/deleteButton"
@@ -101,8 +170,10 @@
                 android:src="@drawable/ic_delete_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/pasak"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintTop_toBottomOf="@+id/barrier5"
+                app:layout_constraintVertical_bias="1.0"
+                android:contentDescription="@string/hapus" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

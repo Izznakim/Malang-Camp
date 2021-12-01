@@ -3,28 +3,28 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/fragment_tambah_barang.xml" value="0.25" />
+        <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/list_infobarang.xml" value="0.33" />
         <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/drawable-v23/splash_screen.xml" value="0.240625" />
-        <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/drawable/back.xml" value="0.75625" />
+        <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/drawable/back.xml" value="0.240625" />
         <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.240625" />
         <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/drawable/splash_screen.xml" value="0.240625" />
         <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout-v23/activity_pelanggan_login.xml" value="0.22447916666666667" />
-        <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/activity_admin_home.xml" value="0.18659420289855072" />
+        <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/activity_admin_home.xml" value="0.22" />
         <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/activity_admin_login.xml" value="0.25" />
         <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/activity_home.xml" value="0.22447916666666667" />
         <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/activity_pelanggan_home.xml" value="0.10916919959473151" />
         <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/activity_pelanggan_login.xml" value="0.33" />
         <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/activity_pelanggan_register.xml" value="0.33" />
         <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/activity_splash.xml" value="0.2" />
-        <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/fragment_barang_sewa.xml" value="0.22447916666666667" />
-        <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/fragment_informasi_barang.xml" value="0.22447916666666667" />
-        <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/fragment_list_booking.xml" value="0.15172101449275363" />
-        <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/fragment_tambah_barang.xml" value="0.25" />
-        <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/list_booking.xml" value="0.10989583333333333" />
-        <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/list_infobarang.xml" value="0.10989583333333333" />
+        <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/fragment_barang_sewa.xml" value="0.33" />
+        <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/fragment_home.xml" value="0.22447916666666667" />
+        <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/fragment_informasi_barang.xml" value="0.33" />
+        <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/fragment_list_booking.xml" value="0.25" />
+        <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/list_booking.xml" value="0.22" />
+        <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/list_infobarang.xml" value="0.25" />
+        <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/list_sewabarang.xml" value="0.1" />
         <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.22447916666666667" />
-        <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/menu/profil.xml" value="0.109375" />
-        <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/menu/profil_admin.xml" value="0.22447916666666667" />
-        <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/menu/profil_pelanggan.xml" value="0.22447916666666667" />
       </map>
     </option>
   </component>
