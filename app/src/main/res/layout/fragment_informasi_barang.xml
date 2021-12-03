@@ -10,7 +10,7 @@
         android:id="@+id/rvInfoBarang"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/list_infobarang"/>
+        tools:listitem="@layout/list_sewabarang"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAdd"

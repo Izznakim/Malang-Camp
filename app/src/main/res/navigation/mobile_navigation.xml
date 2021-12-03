@@ -16,10 +16,4 @@
         android:name="com.firmansyah.malangcamp.admin.ui.informasibarang.InformasiBarangFragment"
         android:label="@string/informasi_barang"
         tools:layout="@layout/fragment_informasi_barang" />
-
-    <fragment
-        android:id="@+id/navigation_barangSewa"
-        android:name="com.firmansyah.malangcamp.admin.ui.barangsewa.BarangSewaFragment"
-        android:label="@string/barang_sewa"
-        tools:layout="@layout/fragment_barang_sewa" />
 </navigation>

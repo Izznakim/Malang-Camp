@@ -30,7 +30,7 @@
     <string name="frame_tenda">Frame %1$s</string>
     <string name="pasak_tenda">Pasak %1$s</string>
     <string name="nama">Nama</string>
-    <string name="upload">Upload</string>
+    <string name="submit">Submit</string>
     <string name="tipe">Tipe</string>
     <string name="ukuran_barang">Ukuran %1$s</string>
     <string name="frame">Frame</string>
@@ -49,6 +49,15 @@
     <string name="warna_barang">Warna %1$s</string>
     <string name="bahan_barang">Bahan %1$s</string>
     <string name="cara_pemasangan">Cara Pemasangan</string>
-    <string name="gambar_barang">Gambar Barang</string>
     <string name="hapus">Hapus</string>
+    <string name="stock">Stock</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+    <string name="rp">Rp. %1$d</string>
+    <string name="hari">/Hari</string>
+    <string name="rp_harga_per_hari">Rp. Harga/Hari</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="gambar_barang">Gambar Barang</string>
+    <string name="tombol_hapus">Tombol Hapus</string>
 </resources>

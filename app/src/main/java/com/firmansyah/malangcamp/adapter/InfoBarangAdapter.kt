@@ -1,15 +1,22 @@
 package com.firmansyah.malangcamp.adapter
 
 import android.annotation.SuppressLint
+import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.firmansyah.malangcamp.R
-import com.firmansyah.malangcamp.databinding.ListInfobarangBinding
+import com.firmansyah.malangcamp.admin.ui.informasibarang.SubmitBarangFragment
+import com.firmansyah.malangcamp.databinding.ListSewabarangBinding
 import com.firmansyah.malangcamp.model.Barang
 
 class InfoBarangAdapter(private val listInfoBarang: ArrayList<Barang>) :
@@ -20,7 +27,7 @@ class InfoBarangAdapter(private val listInfoBarang: ArrayList<Barang>) :
         notifyDataSetChanged()
     }
 
-    inner class ListViewHolder(private val binding: ListInfobarangBinding) :
+    inner class ListViewHolder(private val binding: ListSewabarangBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(barang: Barang) {
             with(binding) {
@@ -30,65 +37,11 @@ class InfoBarangAdapter(private val listInfoBarang: ArrayList<Barang>) :
                     .into(gambarBarang)
 
                 tvNamaBarang.text = barang.nama
-                tvTipeBarang.text = itemView.context.getString(R.string.tipe_tenda, barang.tipe)
-                tvBahanBarang.text = itemView.context.getString(R.string.bahan_barang, barang.bahan)
-                tvUkuranBarang.text =
-                    itemView.context.getString(R.string.ukuran_barang, barang.ukuran)
-                tvFrame.text = itemView.context.getString(R.string.frame_tenda, barang.frame)
-                tvWarnaBarang.text = itemView.context.getString(R.string.warna_barang, barang.warna)
-                tvPasak.text = itemView.context.getString(R.string.pasak_tenda, barang.pasak)
-                when (barang.jenis) {
-                    "Sepatu", "Jaket" -> {
-                        tvBahanBarang.visibility = View.GONE
-                        tvTipeBarang.visibility = View.GONE
-                        tvFrame.visibility = View.GONE
-                        tvWarnaBarang.visibility = View.VISIBLE
-                        tvPasak.visibility = View.GONE
-                        linearLayout2.visibility = View.GONE
-                    }
-                    "Sleeping Bag" -> {
-                        tvBahanBarang.visibility = View.VISIBLE
-                        tvTipeBarang.visibility = View.GONE
-                        tvFrame.visibility = View.GONE
-                        tvWarnaBarang.visibility = View.GONE
-                        tvPasak.visibility = View.GONE
-                        linearLayout2.visibility = View.GONE
-                    }
-                    "Tenda" -> {
-                        tvBahanBarang.visibility = View.GONE
-                        tvTipeBarang.visibility = View.VISIBLE
-                        tvFrame.visibility = View.VISIBLE
-                        tvWarnaBarang.visibility = View.GONE
-                        tvPasak.visibility = View.VISIBLE
-                        linearLayout2.visibility = View.VISIBLE
-                        tvCaraPemasangan.visibility = View.VISIBLE
+                tvStockBarang.text= barang.stock.toString()
+                tvHargaBarang.text=itemView.context.getString(R.string.rp, barang.harga)
 
-                        barang.caraPemasangan?.split("\n")?.forEachIndexed { index, value ->
-                            @SuppressLint("SetTextI18n")
-                            when {
-                                index == 0 -> {
-                                    tvCaraPemasangan.text = "\u2022 $value"
-                                }
-                                TextUtils.isEmpty(value.trim()) -> {
-                                    tvCaraPemasangan.text = value
-                                }
-                                else -> {
-                                    tvCaraPemasangan.append("\n\u2022 $value")
-                                }
-                            }
-                        }
-                    }
-                    else -> {
-                        gambarBarang.visibility = View.GONE
-                        tvNamaBarang.visibility = View.GONE
-                        tvBahanBarang.visibility = View.GONE
-                        tvUkuranBarang.visibility = View.GONE
-                        tvTipeBarang.visibility = View.GONE
-                        tvFrame.visibility = View.GONE
-                        tvWarnaBarang.visibility = View.GONE
-                        tvPasak.visibility = View.GONE
-                        linearLayout2.visibility = View.GONE
-                    }
+                itemView.setOnClickListener {
+                    Toast.makeText(itemView.context,barang.id, Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -96,7 +49,7 @@ class InfoBarangAdapter(private val listInfoBarang: ArrayList<Barang>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val binding =
-            ListInfobarangBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ListSewabarangBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListViewHolder(binding)
     }
 

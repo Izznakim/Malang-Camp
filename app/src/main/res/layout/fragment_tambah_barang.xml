@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".admin.ui.informasibarang.TambahBarangFragment">
+    tools:context=".admin.ui.informasibarang.SubmitBarangFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -234,18 +234,45 @@
             app:constraint_referenced_ids="etPasakBarang,etWarnaBarang,etFrameBarang,etCaraPemasangan"
             tools:layout_editor_absoluteY="655dp" />
 
+        <EditText
+            android:id="@+id/etStockBarang"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:inputType="number"
+            android:hint="@string/stock"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/barrier3" />
+
+        <EditText
+            android:id="@+id/etHargaBarang"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:inputType="number"
+            android:hint="@string/rp_harga_per_hari"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etStockBarang" />
+
         <LinearLayout
             android:id="@+id/linearLayout3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/barrier3">
+            app:layout_constraintTop_toBottomOf="@+id/etHargaBarang">
 
             <Button
                 android:id="@+id/btnCancel"
@@ -258,14 +285,14 @@
                 android:text="@string/cancel" />
 
             <Button
-                android:id="@+id/btnUpload"
+                android:id="@+id/btnSubmit"
                 style="?android:attr/button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/green"
-                android:text="@string/upload" />
+                android:text="@string/submit" />
 
         </LinearLayout>
 

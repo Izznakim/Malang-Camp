@@ -4,30 +4,34 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.databinding.FragmentTambahBarangBinding
 import com.firmansyah.malangcamp.model.Barang
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.util.*
 
-class TambahBarangFragment : DialogFragment() {
+class SubmitBarangFragment : DialogFragment() {
 
     private var _binding: FragmentTambahBarangBinding? = null
-    private var imageUri: Uri? = null
     private lateinit var storage: FirebaseStorage
     private lateinit var database: FirebaseDatabase
     private lateinit var storageRef: StorageReference
     private lateinit var databaseRef: DatabaseReference
 
+    private var imageUri: Uri? = null
     private var jenisBarang: String = ""
     private var namaBarang: String = ""
     private var bahanBarang: String = ""
@@ -36,6 +40,8 @@ class TambahBarangFragment : DialogFragment() {
     private var frameBarang: String = ""
     private var warnaBarang: String = ""
     private var pasakBarang: String = ""
+    private var stockBarang:String=""
+    private var hargaBarang:String=""
     private var caraPemasangan: String = ""
     private var gambarUrl: String = ""
 
@@ -93,18 +99,24 @@ class TambahBarangFragment : DialogFragment() {
                     }
                     else -> {
                         jenisBarang = ""
+                        etNamaBarang.visibility = View.GONE
                         bahanLayout.visibility = View.GONE
                         etTipeBarang.visibility = View.GONE
+                        etUkuranBarang.visibility = View.GONE
                         etFrameBarang.visibility = View.GONE
                         etWarnaBarang.visibility = View.GONE
                         etPasakBarang.visibility = View.GONE
+                        etStockBarang.visibility = View.GONE
+                        etHargaBarang.visibility = View.GONE
                         etCaraPemasangan.visibility = View.GONE
                     }
                 }
 
                 if (jenisBarang.isNotEmpty()) {
-                    binding.etNamaBarang.visibility = View.VISIBLE
-                    binding.etUkuranBarang.visibility = View.VISIBLE
+                    etNamaBarang.visibility = View.VISIBLE
+                    etUkuranBarang.visibility = View.VISIBLE
+                    etStockBarang.visibility = View.VISIBLE
+                    etHargaBarang.visibility = View.VISIBLE
                 }
             }
 
@@ -120,19 +132,20 @@ class TambahBarangFragment : DialogFragment() {
                 dialog?.cancel()
             }
 
-            btnUpload.setOnClickListener {
-
+            btnSubmit.setOnClickListener {
                 namaBarang = etNamaBarang.text.toString()
                 tipeBarang = etTipeBarang.text.toString()
                 ukuranBarang = etUkuranBarang.text.toString()
                 frameBarang = etFrameBarang.text.toString()
                 warnaBarang = etWarnaBarang.text.toString()
                 pasakBarang = etPasakBarang.text.toString()
+                stockBarang = etStockBarang.text.toString()
+                hargaBarang = etHargaBarang.text.toString()
                 caraPemasangan = etCaraPemasangan.text.toString()
 
                 if (jenisBarang.isEmpty() && rgJenisBarang.isVisible) {
-                    btnUpload.error
-                    btnUpload.requestFocus()
+                    btnSubmit.error
+                    btnSubmit.requestFocus()
                     Toast.makeText(
                         activity,
                         "Jenis barang harus dipilih salah satu",
@@ -148,8 +161,8 @@ class TambahBarangFragment : DialogFragment() {
                 }
 
                 if (bahanBarang.isEmpty() && bahanLayout.isVisible) {
-                    btnUpload.error
-                    btnUpload.requestFocus()
+                    btnSubmit.error
+                    btnSubmit.requestFocus()
                     Toast.makeText(activity, "Bahan harus diisi", Toast.LENGTH_LONG).show()
                     return@setOnClickListener
                 }
@@ -181,6 +194,18 @@ class TambahBarangFragment : DialogFragment() {
                 if (pasakBarang.isEmpty() && etPasakBarang.isVisible) {
                     etPasakBarang.error = "Pasak harus diisi"
                     etPasakBarang.requestFocus()
+                    return@setOnClickListener
+                }
+
+                if (stockBarang.isEmpty() && etStockBarang.isVisible) {
+                    etStockBarang.error = "Stock barang harus diisi"
+                    etStockBarang.requestFocus()
+                    return@setOnClickListener
+                }
+
+                if (hargaBarang.isEmpty() && etHargaBarang.isVisible) {
+                    etHargaBarang.error = "Harga barang harus diisi"
+                    etHargaBarang.requestFocus()
                     return@setOnClickListener
                 }
 
@@ -228,6 +253,22 @@ class TambahBarangFragment : DialogFragment() {
         }
     }
 
+    private fun allGone(){
+        with(binding) {
+            rgJenisBarang.visibility = View.GONE
+            etNamaBarang.visibility = View.GONE
+            bahanLayout.visibility = View.GONE
+            etTipeBarang.visibility = View.GONE
+            etUkuranBarang.visibility = View.GONE
+            etFrameBarang.visibility = View.GONE
+            etWarnaBarang.visibility = View.GONE
+            etPasakBarang.visibility = View.GONE
+            etStockBarang.visibility = View.GONE
+            etHargaBarang.visibility = View.GONE
+            etCaraPemasangan.visibility = View.GONE
+        }
+    }
+
     private fun allClearRgJenisBarang() {
         with(binding) {
             etNamaBarang.text.clear()
@@ -237,6 +278,25 @@ class TambahBarangFragment : DialogFragment() {
             etFrameBarang.text.clear()
             etPasakBarang.text.clear()
             etWarnaBarang.text.clear()
+            etStockBarang.text.clear()
+            etHargaBarang.text.clear()
+            etCaraPemasangan.text.clear()
+        }
+    }
+
+    private fun allClear(bind:FragmentTambahBarangBinding){
+        with(bind){
+            imgBarang.setImageResource(R.drawable.ic_add_photo)
+            rgJenisBarang.clearCheck()
+            etNamaBarang.text.clear()
+            rgBahanBarang.clearCheck()
+            etTipeBarang.text.clear()
+            etUkuranBarang.text.clear()
+            etFrameBarang.text.clear()
+            etPasakBarang.text.clear()
+            etWarnaBarang.text.clear()
+            etStockBarang.text.clear()
+            etHargaBarang.text.clear()
             etCaraPemasangan.text.clear()
         }
     }
@@ -250,15 +310,17 @@ class TambahBarangFragment : DialogFragment() {
     }
 
     private fun uploadToFirebase(uri: Uri?) {
+        val id=databaseRef.push().key
         val fileRef =
-            storageRef.child("${namaBarang}(${jenisBarang})_${System.currentTimeMillis()}_.jpg")
-        if (uri != null) {
+            storageRef.child("${namaBarang}_(${jenisBarang}).jpg")
+        if (uri != null && id !=null) {
             fileRef.putFile(uri).addOnSuccessListener {
                 if (it.metadata != null && it.metadata?.reference != null) {
                     val result = it.storage.downloadUrl
                     result.addOnSuccessListener { uri ->
                         gambarUrl = uri.toString()
                         val model = Barang(
+                            id,
                             jenisBarang,
                             namaBarang,
                             bahanBarang,
@@ -267,26 +329,22 @@ class TambahBarangFragment : DialogFragment() {
                             frameBarang,
                             pasakBarang,
                             warnaBarang,
+                            stockBarang.toInt(),
+                            hargaBarang.toInt(),
                             caraPemasangan,
                             gambarUrl
                         )
-                        databaseRef.child(namaBarang).setValue(model)
-                        Toast.makeText(activity, "Sukses mengupload", Toast.LENGTH_LONG).show()
+                        databaseRef.child(id).setValue(model)
                         with(binding) {
-                            imgBarang.setImageResource(R.drawable.ic_add_photo)
-                            rgJenisBarang.clearCheck()
-                            etNamaBarang.text.clear()
-                            rgBahanBarang.clearCheck()
-                            etTipeBarang.text.clear()
-                            etUkuranBarang.text.clear()
-                            etFrameBarang.text.clear()
-                            etPasakBarang.text.clear()
-                            etWarnaBarang.text.clear()
-                            etCaraPemasangan.text.clear()
+                                Toast.makeText(activity, "Sukses mengupload", Toast.LENGTH_LONG)
+                                    .show()
+                            allClear(this)
 
                             rgJenisBarang.visibility = View.GONE
                             etNamaBarang.visibility = View.GONE
                             etUkuranBarang.visibility = View.GONE
+                            etStockBarang.visibility = View.GONE
+                            etHargaBarang.visibility = View.GONE
                         }
                     }
                 }
@@ -323,18 +381,7 @@ class TambahBarangFragment : DialogFragment() {
             val height = ViewGroup.LayoutParams.MATCH_PARENT
             dialog.window?.setLayout(width, height)
         }
-
-        with(binding) {
-            rgJenisBarang.visibility = View.GONE
-            etNamaBarang.visibility = View.GONE
-            bahanLayout.visibility = View.GONE
-            etTipeBarang.visibility = View.GONE
-            etUkuranBarang.visibility = View.GONE
-            etFrameBarang.visibility = View.GONE
-            etWarnaBarang.visibility = View.GONE
-            etPasakBarang.visibility = View.GONE
-            etCaraPemasangan.visibility = View.GONE
-        }
+        allGone()
     }
 
     override fun onResume() {

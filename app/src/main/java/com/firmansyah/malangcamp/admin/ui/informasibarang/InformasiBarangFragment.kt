@@ -1,6 +1,5 @@
 package com.firmansyah.malangcamp.admin.ui.informasibarang
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,15 +7,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.adapter.InfoBarangAdapter
 import com.firmansyah.malangcamp.databinding.FragmentInformasiBarangBinding
 import com.firmansyah.malangcamp.model.Barang
-import com.firmansyah.malangcamp.model.Pelanggan
-import com.firmansyah.malangcamp.pelanggan.PelangganLoginActivity
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
@@ -69,9 +63,9 @@ class InformasiBarangFragment : Fragment() {
         }
 
         binding.fabAdd.setOnClickListener {
-            val tambahBarangFragment=TambahBarangFragment()
+            val submitBarangFragment=SubmitBarangFragment()
             val mFragmentManager=childFragmentManager
-            tambahBarangFragment.show(mFragmentManager,TambahBarangFragment::class.java.simpleName)
+            submitBarangFragment.show(mFragmentManager,SubmitBarangFragment::class.java.simpleName)
         }
     }
 

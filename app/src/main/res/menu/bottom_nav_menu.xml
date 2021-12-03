@@ -11,9 +11,4 @@
         android:icon="@drawable/hiker"
         android:title="@string/informasi_barang" />
 
-    <item
-        android:id="@+id/navigation_barangSewa"
-        android:icon="@drawable/trekking"
-        android:title="@string/barang_sewa" />
-
 </menu>
