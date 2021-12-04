@@ -57,7 +57,7 @@
     <string name="hari">/Hari</string>
     <string name="rp_harga_per_hari">Rp. Harga/Hari</string>
     <string name="delete">Delete</string>
-    <string name="edit">Edit</string>
+    <string name="update">Update</string>
     <string name="gambar_barang">Gambar Barang</string>
     <string name="tombol_hapus">Tombol Hapus</string>
 </resources>

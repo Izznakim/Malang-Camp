@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/drawable/back.xml" value="0.240625" />
+        <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/drawable/bck_detail.xml" value="0.240625" />
         <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/fragment_barang_sewa.xml" value="0.1" />
-        <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/fragment_detail_informasi.xml" value="0.33" />
+        <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/fragment_detail_informasi.xml" value="0.25" />
         <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/fragment_informasi_barang.xml" value="0.25" />
         <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/fragment_tambah_barang.xml" value="0.25" />
         <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/list_booking.xml" value="0.17527173913043478" />

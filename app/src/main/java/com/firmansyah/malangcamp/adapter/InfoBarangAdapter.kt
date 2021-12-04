@@ -1,23 +1,19 @@
 package com.firmansyah.malangcamp.adapter
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.setFragmentResult
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.firmansyah.malangcamp.R
+import com.firmansyah.malangcamp.admin.ui.informasibarang.DetailInformasiFragment
 import com.firmansyah.malangcamp.admin.ui.informasibarang.SubmitBarangFragment
 import com.firmansyah.malangcamp.databinding.ListSewabarangBinding
 import com.firmansyah.malangcamp.model.Barang
+
 
 class InfoBarangAdapter(private val listInfoBarang: ArrayList<Barang>) :
     RecyclerView.Adapter<InfoBarangAdapter.ListViewHolder>() {
@@ -41,7 +37,17 @@ class InfoBarangAdapter(private val listInfoBarang: ArrayList<Barang>) :
                 tvHargaBarang.text=itemView.context.getString(R.string.rp, barang.harga)
 
                 itemView.setOnClickListener {
-                    Toast.makeText(itemView.context,barang.id, Toast.LENGTH_SHORT).show()
+                    val detailInformasiFragment = DetailInformasiFragment()
+                    val mFragmentManager =
+                        (itemView.context as AppCompatActivity).supportFragmentManager
+                    val bundle = Bundle()
+
+                    bundle.putParcelable(DetailInformasiFragment.EXTRA_BARANG, barang)
+                    detailInformasiFragment.show(
+                        mFragmentManager,
+                        DetailInformasiFragment::class.java.simpleName
+                    )
+                    detailInformasiFragment.arguments = bundle
                 }
             }
         }

@@ -253,22 +253,6 @@ class SubmitBarangFragment : DialogFragment() {
         }
     }
 
-    private fun allGone(){
-        with(binding) {
-            rgJenisBarang.visibility = View.GONE
-            etNamaBarang.visibility = View.GONE
-            bahanLayout.visibility = View.GONE
-            etTipeBarang.visibility = View.GONE
-            etUkuranBarang.visibility = View.GONE
-            etFrameBarang.visibility = View.GONE
-            etWarnaBarang.visibility = View.GONE
-            etPasakBarang.visibility = View.GONE
-            etStockBarang.visibility = View.GONE
-            etHargaBarang.visibility = View.GONE
-            etCaraPemasangan.visibility = View.GONE
-        }
-    }
-
     private fun allClearRgJenisBarang() {
         with(binding) {
             etNamaBarang.text.clear()
@@ -381,7 +365,7 @@ class SubmitBarangFragment : DialogFragment() {
             val height = ViewGroup.LayoutParams.MATCH_PARENT
             dialog.window?.setLayout(width, height)
         }
-        allGone()
+        binding.rgJenisBarang.visibility = View.GONE
     }
 
     override fun onResume() {
