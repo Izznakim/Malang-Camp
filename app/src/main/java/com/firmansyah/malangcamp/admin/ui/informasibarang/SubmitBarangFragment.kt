@@ -296,7 +296,7 @@ class SubmitBarangFragment : DialogFragment() {
     private fun uploadToFirebase(uri: Uri?) {
         val id=databaseRef.push().key
         val fileRef =
-            storageRef.child("${namaBarang}_(${jenisBarang}).jpg")
+            storageRef.child("${id}.jpg")
         if (uri != null && id !=null) {
             fileRef.putFile(uri).addOnSuccessListener {
                 if (it.metadata != null && it.metadata?.reference != null) {

@@ -9,12 +9,11 @@
     tools:context=".HomeActivity">
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="306dp"
-            android:layout_height="100dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@color/dark_green"
-            android:src="@drawable/logomc_1"
+            android:src="@drawable/logo_mc"
             android:contentDescription="@string/logo_malang_camp" />
 
         <Button

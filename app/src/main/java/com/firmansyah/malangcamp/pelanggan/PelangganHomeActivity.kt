@@ -24,7 +24,7 @@ class PelangganHomeActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.profil_admin,menu)
+        menuInflater.inflate(R.menu.profil_pelanggan, menu)
         return super.onCreateOptionsMenu(menu)
     }
 

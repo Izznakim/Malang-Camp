@@ -52,27 +52,38 @@ class ListBookingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initAdapter()
-        listUser= arrayListOf()
+        listUser = arrayListOf()
 
-        ref.get().addOnSuccessListener{ snapshot ->
-            snapshot.children.forEach{
+        ref.get().addOnSuccessListener { snapshot ->
+            snapshot.children.forEach {
                 if (!it.child("isAdmin").exists()) {
-                    val pelanggan=it.getValue(Pelanggan::class.java)
+                    val pelanggan = it.getValue(Pelanggan::class.java)
                     if (pelanggan != null) {
                         listUser.add(pelanggan)
                     }
                 }
             }
             adapter.setData(listUser)
-        }.addOnFailureListener{
-            Toast.makeText(activity,it.message, Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener {
+            Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun initAdapter(){
-        adapter = BookingAdapter(arrayListOf())
+    private fun initAdapter() {
+        adapter = BookingAdapter(arrayListOf()) { model ->
+            deletePelanggan(model)
+        }
         binding.rvListBooking.layoutManager = LinearLayoutManager(activity)
         binding.rvListBooking.adapter = adapter
+    }
+
+    private fun deletePelanggan(model: Pelanggan) {
+        ref.child(model.id).get().addOnSuccessListener {
+            it.ref.removeValue()
+            Toast.makeText(activity, "${model.username} telah dihapus", Toast.LENGTH_LONG).show()
+        }.addOnFailureListener {
+            Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onDestroyView() {

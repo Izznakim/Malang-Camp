@@ -63,28 +63,4 @@
         <item name="android:textColor">@color/dark_green</item>
     </style>
 
-    <style name="linearLayoutButton" parent="Widget.AppCompat.ImageButton">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">127dp</item>
-        <item name="android:layout_margin">8dp</item>
-        <item name="android:backgroundTint">@color/blue</item>
-        <item name="android:orientation">horizontal</item>
-    </style>
-
-    <style name="imageLinearLayoutButton">
-        <item name="android:layout_width">90dp</item>
-        <item name="android:layout_height">90dp</item>
-        <item name="android:layout_gravity">center</item>
-    </style>
-
-    <style name="textLinearLayoutButton">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:layout_marginStart">16dp</item>
-        <item name="android:layout_marginEnd">16dp</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">24sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
 </resources>

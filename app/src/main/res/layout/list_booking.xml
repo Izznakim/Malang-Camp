@@ -58,6 +58,7 @@
         android:src="@drawable/ic_delete_24"
         app:layout_constraintBottom_toBottomOf="@+id/cardView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cardView2" />
+        app:layout_constraintTop_toTopOf="@+id/cardView2"
+        android:contentDescription="@string/tombol_hapus" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

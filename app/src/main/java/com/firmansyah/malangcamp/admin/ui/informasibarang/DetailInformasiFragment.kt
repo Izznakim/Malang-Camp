@@ -159,7 +159,7 @@ class DetailInformasiFragment : DialogFragment(), View.OnClickListener {
     }
 
     private fun withUpdateImage(uri: Uri, it: Barang) {
-        val fileRef = storageRef.child("${binding.etNamaBarang.text}_(${it.jenis}).jpg")
+        val fileRef = storageRef.child("${it.id}.jpg")
         fileRef.putFile(uri).addOnSuccessListener { task ->
             if (task.metadata != null && task.metadata?.reference != null) {
                 val result = task.storage.downloadUrl

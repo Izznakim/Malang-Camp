@@ -15,15 +15,19 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
 class InformasiBarangFragment : Fragment() {
 
     private lateinit var dashboardViewModel: DashboardViewModel
     private var _binding: FragmentInformasiBarangBinding? = null
     private lateinit var adapter: InfoBarangAdapter
-    private lateinit var listBarang:ArrayList<Barang>
+    private lateinit var listBarang: ArrayList<Barang>
     private lateinit var database: FirebaseDatabase
-    private lateinit var ref: DatabaseReference
+    private lateinit var databaseRef: DatabaseReference
+    private lateinit var storage: FirebaseStorage
+    private lateinit var storageRef: StorageReference
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -37,8 +41,11 @@ class InformasiBarangFragment : Fragment() {
         dashboardViewModel =
             ViewModelProvider(this).get(DashboardViewModel::class.java)
 
-        database=Firebase.database
-        ref=database.getReference("barang")
+        storage = FirebaseStorage.getInstance()
+        storageRef = storage.getReference("images/")
+
+        database = Firebase.database
+        databaseRef = database.getReference("barang")
 
         _binding = FragmentInformasiBarangBinding.inflate(inflater, container, false)
         return binding.root
@@ -50,10 +57,10 @@ class InformasiBarangFragment : Fragment() {
         initAdapter()
         listBarang= arrayListOf()
 
-        ref.get().addOnSuccessListener { snapshot->
+        databaseRef.get().addOnSuccessListener { snapshot ->
             snapshot.children.forEach {
-                val barang=it.getValue(Barang::class.java)
-                if (barang!=null){
+                val barang = it.getValue(Barang::class.java)
+                if (barang != null) {
                     listBarang.add(barang)
                 }
             }
@@ -70,9 +77,21 @@ class InformasiBarangFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        adapter = InfoBarangAdapter(arrayListOf())
+        adapter = InfoBarangAdapter(arrayListOf()) { model ->
+            deleteBarang(model)
+        }
         binding.rvInfoBarang.layoutManager = LinearLayoutManager(activity)
         binding.rvInfoBarang.adapter = adapter
+    }
+
+    private fun deleteBarang(model: Barang) {
+        databaseRef.child(model.id).get().addOnSuccessListener {
+            it.ref.removeValue()
+            storageRef.child("${model.id}.jpg").delete()
+            Toast.makeText(activity, "${model.nama} telah dihapus", Toast.LENGTH_LONG).show()
+        }.addOnFailureListener {
+            Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+        }
     }
 
     override fun onDestroyView() {

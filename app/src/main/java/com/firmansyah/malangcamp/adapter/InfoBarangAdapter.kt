@@ -13,9 +13,13 @@ import com.firmansyah.malangcamp.admin.ui.informasibarang.DetailInformasiFragmen
 import com.firmansyah.malangcamp.admin.ui.informasibarang.SubmitBarangFragment
 import com.firmansyah.malangcamp.databinding.ListSewabarangBinding
 import com.firmansyah.malangcamp.model.Barang
+import com.firmansyah.malangcamp.model.Pelanggan
 
 
-class InfoBarangAdapter(private val listInfoBarang: ArrayList<Barang>) :
+class InfoBarangAdapter(
+    private val listInfoBarang: ArrayList<Barang>,
+    private val onItemClicked: (Barang) -> Unit
+) :
     RecyclerView.Adapter<InfoBarangAdapter.ListViewHolder>() {
     fun setData(data: List<Barang>) {
         listInfoBarang.clear()
@@ -48,6 +52,11 @@ class InfoBarangAdapter(private val listInfoBarang: ArrayList<Barang>) :
                         DetailInformasiFragment::class.java.simpleName
                     )
                     detailInformasiFragment.arguments = bundle
+
+                }
+
+                deleteButton.setOnClickListener {
+                    onItemClicked.invoke(barang)
                 }
             }
         }

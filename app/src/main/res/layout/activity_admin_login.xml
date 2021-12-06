@@ -55,8 +55,8 @@
 
     <Button
         android:id="@+id/btnMasuk"
-        android:text="@string/masuk"
         style="@style/BtnLogReg"
+        android:text="@string/masuk"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
