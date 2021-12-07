@@ -24,23 +24,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/etNamaBarang"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:background="@drawable/bck_detail"
-            android:gravity="center"
             android:hint="@string/nama"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:minHeight="48dp"
-            android:textSize="24sp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgBarang"
-            tools:text="Nama Barang" />
+            app:layout_constraintTop_toBottomOf="@+id/imgBarang">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etInputNama"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/nama"
+                android:gravity="center"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:text="Nama Barang" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout4"
@@ -60,21 +66,30 @@
                 android:paddingStart="4dp"
                 android:textColor="@color/black"
                 android:textSize="18sp"
+                android:layout_gravity="center_vertical"
                 tools:layout_marginEnd="8dp"
                 tools:text="@string/sepatu" />
 
-            <EditText
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/etUkuranBarang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:hint="@string/ukuran"
-                android:importantForAutofill="no"
-                android:inputType="text"
                 android:paddingStart="4dp"
-                tools:ignore="TouchTargetSizeCheck"
-                tools:text="@string/ukuran" />
+                android:visibility="gone"
+                tools:ignore="TouchTargetSizeCheck">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etInputUkuran"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:hint="@string/ukuran"
+                    tools:text="@string/ukuran" />
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
         <androidx.constraintlayout.widget.Barrier
@@ -97,25 +112,30 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
-            tools:text="@string/polar"
-            tools:visibility="visible" />
+            tools:text="@string/polar" />
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/etTipeBarang"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:hint="@string/tipe"
-            android:importantForAutofill="no"
-            android:inputType="text"
             android:paddingStart="4dp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvBahanBarang"
-            tools:ignore="TouchTargetSizeCheck"
-            tools:text="@string/tipe"
-            tools:visibility="visible" />
+            tools:ignore="TouchTargetSizeCheck">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etInputTipe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:hint="@string/tipe"
+                tools:text="@string/tipe" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.constraintlayout.widget.Barrier
             android:layout_width="wrap_content"
@@ -134,52 +154,71 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/barrier4"
-            tools:visibility="visible">
+            app:layout_constraintTop_toTopOf="@id/barrier4">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/etFrame"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:hint="@string/frame"
-                android:importantForAutofill="no"
-                android:inputType="number"
                 android:paddingStart="4dp"
-                tools:ignore="TouchTargetSizeCheck"
-                tools:text="@string/frame" />
+                tools:ignore="TouchTargetSizeCheck">
 
-            <EditText
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etInputFrame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/frame"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    tools:text="@string/frame" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/etPasak"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:hint="@string/pasak"
-                android:importantForAutofill="no"
-                android:inputType="number"
                 android:paddingStart="4dp"
-                tools:ignore="TouchTargetSizeCheck"
-                tools:text="@string/pasak" />
+                tools:ignore="TouchTargetSizeCheck">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etInputPasak"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/pasak"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    tools:text="@string/pasak" />
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/etWarnaBarang"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:hint="@string/warna"
-            android:importantForAutofill="no"
-            android:inputType="text"
             android:paddingStart="4dp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/framePasakLayout"
-            tools:ignore="TouchTargetSizeCheck"
-            tools:text="@string/warna"
-            tools:visibility="visible" />
+            tools:ignore="TouchTargetSizeCheck">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etInputWarna"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/warna"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                tools:text="@string/warna" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout6"
@@ -189,74 +228,106 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etWarnaBarang">
+            app:layout_constraintTop_toBottomOf="@+id/etWarnaBarang"
+            android:baselineAligned="false">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/etStockBarang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:hint="@string/stock"
-                android:importantForAutofill="no"
-                android:inputType="number"
                 android:paddingStart="4dp"
-                tools:ignore="TouchTargetSizeCheck"
-                tools:text="@string/stock" />
+                tools:ignore="TouchTargetSizeCheck">
 
-            <EditText
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etInputStock"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:hint="@string/stock"
+                    tools:text="@string/stock" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/etHargaBarang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:hint="@string/rp_harga_per_hari"
-                android:importantForAutofill="no"
-                android:inputType="number"
+                android:hint="@string/harga"
                 android:paddingStart="4dp"
-                tools:ignore="TouchTargetSizeCheck"
-                tools:text="@string/rp_harga_per_hari" />
+                tools:ignore="TouchTargetSizeCheck">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etInputHarga"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:hint="@string/rp_harga_per_hari"
+                    tools:text="@string/rp_harga_per_hari" />
+            </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvCaraPemasangan"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1"
-            android:text="@string/cara_pemasangan"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout6"
-            tools:visibility="visible" />
-
-        <EditText
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/etCaraPemasangan"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@drawable/bck_detail"
-            android:gravity="top|start"
             android:hint="@string/cara_pemasangan"
-            android:importantForAutofill="no"
-            android:inputType="textMultiLine"
-            android:lines="8"
-            android:maxLines="10"
-            android:minLines="6"
             android:paddingStart="4dp"
-            android:scrollbars="vertical"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvCaraPemasangan"
+            app:layout_constraintTop_toBottomOf="@id/linearLayout6"
+            tools:ignore="TouchTargetSizeCheck">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etInputCaraPemasangan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top|start"
+                android:hint="@string/cara_pemasangan"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:lines="8"
+                android:maxLines="10"
+                android:minLines="6"
+                tools:text="@tools:sample/lorem" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/etKegunaanBarang"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="@string/cara_pemasangan"
+            android:paddingStart="4dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etCaraPemasangan"
             tools:ignore="TouchTargetSizeCheck"
-            tools:text="@tools:sample/lorem"
-            tools:visibility="visible" />
+            tools:visibility="visible">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etInputKegunaan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top|start"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:lines="8"
+                android:maxLines="10"
+                android:minLines="6"
+                android:hint="@string/cara_pemasangan"
+                android:scrollbars="vertical"
+                tools:text="@tools:sample/lorem" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -265,7 +336,7 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etCaraPemasangan">
+            app:layout_constraintTop_toBottomOf="@+id/etKegunaanBarang">
 
             <Button
                 android:id="@+id/btnCancel"

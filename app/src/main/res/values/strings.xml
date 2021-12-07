@@ -46,4 +46,15 @@
     <string name="update">Update</string>
     <string name="gambar_barang">Gambar Barang</string>
     <string name="tombol_hapus">Tombol Hapus</string>
+    <string name="title_activity_pelanggan_home">PelangganHomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="barang_sewa">Barang Sewa</string>
+    <string name="pembayaran">Pembayaran</string>
+    <string name="peraturan_sewa">Peraturan Sewa</string>
+    <string name="tas">Tas</string>
+    <string name="barang_lainnya">Barang Lainnya</string>
+    <string name="kegunaan_barang">Kegunaan Barang</string>
+    <string name="harga">Harga</string>
 </resources>

@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Barang(
-    var id:String="",
+    var id: String = "",
     var jenis: String = "",
     var nama: String = "",
     var bahan: String = "",
@@ -14,8 +14,9 @@ data class Barang(
     var frame: String = "",
     var pasak: String = "",
     var warna: String = "",
-    var stock:Int=0,
-    var harga:Int=0,
+    var stock: Int = 0,
+    var harga: Int = 0,
     var caraPemasangan: String = "",
+    var kegunaanBarang: String = "",
     var gambar: String = ""
 ) : Parcelable

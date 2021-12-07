@@ -54,6 +54,14 @@
                     android:text="@string/sepatu" />
 
                 <RadioButton
+                    android:id="@+id/rbTas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/tas" />
+
+                <RadioButton
                     android:id="@+id/rbSleepingBag"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -76,6 +84,14 @@
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
                     android:text="@string/tenda" />
+
+                <RadioButton
+                    android:id="@+id/rbBarangLainnya"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:text="@string/barang_lainnya" />
 
             </RadioGroup>
 
@@ -234,12 +250,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etPasakBarang" />
 
+        <EditText
+            android:id="@+id/etKegunaanBarang"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="top|start"
+            android:hint="@string/kegunaan_barang"
+            android:inputType="textMultiLine"
+            android:lines="8"
+            android:maxLines="10"
+            android:minLines="6"
+            android:scrollbars="vertical"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etCaraPemasangan" />
+
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrier3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="etPasakBarang,etWarnaBarang,etFrameBarang,etCaraPemasangan"
+            app:constraint_referenced_ids="etPasakBarang,etWarnaBarang,etFrameBarang,etCaraPemasangan,etKegunaanBarang"
             tools:layout_editor_absoluteY="655dp" />
 
         <EditText

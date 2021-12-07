@@ -71,30 +71,36 @@ class DetailInformasiFragment : DialogFragment(), View.OnClickListener {
                 .load(barang?.gambar)
                 .apply(RequestOptions())
                 .into(imgBarang)
-            etNamaBarang.setText(barang?.nama)
+            etInputNama.setText(barang?.nama)
             tvJenisBarang.text = barang?.jenis
-            etUkuranBarang.setText(barang?.ukuran)
+            etInputUkuran.setText(barang?.ukuran)
             tvBahanBarang.text = barang?.bahan
-            etTipeBarang.setText(barang?.tipe)
-            etFrame.setText(barang?.frame)
-            etPasak.setText(barang?.pasak)
-            etWarnaBarang.setText(barang?.warna)
-            etStockBarang.setText(barang?.stock.toString())
-            etHargaBarang.setText(barang?.harga.toString())
-            etCaraPemasangan.setText(barang?.caraPemasangan)
+            etInputTipe.setText(barang?.tipe)
+            etInputFrame.setText(barang?.frame)
+            etInputPasak.setText(barang?.pasak)
+            etInputWarna.setText(barang?.warna)
+            etInputStock.setText(barang?.stock.toString())
+            etInputHarga.setText(barang?.harga.toString())
+            etInputCaraPemasangan.setText(barang?.caraPemasangan)
+            etInputKegunaan.setText(barang?.kegunaanBarang)
 
             when (barang?.jenis) {
-                "Sepatu", "Jaket" -> {
+                "Sepatu", "Jaket", "Tas" -> {
+                    etUkuranBarang.visibility = View.VISIBLE
                     etWarnaBarang.visibility = View.VISIBLE
                 }
                 "Sleeping Bag" -> {
+                    etUkuranBarang.visibility = View.VISIBLE
                     tvBahanBarang.visibility = View.VISIBLE
                 }
                 "Tenda" -> {
                     etTipeBarang.visibility = View.VISIBLE
+                    etUkuranBarang.visibility = View.VISIBLE
                     framePasakLayout.visibility = View.VISIBLE
-                    tvCaraPemasangan.visibility = View.VISIBLE
                     etCaraPemasangan.visibility = View.VISIBLE
+                }
+                "Barang Lainnya" -> {
+                    etKegunaanBarang.visibility = View.VISIBLE
                 }
             }
         }
@@ -135,16 +141,17 @@ class DetailInformasiFragment : DialogFragment(), View.OnClickListener {
             Barang(
                 it.id,
                 it.jenis,
-                binding.etNamaBarang.text.toString(),
+                binding.etInputNama.text.toString(),
                 it.bahan,
-                binding.etTipeBarang.text.toString(),
-                binding.etUkuranBarang.text.toString(),
-                binding.etFrame.text.toString(),
-                binding.etPasak.text.toString(),
-                binding.etWarnaBarang.text.toString(),
-                binding.etStockBarang.text.toString().toInt(),
-                binding.etHargaBarang.text.toString().toInt(),
-                binding.etCaraPemasangan.text.toString(),
+                binding.etInputTipe.text.toString(),
+                binding.etInputUkuran.text.toString(),
+                binding.etInputFrame.text.toString(),
+                binding.etInputPasak.text.toString(),
+                binding.etInputWarna.text.toString(),
+                binding.etInputStock.text.toString().toInt(),
+                binding.etInputHarga.text.toString().toInt(),
+                binding.etInputCaraPemasangan.text.toString(),
+                binding.etInputKegunaan.text.toString(),
                 it.gambar
             )
         databaseRef.child(it.id).get().addOnSuccessListener { _ ->
@@ -168,16 +175,17 @@ class DetailInformasiFragment : DialogFragment(), View.OnClickListener {
                         Barang(
                             it.id,
                             it.jenis,
-                            binding.etNamaBarang.text.toString(),
+                            binding.etInputNama.text.toString(),
                             it.bahan,
-                            binding.etTipeBarang.text.toString(),
-                            binding.etUkuranBarang.text.toString(),
-                            binding.etFrame.text.toString(),
-                            binding.etPasak.text.toString(),
-                            binding.etWarnaBarang.text.toString(),
-                            binding.etStockBarang.text.toString().toInt(),
-                            binding.etHargaBarang.text.toString().toInt(),
-                            binding.etCaraPemasangan.text.toString(),
+                            binding.etInputTipe.text.toString(),
+                            binding.etInputUkuran.text.toString(),
+                            binding.etInputFrame.text.toString(),
+                            binding.etInputPasak.text.toString(),
+                            binding.etInputWarna.text.toString(),
+                            binding.etInputStock.text.toString().toInt(),
+                            binding.etInputHarga.text.toString().toInt(),
+                            binding.etInputCaraPemasangan.text.toString(),
+                            binding.etInputKegunaan.text.toString(),
                             mUri.toString()
                         )
                     databaseRef.child(it.id).get().addOnSuccessListener { _ ->

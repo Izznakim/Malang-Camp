@@ -4,17 +4,12 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.setFragmentResult
-import androidx.fragment.app.setFragmentResultListener
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.databinding.FragmentTambahBarangBinding
 import com.firmansyah.malangcamp.model.Barang
@@ -43,6 +38,7 @@ class SubmitBarangFragment : DialogFragment() {
     private var stockBarang:String=""
     private var hargaBarang:String=""
     private var caraPemasangan: String = ""
+    private var kegunaanBarang: String = ""
     private var gambarUrl: String = ""
 
     private val binding get() = _binding!!
@@ -78,13 +74,13 @@ class SubmitBarangFragment : DialogFragment() {
 
             rgJenisBarang.setOnCheckedChangeListener { _, checkedId ->
                 when (checkedId) {
-                    R.id.rbSepatu, R.id.rbJaket -> {
-                        jenisBarang = if (rbSepatu.isChecked) {
-                            "Sepatu"
-                        } else {
-                            "Jaket"
+                    R.id.rbSepatu, R.id.rbJaket, R.id.rbTas -> {
+                        jenisBarang = when {
+                            rbSepatu.isChecked -> "Sepatu"
+                            rbJaket.isChecked -> "Jaket"
+                            else -> "Tas"
                         }
-                        visibilitySepatuAtauJaket()
+                        visibilitySepatuJaketAtauTas()
                         allClearRgJenisBarang()
                     }
                     R.id.rbSleepingBag -> {
@@ -95,6 +91,11 @@ class SubmitBarangFragment : DialogFragment() {
                     R.id.rbTenda -> {
                         jenisBarang = "Tenda"
                         visibilityTenda()
+                        allClearRgJenisBarang()
+                    }
+                    R.id.rbBarangLainnya -> {
+                        jenisBarang = "Barang Lainnya"
+                        visibilityBarangLainnya()
                         allClearRgJenisBarang()
                     }
                     else -> {
@@ -109,12 +110,12 @@ class SubmitBarangFragment : DialogFragment() {
                         etStockBarang.visibility = View.GONE
                         etHargaBarang.visibility = View.GONE
                         etCaraPemasangan.visibility = View.GONE
+                        etKegunaanBarang.visibility = View.GONE
                     }
                 }
 
                 if (jenisBarang.isNotEmpty()) {
                     etNamaBarang.visibility = View.VISIBLE
-                    etUkuranBarang.visibility = View.VISIBLE
                     etStockBarang.visibility = View.VISIBLE
                     etHargaBarang.visibility = View.VISIBLE
                 }
@@ -142,6 +143,7 @@ class SubmitBarangFragment : DialogFragment() {
                 stockBarang = etStockBarang.text.toString()
                 hargaBarang = etHargaBarang.text.toString()
                 caraPemasangan = etCaraPemasangan.text.toString()
+                kegunaanBarang = etKegunaanBarang.text.toString()
 
                 if (jenisBarang.isEmpty() && rgJenisBarang.isVisible) {
                     btnSubmit.error
@@ -197,6 +199,18 @@ class SubmitBarangFragment : DialogFragment() {
                     return@setOnClickListener
                 }
 
+                if (caraPemasangan.isEmpty() && etCaraPemasangan.isVisible) {
+                    etCaraPemasangan.error = "Cara untuk memasang tenda harus diisi"
+                    etCaraPemasangan.requestFocus()
+                    return@setOnClickListener
+                }
+
+                if (kegunaanBarang.isEmpty() && etKegunaanBarang.isVisible) {
+                    etKegunaanBarang.error = "Kegunaan pada barang harus diisi"
+                    etKegunaanBarang.requestFocus()
+                    return@setOnClickListener
+                }
+
                 if (stockBarang.isEmpty() && etStockBarang.isVisible) {
                     etStockBarang.error = "Stock barang harus diisi"
                     etStockBarang.requestFocus()
@@ -209,47 +223,60 @@ class SubmitBarangFragment : DialogFragment() {
                     return@setOnClickListener
                 }
 
-                if (caraPemasangan.isEmpty() && etCaraPemasangan.isVisible) {
-                    etCaraPemasangan.error = "Cara untuk memasang tenda harus diisi"
-                    etCaraPemasangan.requestFocus()
-                    return@setOnClickListener
-                }
-
                 uploadData()
             }
         }
     }
 
+    private fun visibilityBarangLainnya() {
+        with(binding) {
+            etUkuranBarang.visibility = View.GONE
+            bahanLayout.visibility = View.GONE
+            etTipeBarang.visibility = View.GONE
+            etFrameBarang.visibility = View.GONE
+            etWarnaBarang.visibility = View.GONE
+            etPasakBarang.visibility = View.GONE
+            etCaraPemasangan.visibility = View.GONE
+            etKegunaanBarang.visibility = View.VISIBLE
+        }
+    }
+
     private fun visibilityTenda() {
         with(binding) {
+            etUkuranBarang.visibility = View.VISIBLE
             bahanLayout.visibility = View.GONE
             etTipeBarang.visibility = View.VISIBLE
             etFrameBarang.visibility = View.VISIBLE
             etWarnaBarang.visibility = View.GONE
             etPasakBarang.visibility = View.VISIBLE
             etCaraPemasangan.visibility = View.VISIBLE
+            etKegunaanBarang.visibility = View.GONE
         }
     }
 
     private fun visibilitySleepingBag() {
         with(binding) {
+            etUkuranBarang.visibility = View.VISIBLE
             bahanLayout.visibility = View.VISIBLE
             etTipeBarang.visibility = View.GONE
             etFrameBarang.visibility = View.GONE
             etWarnaBarang.visibility = View.GONE
             etPasakBarang.visibility = View.GONE
             etCaraPemasangan.visibility = View.GONE
+            etKegunaanBarang.visibility = View.GONE
         }
     }
 
-    private fun visibilitySepatuAtauJaket() {
+    private fun visibilitySepatuJaketAtauTas() {
         with(binding) {
+            etUkuranBarang.visibility = View.VISIBLE
             bahanLayout.visibility = View.GONE
             etTipeBarang.visibility = View.GONE
             etFrameBarang.visibility = View.GONE
             etWarnaBarang.visibility = View.VISIBLE
             etPasakBarang.visibility = View.GONE
             etCaraPemasangan.visibility = View.GONE
+            etKegunaanBarang.visibility = View.GONE
         }
     }
 
@@ -265,6 +292,7 @@ class SubmitBarangFragment : DialogFragment() {
             etStockBarang.text.clear()
             etHargaBarang.text.clear()
             etCaraPemasangan.text.clear()
+            etKegunaanBarang.text.clear()
         }
     }
 
@@ -282,6 +310,7 @@ class SubmitBarangFragment : DialogFragment() {
             etStockBarang.text.clear()
             etHargaBarang.text.clear()
             etCaraPemasangan.text.clear()
+            etKegunaanBarang.text.clear()
         }
     }
 
@@ -316,6 +345,7 @@ class SubmitBarangFragment : DialogFragment() {
                             stockBarang.toInt(),
                             hargaBarang.toInt(),
                             caraPemasangan,
+                            kegunaanBarang,
                             gambarUrl
                         )
                         databaseRef.child(id).setValue(model)
