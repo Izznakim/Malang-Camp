@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.firmansyah.malangcamp.adapter.InfoBarangAdapter
+import com.firmansyah.malangcamp.adapter.BarangAdapter
 import com.firmansyah.malangcamp.databinding.FragmentInformasiBarangBinding
 import com.firmansyah.malangcamp.model.Barang
 import com.google.firebase.database.DatabaseReference
@@ -22,7 +22,7 @@ class InformasiBarangFragment : Fragment() {
 
     private lateinit var dashboardViewModel: DashboardViewModel
     private var _binding: FragmentInformasiBarangBinding? = null
-    private lateinit var adapter: InfoBarangAdapter
+    private lateinit var adapter: BarangAdapter
     private lateinit var listBarang: ArrayList<Barang>
     private lateinit var database: FirebaseDatabase
     private lateinit var databaseRef: DatabaseReference
@@ -77,7 +77,7 @@ class InformasiBarangFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        adapter = InfoBarangAdapter(arrayListOf()) { model ->
+        adapter = BarangAdapter(arrayListOf(), true) { model ->
             deleteBarang(model)
         }
         binding.rvInfoBarang.layoutManager = LinearLayoutManager(activity)

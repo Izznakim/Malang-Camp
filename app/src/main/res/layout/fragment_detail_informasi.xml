@@ -154,7 +154,8 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/barrier4">
+            app:layout_constraintTop_toTopOf="@id/barrier4"
+            android:baselineAligned="false">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/etFrame"
@@ -305,7 +306,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="@string/cara_pemasangan"
+            android:hint="@string/kegunaan_barang"
             android:paddingStart="4dp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
@@ -319,12 +320,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top|start"
+                android:hint="@string/kegunaan_barang"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
                 android:lines="8"
                 android:maxLines="10"
                 android:minLines="6"
-                android:hint="@string/cara_pemasangan"
                 android:scrollbars="vertical"
                 tools:text="@tools:sample/lorem" />
         </com.google.android.material.textfield.TextInputLayout>

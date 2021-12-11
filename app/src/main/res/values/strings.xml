@@ -57,4 +57,6 @@
     <string name="barang_lainnya">Barang Lainnya</string>
     <string name="kegunaan_barang">Kegunaan Barang</string>
     <string name="harga">Harga</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
 </resources>

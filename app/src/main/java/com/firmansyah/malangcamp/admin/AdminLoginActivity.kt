@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.databinding.ActivityAdminLoginBinding
+import com.firmansyah.malangcamp.pelanggan.PelangganHomeActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -64,10 +65,17 @@ class AdminLoginActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        if(auth.currentUser != null){
-            Intent(this, AdminHomeActivity::class.java).also { intent ->
-                intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
+        auth.currentUser?.let {
+            ref.child(it.uid).get().addOnSuccessListener { snapshot ->
+                if (snapshot.child("isAdmin").value == true) {
+                    Intent(this, AdminHomeActivity::class.java).also { intent ->
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                    }
+                }
+            }.addOnFailureListener { e ->
+                Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
             }
         }
     }

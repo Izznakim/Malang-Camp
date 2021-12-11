@@ -54,27 +54,55 @@ class PelangganLoginActivity : AppCompatActivity() {
             }
 
             tvRegister.setOnClickListener {
-                Intent(this@PelangganLoginActivity,PelangganRegisterActivity::class.java).also {
+                Intent(this@PelangganLoginActivity, PelangganRegisterActivity::class.java).also {
                     startActivity(it)
                 }
             }
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        auth.currentUser?.let {
+            ref.child(it.uid).get().addOnSuccessListener { snapshot ->
+                if (!snapshot.child("isAdmin").exists()) {
+                    Intent(
+                        this@PelangganLoginActivity,
+                        PelangganHomeActivity::class.java
+                    ).also { intent ->
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                    }
+                }
+            }.addOnFailureListener { e ->
+                Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     private fun loginPelanggan(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this){
-                if (it.isSuccessful){
+            .addOnCompleteListener(this) {
+                if (it.isSuccessful) {
                     val id = auth.currentUser?.uid
                     if (id != null) {
                         ref.child(id).get().addOnSuccessListener { snapshot ->
-                            if (!snapshot.child("isAdmin").exists()){
-                                Intent(this@PelangganLoginActivity, PelangganHomeActivity::class.java).also { intent ->
-                                    intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            if (!snapshot.child("isAdmin").exists()) {
+                                Intent(
+                                    this@PelangganLoginActivity,
+                                    PelangganHomeActivity::class.java
+                                ).also { intent ->
+                                    intent.flags =
+                                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                     startActivity(intent)
                                 }
                             } else {
-                                Toast.makeText(this,"Pelanggan belum terdaftar",Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    this,
+                                    "Pelanggan belum terdaftar",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }.addOnFailureListener{ e->
                             Toast.makeText(this,e.message,Toast.LENGTH_SHORT).show()
