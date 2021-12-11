@@ -19,6 +19,7 @@ import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.admin.ui.informasibarang.DetailInformasiFragment
 import com.firmansyah.malangcamp.databinding.ListSewabarangBinding
 import com.firmansyah.malangcamp.model.Barang
+import com.firmansyah.malangcamp.pelanggan.ui.barangsewa.DetailBarangSewaFragment
 
 
 class BarangAdapter(
@@ -109,7 +110,18 @@ class BarangAdapter(
                         )
                         detailInformasiFragment.arguments = bundle
                     } else {
-                        Toast.makeText(itemView.context, stock.toString(), Toast.LENGTH_LONG).show()
+                        val detailBarangSewa = DetailBarangSewaFragment()
+                        val mFragmentManager =
+                            (itemView.context as AppCompatActivity).supportFragmentManager
+                        val bundle = Bundle()
+
+                        bundle.putParcelable(DetailBarangSewaFragment.EXTRA_BARANG, barang)
+                        bundle.putInt(DetailBarangSewaFragment.EXTRA_STOCK, stock)
+                        detailBarangSewa.show(
+                            mFragmentManager,
+                            DetailBarangSewaFragment::class.java.simpleName
+                        )
+                        detailBarangSewa.arguments = bundle
                     }
                 }
             }

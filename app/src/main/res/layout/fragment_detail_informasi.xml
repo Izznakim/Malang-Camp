@@ -85,9 +85,9 @@
                     android:id="@+id/etInputUkuran"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:importantForAutofill="no"
-                    android:inputType="text"
                     android:hint="@string/ukuran"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
                     tools:text="@string/ukuran" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
@@ -136,14 +136,6 @@
                 android:hint="@string/tipe"
                 tools:text="@string/tipe" />
         </com.google.android.material.textfield.TextInputLayout>
-
-        <androidx.constraintlayout.widget.Barrier
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="framePasakLayout,etWarnaBarang"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="361dp" />
 
         <LinearLayout
             android:id="@+id/framePasakLayout"

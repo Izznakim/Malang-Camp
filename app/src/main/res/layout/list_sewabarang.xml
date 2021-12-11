@@ -78,35 +78,21 @@
                 app:layout_constraintStart_toStartOf="@+id/tvNamaBarang"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-            <LinearLayout
-                android:id="@+id/linearLayout2"
+            <TextView
+                android:id="@+id/tvHargaBarang"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:orientation="horizontal"
+                android:paddingStart="4dp"
+                android:paddingEnd="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/linearLayout"
                 app:layout_constraintTop_toBottomOf="@+id/view"
-                app:layout_constraintVertical_bias="0.0">
-
-                <TextView
-                    android:id="@+id/tvHargaBarang"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingStart="4dp"
-                    android:paddingEnd="4dp"
-                    android:text="@string/rp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/hari" />
-            </LinearLayout>
+                app:layout_constraintVertical_bias="0.0"
+                android:text="@string/rp" />
 
             <ImageView
                 android:id="@+id/deleteButton"
@@ -120,7 +106,7 @@
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+                app:layout_constraintTop_toBottomOf="@+id/tvHargaBarang" />
 
             <LinearLayout
                 android:id="@+id/stockLayout"
@@ -134,7 +120,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/gambarBarang"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+                app:layout_constraintTop_toBottomOf="@+id/tvHargaBarang">
 
                 <Button
                     android:id="@+id/btnDecrease"

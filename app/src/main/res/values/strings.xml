@@ -40,8 +40,7 @@
     <string name="warna">Warna</string>
     <string name="cara_pemasangan">Cara Pemasangan</string>
     <string name="stock">Stock</string>
-    <string name="rp">Rp. %1$d</string>
-    <string name="hari">/Hari</string>
+    <string name="rp">Rp. %1$d /Hari</string>
     <string name="rp_harga_per_hari">Rp. Harga/Hari</string>
     <string name="update">Update</string>
     <string name="gambar_barang">Gambar Barang</string>
@@ -59,4 +58,14 @@
     <string name="harga">Harga</string>
     <string name="plus">+</string>
     <string name="minus">-</string>
+    <string name="ukuran___">Ukuran: %1$s</string>
+    <string name="bahan___">Bahan: %1$s</string>
+    <string name="tipe___">Tipe: %1$s</string>
+    <string name="frame___">Frame: %1$s</string>
+    <string name="pasak___">Pasak: %1$s</string>
+    <string name="warna___">Warna: %1$s</string>
+    <string name="stock___">Stock: %1$d/%2$d</string>
+    <string name="cara_pemasangan___">Cara Pemasangan:\n%1$s</string>
+    <string name="kegunaan_barang___">Kegunaan Barang:\n%1$s</string>
+    <string name="sewa">Sewa</string>
 </resources>
