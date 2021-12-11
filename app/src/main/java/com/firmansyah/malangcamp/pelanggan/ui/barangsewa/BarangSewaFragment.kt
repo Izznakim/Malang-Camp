@@ -24,7 +24,6 @@ class BarangSewaFragment : Fragment() {
     private lateinit var barangSewaViewModel: BarangSewaViewModel
     private var _binding: FragmentBarangsewaBinding? = null
     private lateinit var adapter: BarangAdapter
-    private lateinit var listBarang: ArrayList<Barang>
     private lateinit var database: FirebaseDatabase
     private lateinit var databaseRef: DatabaseReference
     private lateinit var storage: FirebaseStorage
@@ -59,6 +58,14 @@ class BarangSewaFragment : Fragment() {
         viewModel()
     }
 
+    private fun initAdapter() {
+        adapter = BarangAdapter(arrayListOf(), false) { model ->
+            deleteBarang(model)
+        }
+        binding.rvInfoBarang.layoutManager = LinearLayoutManager(activity)
+        binding.rvInfoBarang.adapter = adapter
+    }
+
     private fun viewModel() {
         with(barangSewaViewModel) {
             getListBarang(databaseRef)
@@ -74,14 +81,6 @@ class BarangSewaFragment : Fragment() {
                 }
             })
         }
-    }
-
-    private fun initAdapter() {
-        adapter = BarangAdapter(arrayListOf(), false) { model ->
-            deleteBarang(model)
-        }
-        binding.rvInfoBarang.layoutManager = LinearLayoutManager(activity)
-        binding.rvInfoBarang.adapter = adapter
     }
 
     private fun deleteBarang(model: Barang) {

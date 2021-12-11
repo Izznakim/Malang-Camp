@@ -20,7 +20,7 @@ import com.google.firebase.storage.StorageReference
 
 class InformasiBarangFragment : Fragment() {
 
-    private lateinit var dashboardViewModel: DashboardViewModel
+    private lateinit var informasiBarangViewModel: InformasiBarangViewModel
     private var _binding: FragmentInformasiBarangBinding? = null
     private lateinit var adapter: BarangAdapter
     private lateinit var listBarang: ArrayList<Barang>
@@ -38,8 +38,8 @@ class InformasiBarangFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
+        informasiBarangViewModel =
+            ViewModelProvider(this).get(InformasiBarangViewModel::class.java)
 
         storage = FirebaseStorage.getInstance()
         storageRef = storage.getReference("images/")
@@ -55,19 +55,7 @@ class InformasiBarangFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initAdapter()
-        listBarang= arrayListOf()
-
-        databaseRef.get().addOnSuccessListener { snapshot ->
-            snapshot.children.forEach {
-                val barang = it.getValue(Barang::class.java)
-                if (barang != null) {
-                    listBarang.add(barang)
-                }
-            }
-            adapter.setData(listBarang)
-        }.addOnFailureListener {
-            Toast.makeText(activity,it.message, Toast.LENGTH_SHORT).show()
-        }
+        viewModel()
 
         binding.fabAdd.setOnClickListener {
             val submitBarangFragment=SubmitBarangFragment()
@@ -82,6 +70,23 @@ class InformasiBarangFragment : Fragment() {
         }
         binding.rvInfoBarang.layoutManager = LinearLayoutManager(activity)
         binding.rvInfoBarang.adapter = adapter
+    }
+
+    private fun viewModel() {
+        with(informasiBarangViewModel) {
+            getListBarang(databaseRef)
+            listBarang.observe(viewLifecycleOwner, {
+                if (it != null) {
+                    adapter.setData(it)
+                }
+            })
+            toast.observe(viewLifecycleOwner, {
+                if (it != null) {
+                    val toast = it.format(this)
+                    Toast.makeText(activity, toast, Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
     }
 
     private fun deleteBarang(model: Barang) {

@@ -2,6 +2,7 @@ package com.firmansyah.malangcamp.admin.ui.informasibarang
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -56,6 +57,11 @@ class SubmitBarangFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (savedInstanceState != null) {
+            imageUri = savedInstanceState.getParcelable("imageUri")
+            binding.imgBarang.setImageURI(imageUri)
+        }
+
         storage = FirebaseStorage.getInstance()
         storageRef = storage.getReference("images/")
 
@@ -63,6 +69,11 @@ class SubmitBarangFragment : DialogFragment() {
         databaseRef = database.getReference("barang")
 
         buttonClick()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelable("imageUri", imageUri)
     }
 
     private fun buttonClick() {

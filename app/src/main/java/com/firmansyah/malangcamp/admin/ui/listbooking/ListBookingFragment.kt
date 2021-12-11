@@ -19,10 +19,9 @@ import com.google.firebase.ktx.Firebase
 
 class ListBookingFragment : Fragment() {
 
-    private lateinit var homeViewModel: HomeViewModel
+    private lateinit var listBookingViewModel: ListBookingViewModel
     private var _binding: FragmentListBookingBinding? = null
     private lateinit var adapter: BookingAdapter
-    private lateinit var listUser:ArrayList<Pelanggan>
     private lateinit var database: FirebaseDatabase
     private lateinit var ref: DatabaseReference
     private lateinit var auth: FirebaseAuth
@@ -36,8 +35,8 @@ class ListBookingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+        listBookingViewModel =
+            ViewModelProvider(this).get(ListBookingViewModel::class.java)
 
         database = Firebase.database
         ref = database.getReference("users")
@@ -52,20 +51,23 @@ class ListBookingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initAdapter()
-        listUser = arrayListOf()
+        viewModel()
+    }
 
-        ref.get().addOnSuccessListener { snapshot ->
-            snapshot.children.forEach {
-                if (!it.child("isAdmin").exists()) {
-                    val pelanggan = it.getValue(Pelanggan::class.java)
-                    if (pelanggan != null) {
-                        listUser.add(pelanggan)
-                    }
+    private fun viewModel() {
+        with(listBookingViewModel) {
+            getListPelanggan(ref)
+            listPelanggan.observe(viewLifecycleOwner, {
+                if (it != null) {
+                    adapter.setData(it)
                 }
-            }
-            adapter.setData(listUser)
-        }.addOnFailureListener {
-            Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
+            })
+            toast.observe(viewLifecycleOwner, {
+                if (it != null) {
+                    val toast = it.format(this)
+                    Toast.makeText(activity, toast, Toast.LENGTH_SHORT).show()
+                }
+            })
         }
     }
 
