@@ -64,8 +64,8 @@
     <string name="frame___">Frame: %1$s</string>
     <string name="pasak___">Pasak: %1$s</string>
     <string name="warna___">Warna: %1$s</string>
-    <string name="stock___">Stock: %1$d/%2$d</string>
+    <string name="jumlah___">Jumlah: %1$d/%2$d</string>
     <string name="cara_pemasangan___">Cara Pemasangan:\n%1$s</string>
     <string name="kegunaan_barang___">Kegunaan Barang:\n%1$s</string>
-    <string name="sewa">Sewa</string>
+    <string name="tambah">Tambah ke keranjang</string>
 </resources>

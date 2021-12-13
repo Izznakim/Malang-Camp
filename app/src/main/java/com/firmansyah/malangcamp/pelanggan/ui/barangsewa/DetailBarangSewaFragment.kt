@@ -1,28 +1,34 @@
 package com.firmansyah.malangcamp.pelanggan.ui.barangsewa
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.firmansyah.malangcamp.R
-import com.firmansyah.malangcamp.admin.ui.informasibarang.DetailInformasiFragment
 import com.firmansyah.malangcamp.databinding.FragmentDetailBarangSewaBinding
 import com.firmansyah.malangcamp.model.Barang
+import com.firmansyah.malangcamp.model.Sewa
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
-class DetailBarangSewaFragment : DialogFragment() {
+class DetailBarangSewaFragment : DialogFragment(), View.OnClickListener {
+
+    private lateinit var database: FirebaseDatabase
+    private lateinit var userRef: DatabaseReference
+    private lateinit var barangRef: DatabaseReference
+    private lateinit var auth: FirebaseAuth
 
     private var barang: Barang? = null
-    private var stock: Int? = 0
+    private var jumlah: Int? = 0
 
     companion object {
         const val EXTRA_BARANG = "extra_barang"
-        const val EXTRA_STOCK = "extra_stock"
+        const val EXTRA_JUMLAH = "extra_jumlah"
     }
 
     private var _binding: FragmentDetailBarangSewaBinding? = null
@@ -41,12 +47,19 @@ class DetailBarangSewaFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        auth = FirebaseAuth.getInstance()
+
+        database = FirebaseDatabase.getInstance()
+        userRef = database.getReference("users/${auth.currentUser?.uid}/sewaBarang")
+        barangRef = database.getReference("barang")
+
         if (arguments != null) {
             barang = arguments?.getParcelable(EXTRA_BARANG)
-            stock = arguments?.getInt(EXTRA_STOCK)
+            jumlah = arguments?.getInt(EXTRA_JUMLAH)
         }
 
         bnd()
+        binding.btnTambah.setOnClickListener(this)
     }
 
     private fun bnd() {
@@ -63,7 +76,7 @@ class DetailBarangSewaFragment : DialogFragment() {
             tvFrame.text = getString(R.string.frame___, barang?.frame)
             tvPasak.text = getString(R.string.pasak___, barang?.pasak)
             tvWarnaBarang.text = getString(R.string.warna___, barang?.warna)
-            tvStockBarang.text = getString(R.string.stock___, stock, barang?.stock)
+            tvJumlahBarang.text = getString(R.string.jumlah___, jumlah, barang?.stock)
             tvHargaBarang.text = getString(R.string.rp, barang?.harga)
 
             barang?.caraPemasangan?.split("\n")?.forEachIndexed { index, value ->
@@ -112,6 +125,30 @@ class DetailBarangSewaFragment : DialogFragment() {
             val width = ViewGroup.LayoutParams.MATCH_PARENT
             val height = ViewGroup.LayoutParams.WRAP_CONTENT
             dialog.window?.setLayout(width, height)
+        }
+    }
+
+    override fun onClick(v: View?) {
+        val idBarang = barang?.id
+        if (idBarang != null && jumlah != 0 && jumlah != null) {
+            var model: Sewa? = null
+            jumlah?.let {
+                model = Sewa(idBarang, it)
+            }
+            userRef.child(idBarang).get().addOnSuccessListener {
+                userRef.child(idBarang).setValue(model)
+                Toast.makeText(activity, "Telah ditambahkan di keranjang", Toast.LENGTH_SHORT)
+                    .show()
+            }.addOnFailureListener { e ->
+                Toast.makeText(activity, e.message, Toast.LENGTH_SHORT)
+                    .show()
+            }
+        } else if (idBarang != null && jumlah == 0) {
+            userRef.child(idBarang).get().addOnSuccessListener {
+                it.ref.removeValue()
+            }.addOnFailureListener {
+                Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+            }
         }
     }
 }

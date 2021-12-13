@@ -158,13 +158,13 @@
             app:layout_constraintTop_toBottomOf="@id/tvWarnaBarang">
 
             <TextView
-                android:id="@+id/tvStockBarang"
+                android:id="@+id/tvJumlahBarang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:paddingStart="4dp"
-                android:text="@string/stock___" />
+                android:text="@string/jumlah___" />
 
             <TextView
                 android:id="@+id/tvHargaBarang"
@@ -204,7 +204,7 @@
             tools:visibility="visible" />
 
         <Button
-            android:id="@+id/btnUpdate"
+            android:id="@+id/btnTambah"
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -212,7 +212,7 @@
             android:layout_marginTop="16dp"
             android:layout_weight="1"
             android:backgroundTint="@color/blue"
-            android:text="@string/sewa"
+            android:text="@string/tambah"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
