@@ -68,4 +68,8 @@
     <string name="cara_pemasangan___">Cara Pemasangan:\n%1$s</string>
     <string name="kegunaan_barang___">Kegunaan Barang:\n%1$s</string>
     <string name="tambah">Tambah ke keranjang</string>
+    <string name="total">Total</string>
+    <string name="list_barang">List Barang</string>
+    <string name="cara_pembayaran">Silakan melakukan tranfer pada rekening ini Dan mengirim bukti pembayaran\n1223949679594 ( BRI )\n1234955933394 ( BCA )</string>
+    <string name="sewa">Sewa</string>
 </resources>

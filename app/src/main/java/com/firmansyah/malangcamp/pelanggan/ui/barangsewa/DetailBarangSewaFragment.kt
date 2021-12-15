@@ -11,7 +11,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.databinding.FragmentDetailBarangSewaBinding
 import com.firmansyah.malangcamp.model.Barang
-import com.firmansyah.malangcamp.model.Sewa
+import com.firmansyah.malangcamp.model.Pelanggan
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -50,7 +50,7 @@ class DetailBarangSewaFragment : DialogFragment(), View.OnClickListener {
         auth = FirebaseAuth.getInstance()
 
         database = FirebaseDatabase.getInstance()
-        userRef = database.getReference("users/${auth.currentUser?.uid}/sewaBarang")
+        userRef = database.getReference("users/${auth.currentUser?.uid}/keranjang")
         barangRef = database.getReference("barang")
 
         if (arguments != null) {
@@ -130,10 +130,13 @@ class DetailBarangSewaFragment : DialogFragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         val idBarang = barang?.id
-        if (idBarang != null && jumlah != 0 && jumlah != null) {
-            var model: Sewa? = null
+        val namaBarang=barang?.nama
+        val hargaBarang=barang?.harga
+
+        if (idBarang != null && namaBarang != null && hargaBarang != null && jumlah != 0 && jumlah != null) {
+            var model: Pelanggan.Keranjang? =null
             jumlah?.let {
-                model = Sewa(idBarang, it)
+                model = Pelanggan.Keranjang(idBarang,namaBarang,hargaBarang, it,hargaBarang*it)
             }
             userRef.child(idBarang).get().addOnSuccessListener {
                 userRef.child(idBarang).setValue(model)

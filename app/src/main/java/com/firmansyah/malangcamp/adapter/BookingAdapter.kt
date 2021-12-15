@@ -45,5 +45,5 @@ class BookingAdapter(
         holder.bind(listPelanggan[position])
     }
 
-    override fun getItemCount(): Int  = listPelanggan.size
+    override fun getItemCount(): Int = listPelanggan.size
 }

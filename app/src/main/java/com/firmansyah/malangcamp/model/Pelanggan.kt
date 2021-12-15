@@ -12,11 +12,14 @@ data class Pelanggan(
     var namaBelakang: String = "",
     var noTelp: String = "",
     var password: String = "",
-    var sewaBarang: ArrayList<Sewa> = ArrayList()
-) : Parcelable
-
-@Parcelize
-data class Sewa(
-    var idBarang: String = "",
-    var jumlah: Int = 0
-) : Parcelable
+    var keranjangBarang: ArrayList<Keranjang> = ArrayList()
+) : Parcelable {
+    @Parcelize
+    data class Keranjang(
+        var idBarang: String = "",
+        var namaBarang:String="",
+        var hargaBarang:Int=0,
+        var jumlah: Int = 0,
+        var subtotal:Int=hargaBarang*jumlah
+    ) : Parcelable
+}
