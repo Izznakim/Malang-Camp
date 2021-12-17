@@ -10,8 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firmansyah.malangcamp.adapter.BarangAdapter
+import com.firmansyah.malangcamp.admin.ui.informasibarang.SubmitBarangFragment
 import com.firmansyah.malangcamp.databinding.FragmentBarangsewaBinding
 import com.firmansyah.malangcamp.model.Barang
+import com.firmansyah.malangcamp.model.Pelanggan
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
@@ -26,8 +29,12 @@ class BarangSewaFragment : Fragment() {
     private lateinit var adapter: BarangAdapter
     private lateinit var database: FirebaseDatabase
     private lateinit var databaseRef: DatabaseReference
+    private lateinit var userRef: DatabaseReference
     private lateinit var storage: FirebaseStorage
     private lateinit var storageRef: StorageReference
+    private lateinit var auth: FirebaseAuth
+
+    private var jumlahSave: Int = 0
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -41,11 +48,14 @@ class BarangSewaFragment : Fragment() {
         barangSewaViewModel =
             ViewModelProvider(this).get(BarangSewaViewModel::class.java)
 
+        auth = FirebaseAuth.getInstance()
+
         storage = FirebaseStorage.getInstance()
         storageRef = storage.getReference("images/")
 
         database = Firebase.database
         databaseRef = database.getReference("barang")
+        userRef = database.getReference("users/${auth.currentUser?.uid}/keranjang")
 
         _binding = FragmentBarangsewaBinding.inflate(inflater, container, false)
         return binding.root
@@ -59,11 +69,35 @@ class BarangSewaFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        adapter = BarangAdapter(arrayListOf(), false) { model ->
-            deleteBarang(model)
+        adapter = BarangAdapter(arrayListOf(), false) { barang, jumlah ->
+            uploadToFirebase(barang, jumlah)
         }
         binding.rvInfoBarang.layoutManager = LinearLayoutManager(activity)
         binding.rvInfoBarang.adapter = adapter
+    }
+
+    private fun uploadToFirebase(barang: Barang, jumlah: Int) {
+        if (jumlah != 0) {
+            val model = Pelanggan.Keranjang(
+                barang.id,
+                barang.nama,
+                barang.harga,
+                jumlah,
+                barang.harga * jumlah
+            )
+            userRef.child(barang.id).get().addOnSuccessListener {
+                userRef.child(barang.id).setValue(model)
+            }.addOnFailureListener { e ->
+                Toast.makeText(activity, e.message, Toast.LENGTH_SHORT)
+                    .show()
+            }
+        } else if (jumlah == 0) {
+            userRef.child(barang.id).get().addOnSuccessListener {
+                it.ref.removeValue()
+            }.addOnFailureListener {
+                Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun viewModel() {
@@ -80,16 +114,6 @@ class BarangSewaFragment : Fragment() {
                     Toast.makeText(activity, toast, Toast.LENGTH_SHORT).show()
                 }
             })
-        }
-    }
-
-    private fun deleteBarang(model: Barang) {
-        databaseRef.child(model.id).get().addOnSuccessListener {
-            it.ref.removeValue()
-            storageRef.child("${model.id}.jpg").delete()
-            Toast.makeText(activity, "${model.nama} telah dihapus", Toast.LENGTH_LONG).show()
-        }.addOnFailureListener {
-            Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
         }
     }
 

@@ -20,7 +20,7 @@ import com.firmansyah.malangcamp.pelanggan.ui.barangsewa.DetailBarangSewaFragmen
 class BarangAdapter(
     private val listInfoBarang: ArrayList<Barang>,
     private val isAdmin: Boolean,
-    private val onItemClicked: (Barang) -> Unit
+    private val passData: (Barang, Int) -> Unit
 ) :
     RecyclerView.Adapter<BarangAdapter.ListViewHolder>() {
     fun setData(data: List<Barang>) {
@@ -63,6 +63,7 @@ class BarangAdapter(
                                 }
                                 else -> jumlah = text.toString().toInt()
                             }
+                            passData.invoke(barang, jumlah)
                         } catch (e: NumberFormatException) {
                         }
                     }
@@ -87,7 +88,7 @@ class BarangAdapter(
 
                 if (deleteButton.isVisible) {
                     deleteButton.setOnClickListener {
-                        onItemClicked.invoke(barang)
+                        passData.invoke(barang, 0)
                     }
                 }
 

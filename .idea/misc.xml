@@ -11,18 +11,19 @@
         <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/activity_pelanggan_login.xml" value="0.17028985507246377" />
         <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/activity_pelanggan_register.xml" value="0.3146067415730337" />
         <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/fragment_barang_sewa.xml" value="0.1" />
-        <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/fragment_barangsewa.xml" value="0.44895833333333335" />
+        <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/fragment_barangsewa.xml" value="1.1" />
         <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/fragment_detail_barang_sewa.xml" value="0.67" />
         <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/fragment_detail_informasi.xml" value="0.25" />
         <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/fragment_home.xml" value="0.16530797101449277" />
         <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/fragment_info_barang_sewa.xml" value="0.17753623188405798" />
         <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/fragment_informasi_barang.xml" value="0.25" />
+        <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/fragment_konfirmasi_pembayaran.xml" value="1.346875" />
         <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/fragment_list_booking.xml" value="0.10989583333333333" />
-        <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/fragment_pembayaran.xml" value="0.33" />
+        <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/fragment_pembayaran.xml" value="0.21621621621621623" />
         <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/fragment_tambah_barang.xml" value="0.22" />
         <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/list_booking.xml" value="0.17527173913043478" />
         <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/list_infobarang.xml" value="0.33" />
-        <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/list_keranjang.xml" value="0.33" />
+        <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/list_keranjang.xml" value="1.5" />
         <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/layout/list_sewabarang.xml" value="0.33" />
         <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/menu/bottom_nav_menu.xml" value="0.22447916666666667" />
         <entry key="..\:/Android_Dev/PROJECT/Malang-Camp/app/src/main/res/menu/bottom_nav_menu_pelanggan.xml" value="0.22447916666666667" />
@@ -50,7 +51,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="Android Studio java home" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

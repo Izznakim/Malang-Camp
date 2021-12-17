@@ -72,4 +72,10 @@
     <string name="list_barang">List Barang</string>
     <string name="cara_pembayaran">Silakan melakukan tranfer pada rekening ini Dan mengirim bukti pembayaran\n1223949679594 ( BRI )\n1234955933394 ( BCA )</string>
     <string name="sewa">Sewa</string>
+    <string name="text_nama_penyewa">Nama Penyewa</string>
+    <string name="text_no_telepon">No Telepon</string>
+    <string name="text_bukti_pembayaran">Bukti Pembayaran</string>
+    <string name="foto_bukti_pembayaran">Foto bukti pembayaran</string>
+    <string name="tombol_mengambil_foto_dari_galeri">Tombol mengambil foto dari galeri</string>
+    <string name="tombol_mengambil_dari_kamera">Tombol mengambil dari kamera</string>
 </resources>

@@ -9,6 +9,7 @@
         android:id="@+id/linearSewaBarang"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <TextView
@@ -24,8 +25,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/bck_detail"
             android:paddingEnd="8dp"
-            tools:text=": Rp.99999" />
+            tools:text="Rp.99999" />
 
         <TextView
             android:id="@+id/tvJumlah"
@@ -41,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/bck_detail"
             android:gravity="end"
             tools:text="Rp.99999" />
     </LinearLayout>

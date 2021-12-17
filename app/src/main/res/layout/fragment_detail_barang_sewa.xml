@@ -203,21 +203,6 @@
             app:layout_constraintTop_toBottomOf="@id/tvCaraPemasangan"
             tools:visibility="visible" />
 
-        <Button
-            android:id="@+id/btnTambah"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/blue"
-            android:text="@string/tambah"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvKegunaanBarang" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

@@ -16,7 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
-class DetailBarangSewaFragment : DialogFragment(), View.OnClickListener {
+class DetailBarangSewaFragment : DialogFragment() {
 
     private lateinit var database: FirebaseDatabase
     private lateinit var userRef: DatabaseReference
@@ -59,7 +59,6 @@ class DetailBarangSewaFragment : DialogFragment(), View.OnClickListener {
         }
 
         bnd()
-        binding.btnTambah.setOnClickListener(this)
     }
 
     private fun bnd() {
@@ -125,33 +124,6 @@ class DetailBarangSewaFragment : DialogFragment(), View.OnClickListener {
             val width = ViewGroup.LayoutParams.MATCH_PARENT
             val height = ViewGroup.LayoutParams.WRAP_CONTENT
             dialog.window?.setLayout(width, height)
-        }
-    }
-
-    override fun onClick(v: View?) {
-        val idBarang = barang?.id
-        val namaBarang=barang?.nama
-        val hargaBarang=barang?.harga
-
-        if (idBarang != null && namaBarang != null && hargaBarang != null && jumlah != 0 && jumlah != null) {
-            var model: Pelanggan.Keranjang? =null
-            jumlah?.let {
-                model = Pelanggan.Keranjang(idBarang,namaBarang,hargaBarang, it,hargaBarang*it)
-            }
-            userRef.child(idBarang).get().addOnSuccessListener {
-                userRef.child(idBarang).setValue(model)
-                Toast.makeText(activity, "Telah ditambahkan di keranjang", Toast.LENGTH_SHORT)
-                    .show()
-            }.addOnFailureListener { e ->
-                Toast.makeText(activity, e.message, Toast.LENGTH_SHORT)
-                    .show()
-            }
-        } else if (idBarang != null && jumlah == 0) {
-            userRef.child(idBarang).get().addOnSuccessListener {
-                it.ref.removeValue()
-            }.addOnFailureListener {
-                Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
-            }
         }
     }
 }
