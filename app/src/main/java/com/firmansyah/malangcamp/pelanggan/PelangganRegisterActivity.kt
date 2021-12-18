@@ -144,7 +144,7 @@ class PelangganRegisterActivity : AppCompatActivity() {
                     val id = auth.currentUser?.uid
                     if (id != null) {
                         val model =
-                            Pelanggan(username, email, namaDepan, namaBelakang, noTelp, password, id)
+                            Pelanggan(id, username, email, namaDepan, namaBelakang, noTelp)
                         ref.child(id).get().addOnSuccessListener {
                             Toast.makeText(this, "Pembuatan akun sukses", Toast.LENGTH_SHORT)
                                 .show()

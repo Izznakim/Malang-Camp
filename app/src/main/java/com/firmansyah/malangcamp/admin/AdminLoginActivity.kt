@@ -65,8 +65,9 @@ class AdminLoginActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        auth.currentUser?.let {
-            ref.child(it.uid).get().addOnSuccessListener { snapshot ->
+        val idAuth = auth.currentUser?.uid
+        if (idAuth != null) {
+            ref.child(idAuth).get().addOnSuccessListener { snapshot ->
                 if (snapshot.child("isAdmin").value == true) {
                     Intent(this, AdminHomeActivity::class.java).also { intent ->
                         intent.flags =

@@ -78,4 +78,14 @@
     <string name="foto_bukti_pembayaran">Foto bukti pembayaran</string>
     <string name="tombol_mengambil_foto_dari_galeri">Tombol mengambil foto dari galeri</string>
     <string name="tombol_mengambil_dari_kamera">Tombol mengambil dari kamera</string>
+    <string name="hari">Hari</string>
+    <string name="aturan_dan_syarat_sewa">ATURAN DAN SYARAT SEWA</string>
+    <string name="aturan1">Untuk Jaminan Sewa Peminjam meninggalkan E-KTP / SIM / KTM yang BERLAKU dan JELAS (usahakan membawa 2 identitas)</string>
+    <string name="aturan2">Jika Masih Pelajar Bisa Menggunakan Kartu Pelajar (malang) + Fotokopi KK</string>
+    <string name="aturan3">Jika Masih Pelajar Bisa Menggunakan Kartu Pelajar (malang) + Fotokopi KK</string>
+    <string name="aturan4">Jika ada kehilangan atau kerusakan maka penyewa harus mengganti sesuai barang yang di sewa</string>
+    <string name="aturan5">Penyewa mengembalikan dengan kondisi lengkap, diusahakan Bersih, tidak perlu di cuci.</string>
+    <string name="pemesanan_via_aplikasi">Pemesanan via Aplikasi</string>
+    <string name="pemesanan1">Aplikasi Malang camp ini hanya melayani pemesanan Alat- Alat Outdoor dan barang yang Di sewa tetap di Ambil di toko Malang</string>
+    <string name="pemesanan2">Apliksi ini tidak melayani perubahan tanggal Sewa jika Ada perubahan Hari/ Tanggal harap segera Menghubungi No admin 08945321567 Via Wa (whatapp ).</string>
 </resources>

@@ -8,7 +8,7 @@ data class Pembayaran(
     var idAkun: String = "",
     var idPembayaran: String = "",
     var namaPenyewa: String = "",
-    var noTelp: Int = 0,
+    var noTelp: String = "",
     var buktiPembayaran: String = "",
     var total: Int = 0,
     var barangSewa: ArrayList<BarangSewa> = ArrayList()

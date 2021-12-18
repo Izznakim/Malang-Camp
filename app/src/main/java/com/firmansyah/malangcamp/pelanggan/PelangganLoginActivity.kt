@@ -63,8 +63,9 @@ class PelangganLoginActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        auth.currentUser?.let {
-            ref.child(it.uid).get().addOnSuccessListener { snapshot ->
+        val idAuth = auth.currentUser?.uid
+        if (idAuth != null) {
+            ref.child(idAuth).get().addOnSuccessListener { snapshot ->
                 if (!snapshot.child("isAdmin").exists()) {
                     Intent(
                         this@PelangganLoginActivity,

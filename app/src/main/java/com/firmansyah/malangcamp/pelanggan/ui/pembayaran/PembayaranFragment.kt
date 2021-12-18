@@ -43,7 +43,7 @@ class PembayaranFragment : Fragment() {
     private lateinit var listSewa: ArrayList<Pembayaran.BarangSewa>
 
     private var namaPenyewa: String = ""
-    private var noTelp: Int = 0
+    private var noTelp: String = ""
     private var total: Int = 0
     private var imageUri: Uri? = null
     private var imageBitmap: Bitmap? = null
@@ -89,14 +89,14 @@ class PembayaranFragment : Fragment() {
         binding.btnSewa.setOnClickListener {
             with(binding) {
                 namaPenyewa = etNamaPenyewa.text.toString()
-                noTelp = etNoTelp.text.toString().trim().toInt()
+                noTelp = etNoTelp.text.toString()
 
                 if (namaPenyewa.isEmpty()) {
                     Toast.makeText(activity, "Nama Penyewa harus diisi", Toast.LENGTH_LONG).show()
                     return@setOnClickListener
                 }
 
-                if (noTelp.toString().isEmpty()) {
+                if (noTelp.isEmpty()) {
                     Toast.makeText(activity, "Nomor Telepon harus diisi", Toast.LENGTH_LONG).show()
                     return@setOnClickListener
                 }

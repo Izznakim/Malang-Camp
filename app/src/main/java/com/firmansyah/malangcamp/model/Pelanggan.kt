@@ -11,7 +11,6 @@ data class Pelanggan(
     var namaDepan: String = "",
     var namaBelakang: String = "",
     var noTelp: String = "",
-    var password: String = "",
     var keranjangBarang: ArrayList<Keranjang> = ArrayList()
 ) : Parcelable {
     @Parcelize
