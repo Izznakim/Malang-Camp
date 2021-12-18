@@ -18,7 +18,8 @@ data class Pembayaran(
         var idBarang: String = "",
         var namaBarang: String = "",
         var hargaBarang: Int = 0,
+        var hari: Int = 0,
         var jumlah: Int = 0,
-        var subtotal: Int = hargaBarang * jumlah
+        var subtotal: Int = hargaBarang * hari * jumlah
     ) : Parcelable
 }

@@ -1,7 +1,6 @@
 package com.firmansyah.malangcamp.pelanggan.ui.barangsewa
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firmansyah.malangcamp.adapter.BarangAdapter
-import com.firmansyah.malangcamp.admin.ui.informasibarang.SubmitBarangFragment
 import com.firmansyah.malangcamp.databinding.FragmentBarangsewaBinding
 import com.firmansyah.malangcamp.model.Barang
 import com.firmansyah.malangcamp.model.Pelanggan
@@ -69,29 +67,25 @@ class BarangSewaFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        adapter = BarangAdapter(arrayListOf(), false) { barang, jumlah ->
-            uploadToFirebase(barang, jumlah)
+        adapter = BarangAdapter(arrayListOf(), false) { barang, jumlah, hari ->
+            uploadToFirebase(barang, jumlah, hari)
         }
         binding.rvInfoBarang.layoutManager = LinearLayoutManager(activity)
         binding.rvInfoBarang.adapter = adapter
     }
 
-    private fun uploadToFirebase(barang: Barang, jumlah: Int) {
+    private fun uploadToFirebase(barang: Barang, jumlah: Int, hari: Int) {
         if (jumlah != 0) {
             val model = Pelanggan.Keranjang(
                 barang.id,
                 barang.nama,
                 barang.harga,
+                hari,
                 jumlah,
-                barang.harga * jumlah
+                barang.harga * hari * jumlah
             )
-            userRef.child(barang.id).get().addOnSuccessListener {
-                userRef.child(barang.id).setValue(model)
-            }.addOnFailureListener { e ->
-                Toast.makeText(activity, e.message, Toast.LENGTH_SHORT)
-                    .show()
-            }
-        } else if (jumlah == 0) {
+            userRef.child(barang.id).setValue(model)
+        } else if (jumlah == 0 || hari == 0) {
             userRef.child(barang.id).get().addOnSuccessListener {
                 it.ref.removeValue()
             }.addOnFailureListener {

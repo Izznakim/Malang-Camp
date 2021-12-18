@@ -30,10 +30,12 @@ class KeranjangAdapter(private val listBarang: ArrayList<Pelanggan.Keranjang>):R
             currencyFormat.currency= Currency.getInstance("IDR")
 
             with(binding){
-                tvNamaBarangSewa.text=barang.namaBarang
-                tvHarga.text=currencyFormat.format(barang.hargaBarang)
-                tvJumlah.text="(${barang.jumlah})"
-                tvSubtotal.text=currencyFormat.format(barang.hargaBarang*barang.jumlah)
+                tvNamaBarangSewa.text = barang.namaBarang
+                tvHarga.text = currencyFormat.format(barang.hargaBarang)
+                tvJumlah.text = "(${barang.jumlah})"
+                tvHari.text = "${barang.hari} Hari"
+                tvSubtotal.text =
+                    currencyFormat.format(barang.hargaBarang * barang.hari * barang.jumlah)
             }
         }
     }

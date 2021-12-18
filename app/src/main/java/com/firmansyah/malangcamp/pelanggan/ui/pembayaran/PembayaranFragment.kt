@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +16,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firmansyah.malangcamp.adapter.KeranjangAdapter
 import com.firmansyah.malangcamp.databinding.FragmentPembayaranBinding
+import com.firmansyah.malangcamp.model.Barang
 import com.firmansyah.malangcamp.model.Pembayaran
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -35,6 +36,7 @@ class PembayaranFragment : Fragment() {
     private lateinit var database: FirebaseDatabase
     private lateinit var keranjangRef: DatabaseReference
     private lateinit var pembayaranRef: DatabaseReference
+    private lateinit var barangRef: DatabaseReference
     private lateinit var auth: FirebaseAuth
     private lateinit var storage: FirebaseStorage
     private lateinit var storageRef: StorageReference
@@ -70,9 +72,12 @@ class PembayaranFragment : Fragment() {
         database = Firebase.database
         keranjangRef = database.getReference("users/${auth.currentUser?.uid}/keranjang")
         pembayaranRef = database.getReference("pembayaran")
+        barangRef = database.getReference("barang")
 
         storage = FirebaseStorage.getInstance()
         storageRef = storage.getReference("bukti/")
+
+        listSewa = arrayListOf()
 
         initAdapter()
         viewModel()
@@ -96,6 +101,18 @@ class PembayaranFragment : Fragment() {
                     return@setOnClickListener
                 }
             }
+
+            for (i in listSewa.indices) {
+                barangRef.child(listSewa[i].idBarang).child("stock").get().addOnSuccessListener {
+                    val value = it.value
+                    if (value != null) {
+                        val mStock = value.toString().toInt()
+                        barangRef.child(listSewa[i].idBarang).child("stock")
+                            .setValue(mStock - listSewa[i].jumlah)
+                    }
+                }
+            }
+
             val baos = ByteArrayOutputStream()
             imageBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, baos)
             val data = baos.toByteArray()
@@ -234,8 +251,6 @@ class PembayaranFragment : Fragment() {
                     adapter.setData(it)
                 }
 
-                listSewa = arrayListOf()
-
                 for (i in it.indices) {
                     total += it[i].subtotal
                     val sewa = Pembayaran.BarangSewa()
@@ -243,6 +258,7 @@ class PembayaranFragment : Fragment() {
                     sewa.namaBarang = it[i].namaBarang
                     sewa.hargaBarang = it[i].hargaBarang
                     sewa.jumlah = it[i].jumlah
+                    sewa.hari = it[i].hari
                     sewa.subtotal = it[i].subtotal
                     listSewa.add(sewa)
                 }

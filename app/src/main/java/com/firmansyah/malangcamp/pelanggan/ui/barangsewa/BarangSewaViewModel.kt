@@ -24,11 +24,11 @@ class BarangSewaViewModel : ViewModel() {
             }
             _listBarang.value = list
         }.addOnFailureListener {
-            setToast(toast, it.message)
+            it.message?.let { e -> setToast(toast, e) }
         }
     }
 
-    private fun setToast(toast: SingleLiveEvent<String>, e: String?) {
+    private fun setToast(toast: SingleLiveEvent<String>, e: String) {
         toast.value = e
     }
 }
