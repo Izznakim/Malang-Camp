@@ -1,6 +1,8 @@
 package com.firmansyah.malangcamp.pelanggan.ui.pembayaran
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -11,22 +13,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.adapter.KeranjangAdapter
 import com.firmansyah.malangcamp.databinding.FragmentPembayaranBinding
-import com.firmansyah.malangcamp.model.Barang
 import com.firmansyah.malangcamp.model.Pembayaran
+import com.firmansyah.malangcamp.pelanggan.ui.barangsewa.BarangSewaFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.io.ByteArrayOutputStream
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.properties.Delegates
 
 class PembayaranFragment : Fragment() {
 
@@ -41,12 +51,18 @@ class PembayaranFragment : Fragment() {
     private lateinit var storage: FirebaseStorage
     private lateinit var storageRef: StorageReference
     private lateinit var listSewa: ArrayList<Pembayaran.BarangSewa>
+    private lateinit var listReady:ArrayList<Boolean>
+    private lateinit var listStock:ArrayList<Int>
 
+    private var tanggalPengambilan:String=""
+    private var hari:Int=0
     private var namaPenyewa: String = ""
     private var noTelp: String = ""
     private var total: Int = 0
+    private var totalH: Int = 0
     private var imageUri: Uri? = null
     private var imageBitmap: Bitmap? = null
+    private var ready:Boolean?=null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -58,7 +74,7 @@ class PembayaranFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         pembayaranViewModel =
-            ViewModelProvider(this).get(PembayaranViewModel::class.java)
+            ViewModelProvider(this)[PembayaranViewModel::class.java]
 
         _binding = FragmentPembayaranBinding.inflate(inflater, container, false)
         return binding.root
@@ -78,50 +94,86 @@ class PembayaranFragment : Fragment() {
         storageRef = storage.getReference("bukti/")
 
         listSewa = arrayListOf()
+        listReady = arrayListOf()
+        listStock = arrayListOf()
 
         initAdapter()
         viewModel()
+        buttonTgl()
         buttonCam()
-        btnSewa()
+        buttonSewa()
     }
 
-    private fun btnSewa() {
+    @SuppressLint("SetTextI18n")
+    private fun buttonTgl() {
+        val kalender=Calendar.getInstance()
+        val dateSetListener=
+            DatePickerDialog.OnDateSetListener { _, tahun, bulan, tanggal ->
+                kalender.set(Calendar.YEAR,tahun)
+                kalender.set(Calendar.MONTH,bulan)
+                kalender.set(Calendar.DAY_OF_MONTH,tanggal)
+
+                val dateFormat="dd/MM/yyyy"
+                val date=SimpleDateFormat(dateFormat, Locale.getDefault())
+                binding.btnTgl.text="Diambil pada tanggal: ${date.format(kalender.time)}"
+                tanggalPengambilan=date.format(kalender.time)
+            }
+        binding.btnTgl.setOnClickListener{
+            DatePickerDialog(requireContext(),dateSetListener,
+                kalender.get(Calendar.YEAR),
+                kalender.get(Calendar.MONTH),
+                kalender.get(Calendar.DAY_OF_MONTH)).show()
+        }
+    }
+
+    private fun buttonSewa() {
         binding.btnSewa.setOnClickListener {
-            with(binding) {
-                namaPenyewa = etNamaPenyewa.text.toString()
-                noTelp = etNoTelp.text.toString()
-
-                if (namaPenyewa.isEmpty()) {
-                    Toast.makeText(activity, "Nama Penyewa harus diisi", Toast.LENGTH_LONG).show()
-                    return@setOnClickListener
-                }
-
-                if (noTelp.isEmpty()) {
-                    Toast.makeText(activity, "Nomor Telepon harus diisi", Toast.LENGTH_LONG).show()
-                    return@setOnClickListener
-                }
-            }
-
-            for (i in listSewa.indices) {
-                barangRef.child(listSewa[i].idBarang).child("stock").get().addOnSuccessListener {
-                    val value = it.value
-                    if (value != null) {
-                        val mStock = value.toString().toInt()
-                        barangRef.child(listSewa[i].idBarang).child("stock")
-                            .setValue(mStock - listSewa[i].jumlah)
-                    }
-                }
-            }
-
             val baos = ByteArrayOutputStream()
             imageBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, baos)
             val data = baos.toByteArray()
 
-            when {
-                imageUri != null -> uploadToFirebase(imageUri, null)
-                imageBitmap != null -> uploadToFirebase(null, data)
-                else -> Toast.makeText(activity, "Anda belum memilih gambarnya", Toast.LENGTH_LONG)
-                    .show()
+            Log.d("2- listReady ===> ", listReady.toString())
+            for (i in listReady.indices) {
+                Log.d("3- listReadyIs ===> ", listReady[i].toString())
+                if (!listReady[i]) {
+                    ready=false
+                    Log.d("4- ready ===> ", ready.toString())
+                    break
+                }else{
+                    ready=true
+                    Log.d("4- ready ===> ", ready.toString())
+                }
+            }
+
+            if (ready == true){
+                Log.d("5- ready ===> ", ready.toString())
+                with(binding) {
+                    namaPenyewa = etNamaPenyewa.text.toString()
+                    noTelp = etNoTelp.text.toString()
+
+                    when{
+                        tanggalPengambilan.isEmpty()->Toast.makeText(activity, "Tanggal pengambilan harus diisi", Toast.LENGTH_LONG).show()
+                        etHari.text.isEmpty()->etHari.error="Lama penyewaan harus diisi"
+                        namaPenyewa.isEmpty()->textInputLayout2.error="Nama Penyewa harus diisi"
+                        noTelp.isEmpty()->textInputLayout3.error="Nomor Telepon harus diisi"
+                        imageUri != null -> uploadToFirebase(imageUri, null)
+                        imageBitmap != null -> uploadToFirebase(null, data)
+                        imageUri == null || imageBitmap == null -> Toast.makeText(activity, "Anda belum memilih gambarnya", Toast.LENGTH_LONG)
+                            .show()
+                    }
+                    if (namaPenyewa.isNotEmpty()) {
+                        textInputLayout2.isErrorEnabled = false
+                    }
+                    if (noTelp.isNotEmpty()) {
+                        textInputLayout3.isErrorEnabled = false
+                    }
+                }
+            }else{
+                Log.d("5- ready ===> ", ready.toString())
+                    Toast.makeText(activity, "Maaf, ada stok yang belum siap", Toast.LENGTH_LONG)
+                        .show()
+                listReady.clear()
+                pengecekanStok()
             }
         }
     }
@@ -130,12 +182,21 @@ class PembayaranFragment : Fragment() {
         val idAkun = auth.currentUser?.uid
         val idPembayar = pembayaranRef.push().key
         val buktiRef = storageRef.child("${idPembayar}.jpg")
+
         if (idAkun != null && idPembayar != null) {
             when {
                 imageUri != null -> withImageUri(idAkun, idPembayar, buktiRef, imageUri)
                 imageBitmap != null -> withImageBitmap(idAkun, idPembayar, buktiRef, imageBitmap)
             }
+            for (i in listSewa.indices) {
+                Log.d("1- Stock ===> ", listStock[i].toString())
+                Log.d("2- Stock ===> ", listSewa[i].jumlah.toString())
+                Log.d("3- Stock ===> ", (listStock[i] - listSewa[i].jumlah).toString())
+                barangRef.child(listSewa[i].idBarang).child("stock")
+                    .setValue(listStock[i] - listSewa[i].jumlah)
+            }
         }
+
     }
 
     private fun withImageBitmap(
@@ -152,15 +213,18 @@ class PembayaranFragment : Fragment() {
                     val model = Pembayaran(
                         idAkun,
                         idPembayar,
+                        tanggalPengambilan,
+                        binding.etHari.text.toString().toInt(),
                         namaPenyewa,
                         noTelp,
                         imageUrl,
-                        total,
+                        totalH,
                         listSewa
                     )
                     pembayaranRef.child(idPembayar).setValue(model)
                     Toast.makeText(activity, "Anda telah menyewa", Toast.LENGTH_LONG)
                         .show()
+                    clear()
                 }
             }
         }.addOnFailureListener {
@@ -183,6 +247,8 @@ class PembayaranFragment : Fragment() {
                     val model = Pembayaran(
                         idAkun,
                         idPembayar,
+                        tanggalPengambilan,
+                        binding.etHari.text.toString().toInt(),
                         namaPenyewa,
                         noTelp,
                         imageUrl,
@@ -192,12 +258,18 @@ class PembayaranFragment : Fragment() {
                     pembayaranRef.child(idPembayar).setValue(model)
                     Toast.makeText(activity, "Anda telah menyewa", Toast.LENGTH_LONG)
                         .show()
+                    clear()
                 }
             }
         }.addOnFailureListener {
             Toast.makeText(activity, it.message, Toast.LENGTH_LONG)
                 .show()
         }
+    }
+
+    private fun clear() {
+        listReady.clear()
+        activity?.supportFragmentManager?.popBackStack()
     }
 
     private fun buttonCam() {
@@ -258,12 +330,21 @@ class PembayaranFragment : Fragment() {
                     sewa.namaBarang = it[i].namaBarang
                     sewa.hargaBarang = it[i].hargaBarang
                     sewa.jumlah = it[i].jumlah
-                    sewa.hari = it[i].hari
                     sewa.subtotal = it[i].subtotal
                     listSewa.add(sewa)
                 }
 
-                binding.tvTotal.text = currencyFormat.format(total)
+                pengecekanStok()
+
+                binding.etHari.doOnTextChanged { text, _, _, _ ->
+                    totalH=0
+                    when{
+                        text.isNullOrEmpty() || text.toString().toInt()<=0-> totalH= total * 0
+                        text.toString().toInt()>0->totalH = total* text.toString().toInt()
+                    }
+
+                    binding.tvTotal.text = currencyFormat.format(totalH)
+                }
             })
             toast.observe(viewLifecycleOwner, {
                 if (it != null) {
@@ -271,6 +352,22 @@ class PembayaranFragment : Fragment() {
                     Toast.makeText(activity, toast, Toast.LENGTH_SHORT).show()
                 }
             })
+        }
+    }
+
+    private fun pengecekanStok() {
+        for (i in listSewa.indices) {
+            barangRef.child(listSewa[i].idBarang).child("stock").get()
+                .addOnSuccessListener { snapshot ->
+                    val isReady: Boolean
+                    val value = snapshot.getValue<Int>()
+
+                    isReady = value != null && listSewa[i].jumlah <= value
+                    Log.d("1- isReady ===> ", isReady.toString())
+
+                    listReady.add(isReady)
+                    listStock.add(value.toString().toInt())
+                }
         }
     }
 

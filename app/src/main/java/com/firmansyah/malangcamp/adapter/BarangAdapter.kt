@@ -20,7 +20,7 @@ import com.firmansyah.malangcamp.pelanggan.ui.barangsewa.DetailBarangSewaFragmen
 class BarangAdapter(
     private val listInfoBarang: ArrayList<Barang>,
     private val isAdmin: Boolean,
-    private val passData: (Barang, Int, Int) -> Unit
+    private val passData: (Barang, Int) -> Unit
 ) :
     RecyclerView.Adapter<BarangAdapter.ListViewHolder>() {
     fun setData(data: List<Barang>) {
@@ -34,7 +34,6 @@ class BarangAdapter(
         fun bind(barang: Barang) {
             with(binding) {
                 var jumlah = 0
-                var hari = 0
                 Glide.with(itemView.context)
                     .load(barang.gambar)
                     .apply(RequestOptions())
@@ -44,29 +43,13 @@ class BarangAdapter(
                 tvStockBarang.text = barang.stock.toString()
                 tvHargaBarang.text = itemView.context.getString(R.string.rp, barang.harga)
                 etJumlah.setText(jumlah.toString())
-                etHari.setText(hari.toString())
 
                 if (isAdmin) {
                     deleteButton.visibility = View.VISIBLE
                     jumlahLayout.visibility = View.GONE
-                    etHari.visibility = View.GONE
                 } else {
                     deleteButton.visibility = View.GONE
                     jumlahLayout.visibility = View.VISIBLE
-                    etHari.visibility = View.VISIBLE
-                }
-
-                if (etHari.isVisible) {
-                    etHari.doOnTextChanged { text, _, _, _ ->
-                        try {
-                            hari = when {
-                                text.isNullOrEmpty() -> 0
-                                else -> text.toString().toInt()
-                            }
-                            passData.invoke(barang, jumlah, hari)
-                        } catch (e: NumberFormatException) {
-                        }
-                    }
                 }
 
                 if (jumlahLayout.isVisible) {
@@ -80,7 +63,7 @@ class BarangAdapter(
                                 }
                                 else -> jumlah = text.toString().toInt()
                             }
-                            passData.invoke(barang, jumlah, hari)
+                            passData.invoke(barang, jumlah)
                         } catch (e: NumberFormatException) {
                         }
                     }
@@ -105,7 +88,7 @@ class BarangAdapter(
 
                 if (deleteButton.isVisible) {
                     deleteButton.setOnClickListener {
-                        passData.invoke(barang, 0, 0)
+                        passData.invoke(barang, 0)
                     }
                 }
 

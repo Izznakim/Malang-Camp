@@ -34,14 +34,6 @@
         tools:text="(99)" />
 
     <TextView
-        android:id="@+id/tvHari"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.1"
-        android:gravity="center"
-        tools:text="12 Bulan" />
-
-    <TextView
         android:id="@+id/tvSubtotal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -67,25 +67,24 @@ class BarangSewaFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        adapter = BarangAdapter(arrayListOf(), false) { barang, jumlah, hari ->
-            uploadToFirebase(barang, jumlah, hari)
+        adapter = BarangAdapter(arrayListOf(), false) { barang, jumlah ->
+            uploadToFirebase(barang, jumlah)
         }
         binding.rvInfoBarang.layoutManager = LinearLayoutManager(activity)
         binding.rvInfoBarang.adapter = adapter
     }
 
-    private fun uploadToFirebase(barang: Barang, jumlah: Int, hari: Int) {
+    private fun uploadToFirebase(barang: Barang, jumlah: Int) {
         if (jumlah != 0) {
             val model = Pelanggan.Keranjang(
                 barang.id,
                 barang.nama,
                 barang.harga,
-                hari,
                 jumlah,
-                barang.harga * hari * jumlah
+                barang.harga * jumlah
             )
             userRef.child(barang.id).setValue(model)
-        } else if (jumlah == 0 || hari == 0) {
+        } else {
             userRef.child(barang.id).get().addOnSuccessListener {
                 it.ref.removeValue()
             }.addOnFailureListener {

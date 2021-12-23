@@ -33,9 +33,8 @@ class KeranjangAdapter(private val listBarang: ArrayList<Pelanggan.Keranjang>):R
                 tvNamaBarangSewa.text = barang.namaBarang
                 tvHarga.text = currencyFormat.format(barang.hargaBarang)
                 tvJumlah.text = "(${barang.jumlah})"
-                tvHari.text = "${barang.hari} Hari"
                 tvSubtotal.text =
-                    currencyFormat.format(barang.hargaBarang * barang.hari * barang.jumlah)
+                    currencyFormat.format(barang.hargaBarang * barang.jumlah)
             }
         }
     }

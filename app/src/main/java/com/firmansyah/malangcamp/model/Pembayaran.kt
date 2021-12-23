@@ -7,6 +7,8 @@ import kotlinx.parcelize.Parcelize
 data class Pembayaran(
     var idAkun: String = "",
     var idPembayaran: String = "",
+    var tanggalPengambilan:String="",
+    var hari: Int=0,
     var namaPenyewa: String = "",
     var noTelp: String = "",
     var buktiPembayaran: String = "",
@@ -18,8 +20,7 @@ data class Pembayaran(
         var idBarang: String = "",
         var namaBarang: String = "",
         var hargaBarang: Int = 0,
-        var hari: Int = 0,
         var jumlah: Int = 0,
-        var subtotal: Int = hargaBarang * hari * jumlah
+        var subtotal: Int = hargaBarang * jumlah
     ) : Parcelable
 }
