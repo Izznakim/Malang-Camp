@@ -17,13 +17,10 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.adapter.KeranjangAdapter
 import com.firmansyah.malangcamp.databinding.FragmentPembayaranBinding
+import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.model.Pembayaran
-import com.firmansyah.malangcamp.pelanggan.ui.barangsewa.BarangSewaFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
@@ -36,7 +33,6 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.properties.Delegates
 
 class PembayaranFragment : Fragment() {
 
@@ -50,7 +46,7 @@ class PembayaranFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var storage: FirebaseStorage
     private lateinit var storageRef: StorageReference
-    private lateinit var listSewa: ArrayList<Pembayaran.BarangSewa>
+    private lateinit var listSewa: ArrayList<Keranjang>
     private lateinit var listReady:ArrayList<Boolean>
     private lateinit var listStock:ArrayList<Int>
 
@@ -325,13 +321,13 @@ class PembayaranFragment : Fragment() {
 
                 for (i in it.indices) {
                     total += it[i].subtotal
-                    val sewa = Pembayaran.BarangSewa()
-                    sewa.idBarang = it[i].idBarang
-                    sewa.namaBarang = it[i].namaBarang
-                    sewa.hargaBarang = it[i].hargaBarang
-                    sewa.jumlah = it[i].jumlah
-                    sewa.subtotal = it[i].subtotal
-                    listSewa.add(sewa)
+                    val keranjang = Keranjang()
+                    keranjang.idBarang = it[i].idBarang
+                    keranjang.namaBarang = it[i].namaBarang
+                    keranjang.hargaBarang = it[i].hargaBarang
+                    keranjang.jumlah = it[i].jumlah
+                    keranjang.subtotal = it[i].subtotal
+                    listSewa.add(keranjang)
                 }
 
                 pengecekanStok()

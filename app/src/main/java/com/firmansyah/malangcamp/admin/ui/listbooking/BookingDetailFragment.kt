@@ -1,0 +1,84 @@
+package com.firmansyah.malangcamp.admin.ui.listbooking
+
+import android.annotation.SuppressLint
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.firmansyah.malangcamp.adapter.KeranjangAdapter
+import com.firmansyah.malangcamp.databinding.FragmentBookingDetailBinding
+import com.firmansyah.malangcamp.model.Keranjang
+import com.firmansyah.malangcamp.model.Pembayaran
+import java.text.NumberFormat
+import java.util.*
+import kotlin.collections.ArrayList
+
+class BookingDetailFragment : Fragment() {
+
+    private lateinit var adapter: KeranjangAdapter
+
+    private var pembayaran: Pembayaran?=null
+    private val listKeranjang:ArrayList<Keranjang> = arrayListOf()
+    private var _binding: FragmentBookingDetailBinding? = null
+
+    private val binding get() = _binding!!
+
+    companion object{
+        const val EXTRA_PEMBAYARAN="extra_pembayaran"
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        // Inflate the layout for this fragment
+        _binding = FragmentBookingDetailBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        if (arguments!=null){
+            pembayaran=arguments?.getParcelable(EXTRA_PEMBAYARAN)
+        }
+
+        val currencyFormat = NumberFormat.getCurrencyInstance()
+        currencyFormat.maximumFractionDigits = 0
+        currencyFormat.currency = Currency.getInstance("IDR")
+
+        val barangSewa=pembayaran?.barangSewa
+        if (barangSewa?.indices!=null) {
+            for (i in barangSewa.indices){
+                val keranjang=Keranjang()
+                keranjang.idBarang = barangSewa[i].idBarang
+                keranjang.namaBarang = barangSewa[i].namaBarang
+                keranjang.hargaBarang = barangSewa[i].hargaBarang
+                keranjang.jumlah = barangSewa[i].jumlah
+                keranjang.subtotal = barangSewa[i].subtotal
+                listKeranjang.add(keranjang)
+            }
+        }
+
+        adapter = KeranjangAdapter(listKeranjang)
+        binding.rvListBarang.layoutManager = LinearLayoutManager(activity)
+        binding.rvListBarang.adapter = adapter
+
+        with(binding){
+            tvTgl.text=pembayaran?.tanggalPengambilan
+            tvHari.text= "Selama ${pembayaran?.hari.toString()} Hari"
+            tvTotal.text=currencyFormat.format(pembayaran?.total)
+            tvNamaPenyewa.text=pembayaran?.namaPenyewa
+            tvNoTelp.text=pembayaran?.noTelp
+            Glide.with(requireContext())
+                .load(pembayaran?.buktiPembayaran)
+                .apply(RequestOptions())
+                .into(imgBukti)
+        }
+    }
+}

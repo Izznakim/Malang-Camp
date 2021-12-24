@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.firmansyah.malangcamp.adapter.BarangAdapter
 import com.firmansyah.malangcamp.databinding.FragmentBarangsewaBinding
 import com.firmansyah.malangcamp.model.Barang
+import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.model.Pelanggan
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -76,7 +77,7 @@ class BarangSewaFragment : Fragment() {
 
     private fun uploadToFirebase(barang: Barang, jumlah: Int) {
         if (jumlah != 0) {
-            val model = Pelanggan.Keranjang(
+            val model = Keranjang(
                 barang.id,
                 barang.nama,
                 barang.harga,

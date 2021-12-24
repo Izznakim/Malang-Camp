@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firmansyah.malangcamp.adapter.BookingAdapter
 import com.firmansyah.malangcamp.databinding.FragmentListBookingBinding
-import com.firmansyah.malangcamp.model.Pelanggan
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
@@ -39,7 +38,7 @@ class ListBookingFragment : Fragment() {
             ViewModelProvider(this).get(ListBookingViewModel::class.java)
 
         database = Firebase.database
-        ref = database.getReference("users")
+        ref = database.getReference("pembayaran")
 
         auth = Firebase.auth
 
@@ -56,8 +55,8 @@ class ListBookingFragment : Fragment() {
 
     private fun viewModel() {
         with(listBookingViewModel) {
-            getListPelanggan(ref)
-            listPelanggan.observe(viewLifecycleOwner, {
+            getListBooking(ref)
+            listBooking.observe(viewLifecycleOwner, {
                 if (it != null) {
                     adapter.setData(it)
                 }
@@ -72,21 +71,19 @@ class ListBookingFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        adapter = BookingAdapter(arrayListOf()) { model ->
-            deletePelanggan(model)
-        }
+        adapter = BookingAdapter(arrayListOf())
         binding.rvListBooking.layoutManager = LinearLayoutManager(activity)
         binding.rvListBooking.adapter = adapter
     }
 
-    private fun deletePelanggan(model: Pelanggan) {
-        ref.child(model.id).get().addOnSuccessListener {
-            it.ref.removeValue()
-            Toast.makeText(activity, "${model.username} telah dihapus", Toast.LENGTH_LONG).show()
-        }.addOnFailureListener {
-            Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
-        }
-    }
+//    private fun deletePelanggan(model: Pelanggan) {
+//        ref.child(model.id).get().addOnSuccessListener {
+//            it.ref.removeValue()
+//            Toast.makeText(activity, "${model.username} telah dihapus", Toast.LENGTH_LONG).show()
+//        }.addOnFailureListener {
+//            Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+//        }
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

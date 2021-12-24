@@ -2,7 +2,6 @@ package com.firmansyah.malangcamp.admin.ui.informasibarang
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -4,34 +4,31 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.firmansyah.malangcamp.SingleLiveEvent
-import com.firmansyah.malangcamp.model.Barang
-import com.firmansyah.malangcamp.model.Pelanggan
+import com.firmansyah.malangcamp.model.Pembayaran
 import com.google.firebase.database.DatabaseReference
 
 class ListBookingViewModel : ViewModel() {
-    private val _listPelanggan = MutableLiveData<List<Pelanggan>>()
-    val listPelanggan: LiveData<List<Pelanggan>> = _listPelanggan
+    private val _listBooking = MutableLiveData<List<Pembayaran>>()
+    val listBooking: LiveData<List<Pembayaran>> = _listBooking
 
     internal val toast = SingleLiveEvent<String>()
 
-    fun getListPelanggan(databaseRef: DatabaseReference) {
+    fun getListBooking(databaseRef: DatabaseReference) {
         databaseRef.get().addOnSuccessListener { snapshot ->
-            val list: ArrayList<Pelanggan> = arrayListOf()
+            val list: ArrayList<Pembayaran> = arrayListOf()
             snapshot.children.forEach {
-                if (!it.child("isAdmin").exists()) {
-                    val pelanggan = it.getValue(Pelanggan::class.java)
-                    if (pelanggan != null) {
-                        list.add(pelanggan)
-                    }
+                val pembayaran = it.getValue(Pembayaran::class.java)
+                if (pembayaran != null) {
+                    list.add(pembayaran)
                 }
             }
-            _listPelanggan.value = list
+            _listBooking.value = list
         }.addOnFailureListener {
-            setToast(toast, it.message)
+            it.message?.let { e -> setToast(toast, e) }
         }
     }
 
-    private fun setToast(toast: SingleLiveEvent<String>, e: String?) {
+    private fun setToast(toast: SingleLiveEvent<String>, e: String) {
         toast.value = e
     }
 }

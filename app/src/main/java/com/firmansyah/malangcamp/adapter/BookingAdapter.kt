@@ -1,36 +1,47 @@
 package com.firmansyah.malangcamp.adapter
 
+import android.annotation.SuppressLint
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.firmansyah.malangcamp.R
+import com.firmansyah.malangcamp.admin.ui.listbooking.BookingDetailFragment
 import com.firmansyah.malangcamp.databinding.ListBookingBinding
-import com.firmansyah.malangcamp.model.Pelanggan
+import com.firmansyah.malangcamp.model.Pembayaran
 
 class BookingAdapter(
-    private val listPelanggan: ArrayList<Pelanggan>,
-    private val onItemClicked: (Pelanggan) -> Unit
+    private val listBooking: ArrayList<Pembayaran>
 ) : RecyclerView.Adapter<BookingAdapter.ListViewHolder>() {
-    fun setData(data: List<Pelanggan>) {
-        listPelanggan.clear()
-        listPelanggan.addAll(data)
+    fun setData(data: List<Pembayaran>) {
+        listBooking.clear()
+        listBooking.addAll(data)
         notifyDataSetChanged()
     }
 
     inner class ListViewHolder(private val binding: ListBookingBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(user: Pelanggan) {
+        @SuppressLint("SetTextI18n")
+        fun bind(pembayaran: Pembayaran) {
             with(binding) {
-                namaPengguna.text = user.username
-                namaPenyewa.text = itemView.context.getString(
-                    R.string.nama_penyewa,
-                    user.namaDepan,
-                    user.namaBelakang
-                )
-                nomerTelpPenyewa.text = user.noTelp
+                tvTanggal.text = "Pesanan ${pembayaran.tanggalPengambilan}"
+                tvNamaPenyewa.text = pembayaran.namaPenyewa
+                nomerTelpPenyewa.text = pembayaran.noTelp
 
-                deleteButton.setOnClickListener {
-                    onItemClicked.invoke(user)
+                itemView.setOnClickListener {
+                    val bookingDetailFragment = BookingDetailFragment()
+                    val mFragmentManager =
+                        (itemView.context as AppCompatActivity).supportFragmentManager
+                    val bundle = Bundle()
+
+                    bundle.putParcelable(BookingDetailFragment.EXTRA_PEMBAYARAN, pembayaran)
+                    bookingDetailFragment.arguments = bundle
+                    mFragmentManager.beginTransaction().apply {
+                        replace(R.id.nav_host_fragment_activity_admin_home,bookingDetailFragment, BookingDetailFragment::class.java.simpleName)
+                        addToBackStack(null)
+                        commit()
+                    }
                 }
             }
         }
@@ -42,8 +53,8 @@ class BookingAdapter(
     }
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        holder.bind(listPelanggan[position])
+        holder.bind(listBooking[position])
     }
 
-    override fun getItemCount(): Int = listPelanggan.size
+    override fun getItemCount(): Int = listBooking.size
 }

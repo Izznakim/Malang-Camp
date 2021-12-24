@@ -4,14 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.databinding.FragmentDetailBarangSewaBinding
 import com.firmansyah.malangcamp.model.Barang
-import com.firmansyah.malangcamp.model.Pelanggan
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase

@@ -9,12 +9,12 @@
         android:id="@+id/cardView2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/deleteButton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -25,18 +25,17 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/namaPengguna"
+                android:id="@+id/tvTanggal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:textStyle="bold"
-                tools:text="@tools:sample/full_names" />
+                android:text="@string/pesanan"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/namaPenyewa"
+                android:id="@+id/tvNamaPenyewa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="8dp"
+                android:textStyle="bold"
                 tools:text="@tools:sample/full_names" />
 
             <TextView
@@ -49,16 +48,5 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-
-    <ImageView
-        android:id="@+id/deleteButton"
-        android:layout_width="40dp"
-        android:layout_height="70dp"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/ic_delete_24"
-        app:layout_constraintBottom_toBottomOf="@+id/cardView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cardView2"
-        android:contentDescription="@string/tombol_hapus" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

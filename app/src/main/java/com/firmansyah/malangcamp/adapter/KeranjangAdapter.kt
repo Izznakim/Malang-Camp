@@ -4,17 +4,15 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.firmansyah.malangcamp.databinding.ListBookingBinding
 import com.firmansyah.malangcamp.databinding.ListKeranjangBinding
-import com.firmansyah.malangcamp.databinding.ListSewabarangBinding
-import com.firmansyah.malangcamp.model.Barang
+import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.model.Pelanggan
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class KeranjangAdapter(private val listBarang: ArrayList<Pelanggan.Keranjang>):RecyclerView.Adapter<KeranjangAdapter.ListViewHolder>() {
-    fun setData(data: List<Pelanggan.Keranjang>) {
+class KeranjangAdapter(private val listBarang: ArrayList<Keranjang>):RecyclerView.Adapter<KeranjangAdapter.ListViewHolder>() {
+    fun setData(data: List<Keranjang>) {
         listBarang.clear()
         listBarang.addAll(data)
         notifyDataSetChanged()
@@ -23,7 +21,7 @@ class KeranjangAdapter(private val listBarang: ArrayList<Pelanggan.Keranjang>):R
     inner class ListViewHolder(private val binding: ListKeranjangBinding) :
         RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
-        fun bind(barang:Pelanggan.Keranjang){
+        fun bind(barang:Keranjang){
 
             val currencyFormat= NumberFormat.getCurrencyInstance()
             currencyFormat.maximumFractionDigits=0

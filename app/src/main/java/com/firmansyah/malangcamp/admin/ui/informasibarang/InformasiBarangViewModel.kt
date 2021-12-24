@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.firmansyah.malangcamp.SingleLiveEvent
 import com.firmansyah.malangcamp.model.Barang
-import com.firmansyah.malangcamp.model.Pelanggan
 import com.google.firebase.database.DatabaseReference
 
 class InformasiBarangViewModel : ViewModel() {
@@ -25,11 +24,11 @@ class InformasiBarangViewModel : ViewModel() {
             }
             _listBarang.value = list
         }.addOnFailureListener {
-            setToast(toast, it.message)
+            it.message?.let { e -> setToast(toast, e) }
         }
     }
 
-    private fun setToast(toast: SingleLiveEvent<String>, e: String?) {
+    private fun setToast(toast: SingleLiveEvent<String>, e: String) {
         toast.value = e
     }
 }
