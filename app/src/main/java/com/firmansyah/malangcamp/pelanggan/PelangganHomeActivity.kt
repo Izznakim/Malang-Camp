@@ -40,7 +40,7 @@ class PelangganHomeActivity : AppCompatActivity() {
             setOf(
                 R.id.navigation_barangSewa,
                 R.id.navigation_pembayaran,
-                R.id.navigation_peraturanSewa
+                R.id.navigation_riwayatPemesanan
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -59,6 +59,11 @@ class PelangganHomeActivity : AppCompatActivity() {
                 auth.signOut()
                 Intent(this, HomeActivity::class.java).also { intent ->
                     intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                }
+            }
+            R.id.actionPeraturanSewa->{
+                Intent(this, PeraturanSewaActivity::class.java).also { intent ->
                     startActivity(intent)
                 }
             }

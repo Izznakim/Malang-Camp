@@ -10,8 +10,8 @@
         android:icon="@drawable/buy"
         android:title="@string/pembayaran" />
     <item
-        android:id="@+id/navigation_peraturanSewa"
-        android:icon="@drawable/shop"
-        android:title="@string/peraturan_sewa" />
+        android:id="@+id/navigation_riwayatPemesanan"
+        android:icon="@drawable/note"
+        android:title="@string/riwayat_pemesanan" />
 
 </menu>

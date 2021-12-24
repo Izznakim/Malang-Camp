@@ -18,8 +18,8 @@
         tools:layout="@layout/fragment_pembayaran" />
 
     <fragment
-        android:id="@+id/navigation_peraturanSewa"
-        android:name="com.firmansyah.malangcamp.pelanggan.ui.peraturansewa.PeraturanSewaFragment"
-        android:label="Peraturan Sewa"
-        tools:layout="@layout/fragment_peraturansewa" />
+        android:id="@+id/navigation_riwayatPemesanan"
+        android:name="com.firmansyah.malangcamp.pelanggan.ui.riwayatpemesanan.RiwayatPemesananFragment"
+        android:label="@string/riwayat_pemesanan"
+        tools:layout="@layout/fragment_riwayatpemesanan" />
 </navigation>

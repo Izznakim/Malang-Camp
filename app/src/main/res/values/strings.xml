@@ -93,4 +93,14 @@
     <string name="pesanan">Pesanan __/__/____</string>
     <string name="terima">Terima</string>
     <string name="tolak">Tolak</string>
+    <string name="riwayat_pemesanan">Riwayat Pemesanan</string>
+    <string name="title_activity_peraturan_sewa">PeraturanSewaActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

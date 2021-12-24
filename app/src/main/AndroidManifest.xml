@@ -13,6 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MalangCamp">
         <activity
+            android:name=".pelanggan.PeraturanSewaActivity"
+            android:exported="false"
+            android:label="@string/title_activity_peraturan_sewa"
+            android:theme="@style/Theme.MalangCamp.NoActionBar" />
+        <activity
             android:name=".pelanggan.PelangganHomeActivity"
             android:exported="false"
             android:label="@string/title_activity_pelanggan_home" />

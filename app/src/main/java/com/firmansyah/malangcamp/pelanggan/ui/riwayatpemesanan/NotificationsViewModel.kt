@@ -1,4 +1,4 @@
-package com.firmansyah.malangcamp.pelanggan.ui.peraturansewa
+package com.firmansyah.malangcamp.pelanggan.ui.riwayatpemesanan
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
