@@ -19,11 +19,12 @@ import com.google.firebase.ktx.Firebase
 class ListBookingFragment : Fragment() {
 
     private lateinit var listBookingViewModel: ListBookingViewModel
-    private var _binding: FragmentListBookingBinding? = null
     private lateinit var adapter: BookingAdapter
     private lateinit var database: FirebaseDatabase
     private lateinit var ref: DatabaseReference
     private lateinit var auth: FirebaseAuth
+
+    private var _binding: FragmentListBookingBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
