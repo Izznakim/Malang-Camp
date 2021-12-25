@@ -51,7 +51,6 @@ class PembayaranFragment : Fragment() {
     private lateinit var listStock:ArrayList<Int>
 
     private var tanggalPengambilan:String=""
-    private var hari:Int=0
     private var namaPenyewa: String = ""
     private var noTelp: String = ""
     private var total: Int = 0
@@ -128,21 +127,16 @@ class PembayaranFragment : Fragment() {
             imageBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, baos)
             val data = baos.toByteArray()
 
-            Log.d("2- listReady ===> ", listReady.toString())
             for (i in listReady.indices) {
-                Log.d("3- listReadyIs ===> ", listReady[i].toString())
                 if (!listReady[i]) {
                     ready=false
-                    Log.d("4- ready ===> ", ready.toString())
                     break
                 }else{
                     ready=true
-                    Log.d("4- ready ===> ", ready.toString())
                 }
             }
 
             if (ready == true){
-                Log.d("5- ready ===> ", ready.toString())
                 with(binding) {
                     namaPenyewa = etNamaPenyewa.text.toString()
                     noTelp = etNoTelp.text.toString()
@@ -185,9 +179,6 @@ class PembayaranFragment : Fragment() {
                 imageBitmap != null -> withImageBitmap(idAkun, idPembayar, buktiRef, imageBitmap)
             }
             for (i in listSewa.indices) {
-                Log.d("1- Stock ===> ", listStock[i].toString())
-                Log.d("2- Stock ===> ", listSewa[i].jumlah.toString())
-                Log.d("3- Stock ===> ", (listStock[i] - listSewa[i].jumlah).toString())
                 barangRef.child(listSewa[i].idBarang).child("stock")
                     .setValue(listStock[i] - listSewa[i].jumlah)
             }
@@ -215,6 +206,7 @@ class PembayaranFragment : Fragment() {
                         noTelp,
                         imageUrl,
                         totalH,
+                        "netral",
                         listSewa
                     )
                     pembayaranRef.child(idPembayar).setValue(model)
@@ -248,7 +240,8 @@ class PembayaranFragment : Fragment() {
                         namaPenyewa,
                         noTelp,
                         imageUrl,
-                        total,
+                        totalH,
+                        "netral",
                         listSewa
                     )
                     pembayaranRef.child(idPembayar).setValue(model)
@@ -359,7 +352,6 @@ class PembayaranFragment : Fragment() {
                     val value = snapshot.getValue<Int>()
 
                     isReady = value != null && listSewa[i].jumlah <= value
-                    Log.d("1- isReady ===> ", isReady.toString())
 
                     listReady.add(isReady)
                     listStock.add(value.toString().toInt())

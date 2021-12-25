@@ -35,7 +35,7 @@ class ListBookingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         listBookingViewModel =
-            ViewModelProvider(this).get(ListBookingViewModel::class.java)
+            ViewModelProvider(this)[ListBookingViewModel::class.java]
 
         database = Firebase.database
         ref = database.getReference("pembayaran")
@@ -71,7 +71,7 @@ class ListBookingFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        adapter = BookingAdapter(arrayListOf())
+        adapter = BookingAdapter(arrayListOf(),true)
         binding.rvListBooking.layoutManager = LinearLayoutManager(activity)
         binding.rvListBooking.adapter = adapter
     }

@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.firmansyah.malangcamp.R
+import com.firmansyah.malangcamp.admin.ui.informasibarang.DetailInformasiFragment
 import com.firmansyah.malangcamp.admin.ui.listbooking.BookingDetailFragment
 import com.firmansyah.malangcamp.databinding.ListBookingBinding
 import com.firmansyah.malangcamp.model.Pembayaran
 
 class BookingAdapter(
-    private val listBooking: ArrayList<Pembayaran>
+    private val listBooking: ArrayList<Pembayaran>, private val isAdmin:Boolean
 ) : RecyclerView.Adapter<BookingAdapter.ListViewHolder>() {
     fun setData(data: List<Pembayaran>) {
         listBooking.clear()
@@ -36,12 +37,12 @@ class BookingAdapter(
                     val bundle = Bundle()
 
                     bundle.putParcelable(BookingDetailFragment.EXTRA_PEMBAYARAN, pembayaran)
+                    bundle.putBoolean(BookingDetailFragment.EXTRA_ISADMIN,isAdmin)
                     bookingDetailFragment.arguments = bundle
-                    mFragmentManager.beginTransaction().apply {
-                        replace(R.id.nav_host_fragment_activity_admin_home,bookingDetailFragment, BookingDetailFragment::class.java.simpleName)
-                        addToBackStack(null)
-                        commit()
-                    }
+                    bookingDetailFragment.show(
+                        mFragmentManager,
+                        DetailInformasiFragment::class.java.simpleName
+                    )
                 }
             }
         }

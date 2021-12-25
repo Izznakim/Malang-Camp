@@ -165,7 +165,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="160dp" />
+            app:layout_constraintGuide_percent="0.5" />
+
+        <TextView
+            android:id="@+id/tvValidasi"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:text="Info Validasi"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgBukti" />
 
         <Button
             android:id="@+id/btnTerima"
@@ -175,24 +192,28 @@
             android:layout_marginBottom="16dp"
             android:contentDescription="@string/tombol_mengambil_foto_dari_galeri"
             android:text="@string/terima"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgBukti" />
+            app:layout_constraintTop_toBottomOf="@+id/imgBukti"
+            tools:visibility="visible" />
 
         <Button
-            android:id="@+id/btnCamera"
+            android:id="@+id/btnTolak"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
+            android:backgroundTint="@android:color/darker_gray"
             android:contentDescription="@string/tombol_mengambil_dari_kamera"
             android:text="@string/tolak"
-            android:backgroundTint="@android:color/darker_gray"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/imgBukti" />
+            app:layout_constraintTop_toBottomOf="@+id/imgBukti"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

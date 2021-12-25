@@ -13,5 +13,6 @@ data class Pembayaran(
     var noTelp: String = "",
     var buktiPembayaran: String = "",
     var total: Int = 0,
+    var status:String="",
     var barangSewa: ArrayList<Keranjang> = ArrayList()
 ) : Parcelable
