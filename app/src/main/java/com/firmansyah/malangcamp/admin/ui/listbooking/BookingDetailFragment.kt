@@ -1,12 +1,9 @@
 package com.firmansyah.malangcamp.admin.ui.listbooking
 
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,25 +17,24 @@ import com.firmansyah.malangcamp.adapter.KeranjangAdapter
 import com.firmansyah.malangcamp.databinding.FragmentBookingDetailBinding
 import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.model.Pembayaran
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import android.app.Activity
 
 class BookingDetailFragment : DialogFragment() {
 
     private lateinit var adapter: KeranjangAdapter
     private lateinit var database: FirebaseDatabase
-    private lateinit var ref: DatabaseReference
+    private lateinit var pembayaranRef: DatabaseReference
+    private lateinit var barangRef: DatabaseReference
 
     private var pembayaran: Pembayaran?=null
     private var isAdmin:Boolean? = false
     private val listKeranjang:ArrayList<Keranjang> = arrayListOf()
-    private var onDismiss: DialogInterface.OnDismissListener? = null
     private var _binding: FragmentBookingDetailBinding? = null
 
     private val binding get() = _binding!!
@@ -55,7 +51,8 @@ class BookingDetailFragment : DialogFragment() {
         // Inflate the layout for this fragment
 
         database = Firebase.database
-        ref = database.getReference("pembayaran")
+        pembayaranRef = database.getReference("pembayaran")
+        barangRef = database.getReference("barang")
 
         _binding = FragmentBookingDetailBinding.inflate(inflater, container, false)
         return binding.root
@@ -114,12 +111,24 @@ class BookingDetailFragment : DialogFragment() {
                     val idPembayaran=pembayaran?.idPembayaran
                     if (idPembayaran != null) {
                         btnTerima.setOnClickListener {
-                            ref.child(idPembayaran).child("status").setValue("diterima")
+                            pembayaranRef.child(idPembayaran).child("status").setValue("diterima")
                             Toast.makeText(activity, "Penyewaan telah diTERIMA", Toast.LENGTH_LONG).show()
                             dialog?.dismiss()
                         }
                         btnTolak.setOnClickListener {
-                            ref.child(idPembayaran).child("status").setValue("ditolak")
+                            pembayaranRef.child(idPembayaran).child("status").setValue("ditolak")
+                            if (barangSewa?.indices!=null) {
+                                for (i in barangSewa.indices){
+                                    barangRef.child(barangSewa[i].idBarang).child("stock").get().addOnSuccessListener {
+                                        val value=it.getValue<Int>()
+                                        if (value != null) {
+                                            barangRef.child(barangSewa[i].idBarang).child("stock").setValue(value+barangSewa[i].jumlah)
+                                        }
+                                    }.addOnFailureListener {
+                                        Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+                                    }
+                                }
+                            }
                             Toast.makeText(activity, "Penyewaan telah diTOLAK", Toast.LENGTH_LONG).show()
                             dialog?.dismiss()
                         }

@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/actionPeraturanSewa"
-        android:title="@string/peraturan_sewa"
+        android:title="@string/aturan_sewa"
         app:showAsAction="never"/>
 
     <item
