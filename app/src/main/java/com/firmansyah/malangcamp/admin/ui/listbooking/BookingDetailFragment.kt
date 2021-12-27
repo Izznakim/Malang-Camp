@@ -21,6 +21,8 @@ import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -31,6 +33,8 @@ class BookingDetailFragment : DialogFragment() {
     private lateinit var database: FirebaseDatabase
     private lateinit var pembayaranRef: DatabaseReference
     private lateinit var barangRef: DatabaseReference
+    private lateinit var storage: FirebaseStorage
+    private lateinit var storageBuktiRef: StorageReference
 
     private var pembayaran: Pembayaran?=null
     private var isAdmin:Boolean? = false
@@ -54,11 +58,13 @@ class BookingDetailFragment : DialogFragment() {
         pembayaranRef = database.getReference("pembayaran")
         barangRef = database.getReference("barang")
 
+        storage = FirebaseStorage.getInstance()
+        storageBuktiRef = storage.getReference("bukti/")
+
         _binding = FragmentBookingDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -84,16 +90,18 @@ class BookingDetailFragment : DialogFragment() {
             }
         }
 
-        adapter = KeranjangAdapter(listKeranjang)
-        binding.rvListBarang.layoutManager = LinearLayoutManager(activity)
-        binding.rvListBarang.adapter = adapter
+        initAdapter()
+        bnd(currencyFormat,barangSewa)
+    }
 
+    @SuppressLint("SetTextI18n")
+    private fun bnd(currencyFormat: NumberFormat, barangSewa: ArrayList<Keranjang>?) {
         with(binding){
             if (isAdmin==true){
                 btnTerima.visibility=View.VISIBLE
                 btnTolak.visibility=View.VISIBLE
             }else{
-                tvValidasi.visibility=View.VISIBLE
+                llValidasi.visibility=View.VISIBLE
             }
 
             tvTgl.text=pembayaran?.tanggalPengambilan
@@ -106,9 +114,9 @@ class BookingDetailFragment : DialogFragment() {
                 .apply(RequestOptions())
                 .into(imgBukti)
 
+            val idPembayaran=pembayaran?.idPembayaran
             when{
                 btnTerima.isVisible && btnTolak.isVisible->{
-                    val idPembayaran=pembayaran?.idPembayaran
                     if (idPembayaran != null) {
                         btnTerima.setOnClickListener {
                             pembayaranRef.child(idPembayaran).child("status").setValue("diterima")
@@ -134,28 +142,67 @@ class BookingDetailFragment : DialogFragment() {
                         }
                     }
                 }
-                tvValidasi.isVisible->{
+                llValidasi.isVisible->{
                     val status=pembayaran?.status
                     if (status!=null){
                         when(status){
                             "diterima"-> {
                                 tvValidasi.text =
-                                    "PESANAN DI TERIMA. SILAhKAN UNTUK MENGAMBIL BARANG SESUAI JADWAL YANG SUDAH DI PESAN."
+                                    "PESANAN DI TERIMA. SILAHKAN UNTUK MENGAMBIL BARANG SESUAI JADWAL YANG SUDAH DI PESAN."
                                 tvValidasi.setTextColor(Color.parseColor("#43a047"))
                                 tvValidasi.typeface = Typeface.DEFAULT_BOLD
+                                btnHapus.text="Hapus pesanan"
                             }
                             "ditolak"-> {
                                 tvValidasi.text =
                                     "MAAF, PESANAN ANDA TIDAK BISA KAMI PROSES KARENA TIDAK VALID"
                                 tvValidasi.setTextColor(Color.parseColor("#FF0A0A"))
                                 tvValidasi.typeface = Typeface.DEFAULT_BOLD
+                                btnHapus.text="Hapus pesanan"
                             }
-                            "netral"->tvValidasi.text="MAAF, PESANAN ANDA BELUM KAMI KONFIRMASI. DIMOHON UNTUK MENUNGGU BEBERAPA SAAT LAGI."
+                            "netral"-> {
+                                tvValidasi.text =
+                                    "MAAF, PESANAN ANDA BELUM KAMI KONFIRMASI. DIMOHON UNTUK MENUNGGU BEBERAPA SAAT LAGI."
+                                btnHapus.text="Batalkan pemesanan"
+                            }
+                        }
+
+                        btnHapus.setOnClickListener {
+                            if (idPembayaran != null) {
+                                pembayaranRef.child(idPembayaran).get().addOnSuccessListener {
+                                    if (btnHapus.text == "Batalkan pemesanan") {
+                                        if (barangSewa?.indices!=null) {
+                                            for (i in barangSewa.indices){
+                                                barangRef.child(barangSewa[i].idBarang).child("stock").get().addOnSuccessListener { snapshot ->
+                                                    val value=snapshot.getValue<Int>()
+                                                    if (value != null) {
+                                                        barangRef.child(barangSewa[i].idBarang).child("stock").setValue(value+barangSewa[i].jumlah)
+                                                    }
+                                                }.addOnFailureListener { e ->
+                                                    Toast.makeText(activity, e.message, Toast.LENGTH_LONG).show()
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    it.ref.removeValue()
+                                    storageBuktiRef.child("${idPembayaran}.jpg").delete()
+                                }.addOnFailureListener {
+                                    Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+                                }
+                            }
+                            dialog?.dismiss()
                         }
                     }
                 }
             }
         }
+    }
+
+    private fun initAdapter() {
+        adapter = KeranjangAdapter(listKeranjang)
+        binding.rvListBarang.layoutManager = LinearLayoutManager(activity)
+        binding.rvListBarang.adapter = adapter
     }
 
     override fun onStart() {

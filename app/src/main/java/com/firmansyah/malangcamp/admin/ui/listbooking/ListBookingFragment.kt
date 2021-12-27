@@ -77,15 +77,6 @@ class ListBookingFragment : Fragment() {
         binding.rvListBooking.adapter = adapter
     }
 
-//    private fun deletePelanggan(model: Pelanggan) {
-//        ref.child(model.id).get().addOnSuccessListener {
-//            it.ref.removeValue()
-//            Toast.makeText(activity, "${model.username} telah dihapus", Toast.LENGTH_LONG).show()
-//        }.addOnFailureListener {
-//            Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
-//        }
-//    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
