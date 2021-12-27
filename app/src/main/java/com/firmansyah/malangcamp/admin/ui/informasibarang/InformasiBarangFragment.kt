@@ -11,8 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.firmansyah.malangcamp.adapter.BarangAdapter
 import com.firmansyah.malangcamp.databinding.FragmentInformasiBarangBinding
 import com.firmansyah.malangcamp.model.Barang
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -90,13 +89,25 @@ class InformasiBarangFragment : Fragment() {
     }
 
     private fun deleteBarang(model: Barang) {
-        databaseRef.child(model.id).get().addOnSuccessListener {
-            it.ref.removeValue()
-            storageRef.child("${model.id}.jpg").delete()
-            Toast.makeText(activity, "${model.nama} telah dihapus", Toast.LENGTH_LONG).show()
-        }.addOnFailureListener {
-            Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
-        }
+        databaseRef.child(model.id).addValueEventListener(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.ref.removeValue()
+                storageRef.child("${model.id}.jpg").delete()
+                Toast.makeText(activity, "${model.nama} telah dihapus", Toast.LENGTH_LONG).show()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(activity, error.message, Toast.LENGTH_LONG).show()
+            }
+        })
+
+//        databaseRef.child(model.id).get().addOnSuccessListener {
+//            it.ref.removeValue()
+//            storageRef.child("${model.id}.jpg").delete()
+//            Toast.makeText(activity, "${model.nama} telah dihapus", Toast.LENGTH_LONG).show()
+//        }.addOnFailureListener {
+//            Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+//        }
     }
 
     override fun onDestroyView() {
