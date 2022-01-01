@@ -6,10 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.firmansyah.malangcamp.databinding.ListKeranjangBinding
 import com.firmansyah.malangcamp.model.Keranjang
-import com.firmansyah.malangcamp.model.Pelanggan
 import java.text.NumberFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class KeranjangAdapter(private val listBarang: ArrayList<Keranjang>):RecyclerView.Adapter<KeranjangAdapter.ListViewHolder>() {
     fun setData(data: List<Keranjang>) {

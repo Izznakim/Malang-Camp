@@ -1,6 +1,5 @@
 package com.firmansyah.malangcamp.admin.ui.listbooking
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -38,21 +37,6 @@ class ListBookingViewModel : ViewModel() {
             }
 
         })
-
-//        databaseRef.get().addOnSuccessListener { snapshot ->
-//            val list: ArrayList<Pembayaran> = arrayListOf()
-//            snapshot.children.forEach {
-//                if (it.child("status").value == "netral") {
-//                    val pembayaran = it.getValue(Pembayaran::class.java)
-//                    if (pembayaran != null) {
-//                        list.add(pembayaran)
-//                    }
-//                }
-//            }
-//            _listBooking.value = list
-//        }.addOnFailureListener {
-//            it.message?.let { e -> setToast(toast, e) }
-//        }
     }
 
     private fun setToast(toast: SingleLiveEvent<String>, e: String) {

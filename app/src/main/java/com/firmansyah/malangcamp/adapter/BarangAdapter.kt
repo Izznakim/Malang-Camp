@@ -10,11 +10,12 @@ import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.admin.ui.informasibarang.DetailInformasiFragment
 import com.firmansyah.malangcamp.databinding.ListSewabarangBinding
 import com.firmansyah.malangcamp.model.Barang
 import com.firmansyah.malangcamp.pelanggan.ui.barangsewa.DetailBarangSewaFragment
+import java.text.NumberFormat
+import java.util.*
 
 
 class BarangAdapter(
@@ -32,6 +33,11 @@ class BarangAdapter(
     inner class ListViewHolder(private val binding: ListSewabarangBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(barang: Barang) {
+
+            val currencyFormat = NumberFormat.getCurrencyInstance()
+            currencyFormat.maximumFractionDigits = 0
+            currencyFormat.currency = Currency.getInstance("IDR")
+
             with(binding) {
                 var jumlah = 0
                 Glide.with(itemView.context)
@@ -41,7 +47,7 @@ class BarangAdapter(
 
                 tvNamaBarang.text = barang.nama
                 tvStockBarang.text = barang.stock.toString()
-                tvHargaBarang.text = itemView.context.getString(R.string.rp, barang.harga)
+                tvHargaBarang.text = currencyFormat.format(barang.harga)
                 etJumlah.setText(jumlah.toString())
 
                 if (isAdmin) {

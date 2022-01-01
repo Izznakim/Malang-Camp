@@ -34,19 +34,6 @@ class BarangSewaViewModel : ViewModel() {
                 setToast(toast, error.message)
             }
         })
-
-//        databaseRef.get().addOnSuccessListener { snapshot ->
-//            val list: ArrayList<Barang> = arrayListOf()
-//            snapshot.children.forEach {
-//                val barang = it.getValue(Barang::class.java)
-//                if (barang != null) {
-//                    list.add(barang)
-//                }
-//            }
-//            _listBarang.value = list
-//        }.addOnFailureListener {
-//            it.message?.let { e -> setToast(toast, e) }
-//        }
     }
 
     private fun setToast(toast: SingleLiveEvent<String>, e: String) {

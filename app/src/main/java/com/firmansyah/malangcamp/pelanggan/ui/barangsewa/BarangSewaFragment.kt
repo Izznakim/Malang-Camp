@@ -12,7 +12,6 @@ import com.firmansyah.malangcamp.adapter.BarangAdapter
 import com.firmansyah.malangcamp.databinding.FragmentBarangsewaBinding
 import com.firmansyah.malangcamp.model.Barang
 import com.firmansyah.malangcamp.model.Keranjang
-import com.firmansyah.malangcamp.model.Pelanggan
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -33,8 +32,6 @@ class BarangSewaFragment : Fragment() {
     private lateinit var storageRef: StorageReference
     private lateinit var auth: FirebaseAuth
 
-    private var jumlahSave: Int = 0
-
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -45,7 +42,7 @@ class BarangSewaFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         barangSewaViewModel =
-            ViewModelProvider(this).get(BarangSewaViewModel::class.java)
+            ViewModelProvider(this)[BarangSewaViewModel::class.java]
 
         auth = FirebaseAuth.getInstance()
 

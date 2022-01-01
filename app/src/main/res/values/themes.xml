@@ -68,8 +68,4 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.MalangCamp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="Theme.MalangCamp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
 </resources>

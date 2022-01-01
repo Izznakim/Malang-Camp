@@ -22,7 +22,6 @@ class InformasiBarangFragment : Fragment() {
     private lateinit var informasiBarangViewModel: InformasiBarangViewModel
     private var _binding: FragmentInformasiBarangBinding? = null
     private lateinit var adapter: BarangAdapter
-    private lateinit var listBarang: ArrayList<Barang>
     private lateinit var database: FirebaseDatabase
     private lateinit var databaseRef: DatabaseReference
     private lateinit var storage: FirebaseStorage
@@ -38,7 +37,7 @@ class InformasiBarangFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         informasiBarangViewModel =
-            ViewModelProvider(this).get(InformasiBarangViewModel::class.java)
+            ViewModelProvider(this)[InformasiBarangViewModel::class.java]
 
         storage = FirebaseStorage.getInstance()
         storageRef = storage.getReference("images/")
@@ -100,14 +99,6 @@ class InformasiBarangFragment : Fragment() {
                 Toast.makeText(activity, error.message, Toast.LENGTH_LONG).show()
             }
         })
-
-//        databaseRef.child(model.id).get().addOnSuccessListener {
-//            it.ref.removeValue()
-//            storageRef.child("${model.id}.jpg").delete()
-//            Toast.makeText(activity, "${model.nama} telah dihapus", Toast.LENGTH_LONG).show()
-//        }.addOnFailureListener {
-//            Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
-//        }
     }
 
     override fun onDestroyView() {

@@ -1,17 +1,12 @@
 package com.firmansyah.malangcamp.admin
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
-import com.firmansyah.malangcamp.R
+import androidx.appcompat.app.AppCompatActivity
 import com.firmansyah.malangcamp.databinding.ActivityAdminLoginBinding
-import com.firmansyah.malangcamp.pelanggan.PelangganHomeActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -59,24 +54,6 @@ class AdminLoginActivity : AppCompatActivity() {
                 }
                 
                 loginAdmin(email,password)
-            }
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val idAuth = auth.currentUser?.uid
-        if (idAuth != null) {
-            ref.child(idAuth).get().addOnSuccessListener { snapshot ->
-                if (snapshot.child("isAdmin").value == true) {
-                    Intent(this, AdminHomeActivity::class.java).also { intent ->
-                        intent.flags =
-                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(intent)
-                    }
-                }
-            }.addOnFailureListener { e ->
-                Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
             }
         }
     }

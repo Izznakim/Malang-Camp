@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.admin.ui.informasibarang.DetailInformasiFragment
 import com.firmansyah.malangcamp.admin.ui.listbooking.BookingDetailFragment
 import com.firmansyah.malangcamp.databinding.ListBookingBinding

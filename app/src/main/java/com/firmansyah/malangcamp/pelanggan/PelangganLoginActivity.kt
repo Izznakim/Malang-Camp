@@ -1,11 +1,10 @@
 package com.firmansyah.malangcamp.pelanggan
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Toast
-import com.firmansyah.malangcamp.admin.AdminHomeActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.firmansyah.malangcamp.databinding.ActivityPelangganLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -57,27 +56,6 @@ class PelangganLoginActivity : AppCompatActivity() {
                 Intent(this@PelangganLoginActivity, PelangganRegisterActivity::class.java).also {
                     startActivity(it)
                 }
-            }
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val idAuth = auth.currentUser?.uid
-        if (idAuth != null) {
-            ref.child(idAuth).get().addOnSuccessListener { snapshot ->
-                if (!snapshot.child("isAdmin").exists()) {
-                    Intent(
-                        this@PelangganLoginActivity,
-                        PelangganHomeActivity::class.java
-                    ).also { intent ->
-                        intent.flags =
-                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(intent)
-                    }
-                }
-            }.addOnFailureListener { e ->
-                Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
             }
         }
     }

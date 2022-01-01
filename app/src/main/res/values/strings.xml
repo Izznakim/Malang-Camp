@@ -20,7 +20,6 @@
     <string name="nama_depan">Nama Depan</string>
     <string name="nama_belakang">Nama Belakang</string>
     <string name="nomor_telepon">Nomor Telepon</string>
-    <string name="nama_penyewa">%1$s %2$s</string>
     <string name="ukuran">Ukuran</string>
     <string name="nama">Nama</string>
     <string name="submit">Submit</string>
@@ -46,9 +45,6 @@
     <string name="gambar_barang">Gambar Barang</string>
     <string name="tombol_hapus">Tombol Hapus</string>
     <string name="title_activity_pelanggan_home">PelangganHomeActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
     <string name="barang_sewa">Barang Sewa</string>
     <string name="pembayaran">Pembayaran</string>
     <string name="aturan_sewa">Aturan Sewa</string>
@@ -67,7 +63,6 @@
     <string name="jumlah___">Jumlah: %1$d/%2$d</string>
     <string name="cara_pemasangan___">Cara Pemasangan:\n%1$s</string>
     <string name="kegunaan_barang___">Kegunaan Barang:\n%1$s</string>
-    <string name="tambah">Tambah ke keranjang</string>
     <string name="total">Total</string>
     <string name="list_barang">List Barang</string>
     <string name="cara_pembayaran">Silakan melakukan tranfer pada rekening ini Dan mengirim bukti pembayaran\n1223949679594 ( BRI )\n1234955933394 ( BCA )</string>
@@ -78,7 +73,6 @@
     <string name="foto_bukti_pembayaran">Foto bukti pembayaran</string>
     <string name="tombol_mengambil_foto_dari_galeri">Tombol mengambil foto dari galeri</string>
     <string name="tombol_mengambil_dari_kamera">Tombol mengambil dari kamera</string>
-    <string name="hari">Hari</string>
     <string name="aturan_dan_syarat_sewa">ATURAN DAN SYARAT SEWA</string>
     <string name="aturan1">Untuk Jaminan Sewa Peminjam meninggalkan E-KTP / SIM / KTM yang BERLAKU dan JELAS (usahakan membawa 2 identitas)</string>
     <string name="aturan2">Jika Masih Pelajar Bisa Menggunakan Kartu Pelajar (malang) + Fotokopi KK</string>
@@ -96,11 +90,5 @@
     <string name="riwayat_pemesanan">Riwayat Pemesanan</string>
     <string name="title_activity_peraturan_sewa">PeraturanSewaActivity</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

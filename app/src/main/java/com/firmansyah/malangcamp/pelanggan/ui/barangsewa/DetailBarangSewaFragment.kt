@@ -13,6 +13,8 @@ import com.firmansyah.malangcamp.model.Barang
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import java.text.NumberFormat
+import java.util.*
 
 class DetailBarangSewaFragment : DialogFragment() {
 
@@ -60,6 +62,11 @@ class DetailBarangSewaFragment : DialogFragment() {
     }
 
     private fun bnd() {
+
+        val currencyFormat = NumberFormat.getCurrencyInstance()
+        currencyFormat.maximumFractionDigits = 0
+        currencyFormat.currency = Currency.getInstance("IDR")
+
         with(binding) {
             Glide.with(this@DetailBarangSewaFragment)
                 .load(barang?.gambar)
@@ -74,7 +81,7 @@ class DetailBarangSewaFragment : DialogFragment() {
             tvPasak.text = getString(R.string.pasak___, barang?.pasak)
             tvWarnaBarang.text = getString(R.string.warna___, barang?.warna)
             tvJumlahBarang.text = getString(R.string.jumlah___, jumlah, barang?.stock)
-            tvHargaBarang.text = getString(R.string.rp, barang?.harga)
+            tvHargaBarang.text = currencyFormat.format(barang?.harga)
 
             barang?.caraPemasangan?.split("\n")?.forEachIndexed { index, value ->
                 if (index == 0) {

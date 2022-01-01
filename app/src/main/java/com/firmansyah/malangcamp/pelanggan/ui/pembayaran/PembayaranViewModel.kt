@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.firmansyah.malangcamp.SingleLiveEvent
 import com.firmansyah.malangcamp.model.Keranjang
-import com.firmansyah.malangcamp.model.Pelanggan
 import com.google.firebase.database.DatabaseReference
 
 class PembayaranViewModel : ViewModel() {

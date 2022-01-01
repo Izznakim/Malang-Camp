@@ -1,6 +1,5 @@
 package com.firmansyah.malangcamp.pelanggan.ui.riwayatpemesanan
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -39,21 +38,6 @@ class RiwayatPemesananViewModel : ViewModel() {
             }
 
         })
-
-//        databaseRef.get().addOnSuccessListener { snapshot ->
-//            val list: ArrayList<Pembayaran> = arrayListOf()
-//            snapshot.children.forEach {
-//                if (it.child("idAkun").value == auth.currentUser?.uid){
-//                    val pembayaran = it.getValue(Pembayaran::class.java)
-//                    if (pembayaran != null) {
-//                        list.add(pembayaran)
-//                    }
-//                }
-//            }
-//            _listRiwayat.value = list
-//        }.addOnFailureListener {
-//            it.message?.let { e -> setToast(toast, e) }
-//        }
     }
 
     private fun setToast(toast: SingleLiveEvent<String>, e: String) {
