@@ -6,6 +6,7 @@ import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.firmansyah.malangcamp.databinding.ActivityAdminLoginBinding
+import com.firmansyah.malangcamp.pelanggan.PelangganHomeActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
@@ -81,5 +82,23 @@ class AdminLoginActivity : AppCompatActivity() {
                     Toast.makeText(this,it.exception?.message, Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val idAuth = auth.currentUser?.uid
+        if (idAuth != null) {
+            ref.child(idAuth).get().addOnSuccessListener { snapshot ->
+                if (snapshot.child("isAdmin").exists()) {
+                    Intent(this, AdminHomeActivity::class.java).also { intent ->
+                        intent.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                    }
+                }
+            }.addOnFailureListener { e ->
+                Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

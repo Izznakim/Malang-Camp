@@ -1,6 +1,8 @@
 package com.firmansyah.malangcamp.adapter
 
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,16 +12,20 @@ import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.admin.ui.informasibarang.DetailInformasiFragment
 import com.firmansyah.malangcamp.databinding.ListSewabarangBinding
 import com.firmansyah.malangcamp.model.Barang
+import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.pelanggan.ui.barangsewa.DetailBarangSewaFragment
 import java.text.NumberFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class BarangAdapter(
     private val listInfoBarang: ArrayList<Barang>,
+    private val listKeranjang:ArrayList<Keranjang>,
     private val isAdmin: Boolean,
     private val passData: (Barang, Int) -> Unit
 ) :
@@ -27,6 +33,12 @@ class BarangAdapter(
     fun setData(data: List<Barang>) {
         listInfoBarang.clear()
         listInfoBarang.addAll(data)
+        notifyDataSetChanged()
+    }
+
+    fun setKeranjang(data:List<Keranjang>){
+        listKeranjang.clear()
+        listKeranjang.addAll(data)
         notifyDataSetChanged()
     }
 
@@ -59,6 +71,14 @@ class BarangAdapter(
                 }
 
                 if (jumlahLayout.isVisible) {
+
+                    for (i in listKeranjang.indices){
+                        if (barang.id == listKeranjang[i].idBarang) {
+                            etJumlah.setText(listKeranjang[i].jumlah.toString())
+                            jumlah=listKeranjang[i].jumlah
+                        }
+                    }
+
                     etJumlah.doOnTextChanged { text, _, _, _ ->
                         try {
                             when {
@@ -69,6 +89,13 @@ class BarangAdapter(
                                 }
                                 else -> jumlah = text.toString().toInt()
                             }
+
+                            if (jumlah > 0){
+                                cvSewaBarang.setCardBackgroundColor(Color.parseColor("#e6ffff"))
+                            }else{
+                                cvSewaBarang.setCardBackgroundColor(Color.WHITE)
+                            }
+
                             passData.invoke(barang, jumlah)
                         } catch (e: NumberFormatException) {
                         }
@@ -87,6 +114,10 @@ class BarangAdapter(
                             jumlah = barang.stock
                         }
                         etJumlah.setText(jumlah.toString())
+                    }
+
+                    if (jumlah > 0){
+                        cvSewaBarang.setCardBackgroundColor(Color.parseColor("#e6ffff"))
                     }
                 } else {
                     jumlah = 0

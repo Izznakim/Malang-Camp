@@ -1,6 +1,7 @@
 package com.firmansyah.malangcamp.pelanggan.ui.barangsewa
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,7 +66,7 @@ class BarangSewaFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        adapter = BarangAdapter(arrayListOf(), false) { barang, jumlah ->
+        adapter = BarangAdapter(arrayListOf(), arrayListOf(), false) { barang, jumlah ->
             uploadToFirebase(barang, jumlah)
         }
         binding.rvInfoBarang.layoutManager = LinearLayoutManager(activity)
@@ -84,7 +85,9 @@ class BarangSewaFragment : Fragment() {
             userRef.child(barang.id).setValue(model)
         } else {
             userRef.child(barang.id).get().addOnSuccessListener {
-                it.ref.removeValue()
+                if (it.exists() && it.child("jumlah").value == 0) {
+                    it.ref.removeValue()
+                }
             }.addOnFailureListener {
                 Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
             }
@@ -97,6 +100,14 @@ class BarangSewaFragment : Fragment() {
             listBarang.observe(viewLifecycleOwner, {
                 if (it != null) {
                     adapter.setData(it)
+                    Log.d("listBarang ===> ", it.toString())
+                }
+            })
+            getListJumlah(userRef)
+            listKeranjang.observe(viewLifecycleOwner,{
+                if (it!=null){
+                    adapter.setKeranjang(it)
+                    Log.d("listKeranjang ===> ", it.toString())
                 }
             })
             toast.observe(viewLifecycleOwner, {

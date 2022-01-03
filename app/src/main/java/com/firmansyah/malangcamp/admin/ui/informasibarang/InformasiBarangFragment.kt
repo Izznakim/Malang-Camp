@@ -63,7 +63,7 @@ class InformasiBarangFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        adapter = BarangAdapter(arrayListOf(), true) { model, _ ->
+        adapter = BarangAdapter(arrayListOf(), arrayListOf(), true) { model, _ ->
             deleteBarang(model)
         }
         binding.rvInfoBarang.layoutManager = LinearLayoutManager(activity)

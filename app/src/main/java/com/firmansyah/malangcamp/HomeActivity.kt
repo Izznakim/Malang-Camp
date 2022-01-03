@@ -18,22 +18,12 @@ import com.google.firebase.ktx.Firebase
 
 class HomeActivity : AppCompatActivity() {
 
-    private lateinit var auth: FirebaseAuth
-    private lateinit var database: FirebaseDatabase
-    private lateinit var ref: DatabaseReference
-
     private lateinit var binding: ActivityHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        database = Firebase.database
-        ref = database.getReference("users")
-
-
-        auth = Firebase.auth
 
         with(binding) {
             btnAdmin.setOnClickListener {
@@ -46,33 +36,6 @@ class HomeActivity : AppCompatActivity() {
                 Intent(this@HomeActivity, PelangganLoginActivity::class.java).also {
                     startActivity(it)
                 }
-            }
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val idAuth = auth.currentUser?.uid
-        if (idAuth != null) {
-            ref.child(idAuth).get().addOnSuccessListener { snapshot ->
-                if (snapshot.child("isAdmin").value == true) {
-                    Intent(this, AdminHomeActivity::class.java).also { intent ->
-                        intent.flags =
-                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(intent)
-                    }
-                } else {
-                    Intent(
-                        this,
-                        PelangganHomeActivity::class.java
-                    ).also { intent ->
-                        intent.flags =
-                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(intent)
-                    }
-                }
-            }.addOnFailureListener { e ->
-                Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
             }
         }
     }
