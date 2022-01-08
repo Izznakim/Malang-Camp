@@ -28,7 +28,6 @@ class BarangSewaViewModel : ViewModel() {
                 val list: ArrayList<Barang> = arrayListOf()
                 snapshot.children.forEach {
                     val barang = it.getValue(Barang::class.java)
-                    Log.d("barang ===> ", barang.toString())
                     if (barang != null) {
                         list.add(barang)
                     }
@@ -48,7 +47,6 @@ class BarangSewaViewModel : ViewModel() {
                 val list: ArrayList<Keranjang> = arrayListOf()
                 snapshot.children.forEach{
                     val keranjang=it.getValue(Keranjang::class.java)
-                    Log.d("keranjang ===> ", keranjang.toString())
                     if (keranjang!=null){
                         list.add(keranjang)
                     }

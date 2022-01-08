@@ -25,7 +25,7 @@ class BookingAdapter(
         @SuppressLint("SetTextI18n")
         fun bind(pembayaran: Pembayaran) {
             with(binding) {
-                tvTanggal.text = "Pesanan ${pembayaran.tanggalPengambilan}"
+                tvTanggal.text = "Diambil ${pembayaran.tanggalPengambilan}; ${pembayaran.jamPengambilan}"
                 tvNamaPenyewa.text = pembayaran.namaPenyewa
                 nomerTelpPenyewa.text = pembayaran.noTelp
 

@@ -3,6 +3,7 @@ package com.firmansyah.malangcamp.pelanggan.ui.pembayaran
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -12,6 +13,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
+import android.widget.TimePicker
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -47,17 +50,18 @@ class PembayaranFragment : Fragment() {
     private lateinit var storage: FirebaseStorage
     private lateinit var storageRef: StorageReference
     private lateinit var listSewa: ArrayList<Keranjang>
-    private lateinit var listReady:ArrayList<Boolean>
-    private lateinit var listStock:ArrayList<Int>
+    private lateinit var listReady: ArrayList<Boolean>
+    private lateinit var listStock: ArrayList<Int>
 
-    private var tanggalPengambilan:String=""
+    private var tanggalPengambilan: String = ""
+    private var jamPengambilan:String=""
     private var namaPenyewa: String = ""
     private var noTelp: String = ""
     private var total: Int = 0
     private var totalH: Int = 0
     private var imageUri: Uri? = null
     private var imageBitmap: Bitmap? = null
-    private var ready:Boolean?=null
+    private var ready: Boolean? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -94,30 +98,59 @@ class PembayaranFragment : Fragment() {
 
         initAdapter()
         viewModel()
-        buttonTgl()
+        buttonTglJam()
         buttonCam()
         buttonSewa()
     }
 
     @SuppressLint("SetTextI18n")
-    private fun buttonTgl() {
-        val kalender=Calendar.getInstance()
-        val dateSetListener=
-            DatePickerDialog.OnDateSetListener { _, tahun, bulan, tanggal ->
-                kalender.set(Calendar.YEAR,tahun)
-                kalender.set(Calendar.MONTH,bulan)
-                kalender.set(Calendar.DAY_OF_MONTH,tanggal)
+    private fun buttonTglJam() {
+        val kalender = Calendar.getInstance()
+        val dateFormat = "dd/MM/yyyy"
+        val timeFormat = "HH:mm"
+        val date = SimpleDateFormat(dateFormat, Locale.getDefault())
+        val time = SimpleDateFormat(timeFormat, Locale.getDefault())
 
-                val dateFormat="dd/MM/yyyy"
-                val date=SimpleDateFormat(dateFormat, Locale.getDefault())
-                binding.btnTgl.text="Diambil pada tanggal: ${date.format(kalender.time)}"
-                tanggalPengambilan=date.format(kalender.time)
+        val dateSetListener =
+            DatePickerDialog.OnDateSetListener { _, tahun, bulan, tanggal ->
+                kalender.set(Calendar.YEAR, tahun)
+                kalender.set(Calendar.MONTH, bulan)
+                kalender.set(Calendar.DAY_OF_MONTH, tanggal)
             }
-        binding.btnTgl.setOnClickListener{
-            DatePickerDialog(requireContext(),dateSetListener,
+        val timeSetListener =
+            TimePickerDialog.OnTimeSetListener { _, jam, menit ->
+                kalender.set(Calendar.HOUR_OF_DAY, jam)
+                kalender.set(Calendar.MINUTE, menit)
+
+                if (jam in 7..19){
+                    binding.btnTgl.text =
+                        "Diambil pada tanggal: ${date.format(kalender.time)}\nPada jam: ${
+                            time.format(
+                                kalender.time
+                            )
+                        }"
+                    tanggalPengambilan = date.format(kalender.time)
+                    jamPengambilan = time.format(kalender.time)
+                }else {
+                    binding.btnTgl.text =
+                        "HARUS DISAAT JAM KERJA\n(07:00 - 20:00)"
+                    return@OnTimeSetListener
+                }
+            }
+
+        binding.btnTgl.setOnClickListener {
+            TimePickerDialog(
+                requireContext(), timeSetListener,
+                kalender.get(Calendar.HOUR_OF_DAY),
+                kalender.get(Calendar.MINUTE),
+                true
+            ).show()
+            DatePickerDialog(
+                requireContext(), dateSetListener,
                 kalender.get(Calendar.YEAR),
                 kalender.get(Calendar.MONTH),
-                kalender.get(Calendar.DAY_OF_MONTH)).show()
+                kalender.get(Calendar.DAY_OF_MONTH)
+            ).show()
         }
     }
 
@@ -129,26 +162,34 @@ class PembayaranFragment : Fragment() {
 
             for (i in listReady.indices) {
                 if (!listReady[i]) {
-                    ready=false
+                    ready = false
                     break
-                }else{
-                    ready=true
+                } else {
+                    ready = true
                 }
             }
 
-            if (ready == true){
+            if (ready == true) {
                 with(binding) {
                     namaPenyewa = etNamaPenyewa.text.toString()
                     noTelp = etNoTelp.text.toString()
 
-                    when{
-                        tanggalPengambilan.isEmpty()->Toast.makeText(activity, "Tanggal pengambilan harus diisi", Toast.LENGTH_LONG).show()
-                        etHari.text.isEmpty()->etHari.error="Lama penyewaan harus diisi"
-                        namaPenyewa.isEmpty()->textInputLayout2.error="Nama Penyewa harus diisi"
-                        noTelp.isEmpty()->textInputLayout3.error="Nomor Telepon harus diisi"
+                    when {
+                        tanggalPengambilan.isEmpty() && jamPengambilan.isEmpty() -> Toast.makeText(
+                            activity,
+                            "Tanggal pengambilan dan jamnya harus diisi",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        etHari.text.isEmpty() -> etHari.error = "Lama penyewaan harus diisi"
+                        namaPenyewa.isEmpty() -> textInputLayout2.error = "Nama Penyewa harus diisi"
+                        noTelp.isEmpty() -> textInputLayout3.error = "Nomor Telepon harus diisi"
                         imageUri != null -> uploadToFirebase(imageUri, null)
                         imageBitmap != null -> uploadToFirebase(null, data)
-                        imageUri == null || imageBitmap == null -> Toast.makeText(activity, "Anda belum memilih gambarnya", Toast.LENGTH_LONG)
+                        imageUri == null || imageBitmap == null -> Toast.makeText(
+                            activity,
+                            "Anda belum memilih gambarnya",
+                            Toast.LENGTH_LONG
+                        )
                             .show()
                     }
                     if (namaPenyewa.isNotEmpty()) {
@@ -158,10 +199,9 @@ class PembayaranFragment : Fragment() {
                         textInputLayout3.isErrorEnabled = false
                     }
                 }
-            }else{
-                Log.d("5- ready ===> ", ready.toString())
-                    Toast.makeText(activity, "Maaf, ada stok yang belum siap", Toast.LENGTH_LONG)
-                        .show()
+            } else {
+                Toast.makeText(activity, "Maaf, ada stok yang belum siap", Toast.LENGTH_LONG)
+                    .show()
                 listReady.clear()
                 pengecekanStok()
             }
@@ -201,6 +241,7 @@ class PembayaranFragment : Fragment() {
                         idAkun,
                         idPembayar,
                         tanggalPengambilan,
+                        jamPengambilan,
                         binding.etHari.text.toString().toInt(),
                         namaPenyewa,
                         noTelp,
@@ -236,6 +277,7 @@ class PembayaranFragment : Fragment() {
                         idAkun,
                         idPembayar,
                         tanggalPengambilan,
+                        jamPengambilan,
                         binding.etHari.text.toString().toInt(),
                         namaPenyewa,
                         noTelp,
@@ -326,10 +368,10 @@ class PembayaranFragment : Fragment() {
                 pengecekanStok()
 
                 binding.etHari.doOnTextChanged { text, _, _, _ ->
-                    totalH=0
-                    when{
-                        text.isNullOrEmpty() || text.toString().toInt()<=0-> totalH= total * 0
-                        text.toString().toInt()>0->totalH = total* text.toString().toInt()
+                    totalH = 0
+                    when {
+                        text.isNullOrEmpty() || text.toString().toInt() <= 0 -> totalH = total * 0
+                        text.toString().toInt() > 0 -> totalH = total * text.toString().toInt()
                     }
 
                     binding.tvTotal.text = currencyFormat.format(totalH)

@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -74,23 +75,26 @@ class BarangSewaFragment : Fragment() {
     }
 
     private fun uploadToFirebase(barang: Barang, jumlah: Int) {
-        if (jumlah != 0) {
-            val model = Keranjang(
-                barang.id,
-                barang.nama,
-                barang.harga,
-                jumlah,
-                barang.harga * jumlah
-            )
-            userRef.child(barang.id).setValue(model)
-        } else {
-            userRef.child(barang.id).get().addOnSuccessListener {
-                if (it.exists() && it.child("jumlah").value == 0) {
-                    it.ref.removeValue()
-                }
-            }.addOnFailureListener {
-                Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+        val model = Keranjang(
+            barang.id,
+            barang.nama,
+            barang.harga,
+            jumlah,
+            barang.harga * jumlah
+        )
+        userRef.child(barang.id).setValue(model)
+
+        userRef.child(barang.id).get().addOnSuccessListener {
+            val idBarang=it
+            val jmlh=it.child("jumlah").getValue<Int>()
+            Log.d("idBarang ==> ", idBarang.toString())
+            if (jmlh == 0) {
+                it.ref.removeValue()
+            }else{
+                userRef.child(barang.id).setValue(model)
             }
+        }.addOnFailureListener {
+            Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -100,14 +104,12 @@ class BarangSewaFragment : Fragment() {
             listBarang.observe(viewLifecycleOwner, {
                 if (it != null) {
                     adapter.setData(it)
-                    Log.d("listBarang ===> ", it.toString())
                 }
             })
             getListJumlah(userRef)
             listKeranjang.observe(viewLifecycleOwner,{
                 if (it!=null){
                     adapter.setKeranjang(it)
-                    Log.d("listKeranjang ===> ", it.toString())
                 }
             })
             toast.observe(viewLifecycleOwner, {

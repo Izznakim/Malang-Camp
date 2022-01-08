@@ -104,7 +104,7 @@ class BookingDetailFragment : DialogFragment() {
                 llValidasi.visibility=View.VISIBLE
             }
 
-            tvTgl.text=pembayaran?.tanggalPengambilan
+            tvTgl.text="Diambil pada tanggal: ${pembayaran?.tanggalPengambilan}, dan diambil pada jam ${pembayaran?.jamPengambilan}"
             tvHari.text= "Selama ${pembayaran?.hari.toString()} Hari"
             tvTotal.text=currencyFormat.format(pembayaran?.total)
             tvNamaPenyewa.text=pembayaran?.namaPenyewa
@@ -148,7 +148,7 @@ class BookingDetailFragment : DialogFragment() {
                         when(status){
                             "diterima"-> {
                                 tvValidasi.text =
-                                    "PESANAN DI TERIMA. SILAHKAN UNTUK MENGAMBIL BARANG SESUAI JADWAL YANG SUDAH DI PESAN."
+                                    "PESANAN DI TERIMA. SILAHKAN UNTUK MENGAMBIL BARANG SESUAI WAKTU YANG SUDAH ANDA TENTUKAN DAN MENGEMBALIKAN DISAAT JAM YANG TEPAT."
                                 tvValidasi.setTextColor(Color.parseColor("#43a047"))
                                 tvValidasi.typeface = Typeface.DEFAULT_BOLD
                                 btnHapus.text="Hapus pesanan"
