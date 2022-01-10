@@ -159,13 +159,13 @@
             app:layout_constraintTop_toBottomOf="@id/tvWarnaBarang">
 
             <TextView
-                android:id="@+id/tvJumlahBarang"
+                android:id="@+id/tvStockBarang"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:paddingStart="4dp"
-                android:text="@string/jumlah___" />
+                android:text="@string/stock___" />
 
             <TextView
                 android:id="@+id/tvHargaBarang"
@@ -203,6 +203,59 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvCaraPemasangan"
             tools:visibility="visible" />
+
+        <LinearLayout
+            android:id="@+id/jumlahLayout"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvKegunaanBarang">
+
+            <Button
+                android:id="@+id/btnDecrease"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:backgroundTint="@android:color/transparent"
+                android:text="@string/minus"
+                android:textColor="@color/black"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <EditText
+                android:id="@+id/etJumlah"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:gravity="center"
+                android:inputType="number"
+                android:minHeight="48dp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <Button
+                android:id="@+id/btnIncrease"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:backgroundTint="@android:color/transparent"
+                android:text="@string/plus"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnTambah"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/tambah_ke_keranjang"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/jumlahLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

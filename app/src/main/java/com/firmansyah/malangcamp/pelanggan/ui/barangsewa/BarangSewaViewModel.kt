@@ -16,9 +16,6 @@ class BarangSewaViewModel : ViewModel() {
     private val _listBarang = MutableLiveData<List<Barang>>()
     val listBarang: LiveData<List<Barang>> = _listBarang
 
-    private val _listKeranjang = MutableLiveData<List<Keranjang>>()
-    val listKeranjang: LiveData<List<Keranjang>> = _listKeranjang
-
     internal val toast = SingleLiveEvent<String>()
 
     fun getListBarang(databaseRef: DatabaseReference) {
@@ -39,23 +36,6 @@ class BarangSewaViewModel : ViewModel() {
                 setToast(toast, error.message)
             }
         })
-    }
-
-    fun getListJumlah(keranjangRef: DatabaseReference) {
-        keranjangRef.get().addOnSuccessListener { snapshot ->
-            if (snapshot.value!=null){
-                val list: ArrayList<Keranjang> = arrayListOf()
-                snapshot.children.forEach{
-                    val keranjang=it.getValue(Keranjang::class.java)
-                    if (keranjang!=null){
-                        list.add(keranjang)
-                    }
-                }
-                _listKeranjang.value=list
-            }
-        }.addOnFailureListener {
-            it.message?.let { e -> setToast(toast, e) }
-        }
     }
 
     private fun setToast(toast: SingleLiveEvent<String>, e: String) {

@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -18,6 +19,10 @@ import com.firmansyah.malangcamp.databinding.ListSewabarangBinding
 import com.firmansyah.malangcamp.model.Barang
 import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.pelanggan.ui.barangsewa.DetailBarangSewaFragment
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -25,20 +30,14 @@ import kotlin.collections.ArrayList
 
 class BarangAdapter(
     private val listInfoBarang: ArrayList<Barang>,
-    private val listKeranjang:ArrayList<Keranjang>,
+    private val keranjangRef: DatabaseReference,
     private val isAdmin: Boolean,
-    private val passData: (Barang, Int) -> Unit
+    private val passData: (Barang) -> Unit
 ) :
     RecyclerView.Adapter<BarangAdapter.ListViewHolder>() {
     fun setData(data: List<Barang>) {
         listInfoBarang.clear()
         listInfoBarang.addAll(data)
-        notifyDataSetChanged()
-    }
-
-    fun setKeranjang(data:List<Keranjang>){
-        listKeranjang.clear()
-        listKeranjang.addAll(data)
         notifyDataSetChanged()
     }
 
@@ -51,7 +50,31 @@ class BarangAdapter(
             currencyFormat.currency = Currency.getInstance("IDR")
 
             with(binding) {
-                var jumlah = 0
+
+                if (isAdmin) {
+                    deleteButton.visibility = View.VISIBLE
+                } else {
+                    deleteButton.visibility = View.GONE
+                    keranjangRef.child(barang.id).addValueEventListener(object: ValueEventListener {
+
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if (snapshot.exists()) {
+                                val idBarang = snapshot.child("idBarang").value
+                                if (barang.id == idBarang){
+                                    cvSewaBarang.setCardBackgroundColor(Color.parseColor("#e6ffff"))
+                                }
+                            }else{
+                                cvSewaBarang.setCardBackgroundColor(Color.WHITE)
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                                Toast.makeText(itemView.context,error.message, Toast.LENGTH_SHORT).show()
+                        }
+
+                    })
+                }
+
                 Glide.with(itemView.context)
                     .load(barang.gambar)
                     .apply(RequestOptions())
@@ -60,72 +83,10 @@ class BarangAdapter(
                 tvNamaBarang.text = barang.nama
                 tvStockBarang.text = barang.stock.toString()
                 tvHargaBarang.text = currencyFormat.format(barang.harga)
-                etJumlah.setText(jumlah.toString())
-
-                if (isAdmin) {
-                    deleteButton.visibility = View.VISIBLE
-                    jumlahLayout.visibility = View.GONE
-                } else {
-                    deleteButton.visibility = View.GONE
-                    jumlahLayout.visibility = View.VISIBLE
-                }
-
-                if (jumlahLayout.isVisible) {
-
-                    for (i in listKeranjang.indices){
-                        if (barang.id == listKeranjang[i].idBarang) {
-                            etJumlah.setText(listKeranjang[i].jumlah.toString())
-                            jumlah=listKeranjang[i].jumlah
-                        }
-                    }
-
-                    etJumlah.doOnTextChanged { text, _, _, _ ->
-                        try {
-                            when {
-                                text.isNullOrEmpty() -> jumlah = 0
-                                text.toString().toInt() > barang.stock -> {
-                                    jumlah = barang.stock
-                                    etJumlah.setText(jumlah.toString())
-                                }
-                                else -> jumlah = text.toString().toInt()
-                            }
-
-                            if (jumlah > 0){
-                                cvSewaBarang.setCardBackgroundColor(Color.parseColor("#e6ffff"))
-                            }else{
-                                cvSewaBarang.setCardBackgroundColor(Color.WHITE)
-                            }
-
-                            passData.invoke(barang, jumlah)
-                        } catch (e: NumberFormatException) {
-                        }
-                    }
-
-                    btnDecrease.setOnClickListener {
-                        jumlah--
-                        if (jumlah < 1) {
-                            jumlah = 0
-                        }
-                        etJumlah.setText(jumlah.toString())
-                    }
-                    btnIncrease.setOnClickListener {
-                        jumlah++
-                        if (jumlah > barang.stock) {
-                            jumlah = barang.stock
-                        }
-                        etJumlah.setText(jumlah.toString())
-                    }
-
-                    if (jumlah > 0){
-                        cvSewaBarang.setCardBackgroundColor(Color.parseColor("#e6ffff"))
-                    }
-                } else {
-                    jumlah = 0
-                }
 
                 if (deleteButton.isVisible) {
                     deleteButton.setOnClickListener {
-                        passData.invoke(barang, 0)
+                        passData.invoke(barang)
                     }
                 }
 
@@ -149,7 +110,6 @@ class BarangAdapter(
                         val bundle = Bundle()
 
                         bundle.putParcelable(DetailBarangSewaFragment.EXTRA_BARANG, barang)
-                        bundle.putInt(DetailBarangSewaFragment.EXTRA_JUMLAH, jumlah)
                         detailBarangSewa.show(
                             mFragmentManager,
                             DetailBarangSewaFragment::class.java.simpleName

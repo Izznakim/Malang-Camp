@@ -104,7 +104,7 @@ class BookingDetailFragment : DialogFragment() {
                 llValidasi.visibility=View.VISIBLE
             }
 
-            tvTgl.text="Diambil pada tanggal: ${pembayaran?.tanggalPengambilan}, dan diambil pada jam ${pembayaran?.jamPengambilan}"
+            tvTgl.text="Barang diambil tanggal: ${pembayaran?.tanggalPengambilan}, pada jam ${pembayaran?.jamPengambilan}"
             tvHari.text= "Selama ${pembayaran?.hari.toString()} Hari"
             tvTotal.text=currencyFormat.format(pembayaran?.total)
             tvNamaPenyewa.text=pembayaran?.namaPenyewa
@@ -148,7 +148,7 @@ class BookingDetailFragment : DialogFragment() {
                         when(status){
                             "diterima"-> {
                                 tvValidasi.text =
-                                    "PESANAN DI TERIMA. SILAHKAN UNTUK MENGAMBIL BARANG SESUAI WAKTU YANG SUDAH ANDA TENTUKAN DAN MENGEMBALIKAN DISAAT JAM YANG TEPAT."
+                                    "pesanan anda di terima. silakan mengambil barang sesuai dengan tanggal dan jam yang di pesan. tetap memakai masker pada saat pengambilan barang."
                                 tvValidasi.setTextColor(Color.parseColor("#43a047"))
                                 tvValidasi.typeface = Typeface.DEFAULT_BOLD
                                 btnHapus.text="Hapus pesanan"
@@ -200,7 +200,7 @@ class BookingDetailFragment : DialogFragment() {
     }
 
     private fun initAdapter() {
-        adapter = KeranjangAdapter(listKeranjang)
+        adapter = KeranjangAdapter(listKeranjang,barangRef,true)
         binding.rvListBarang.layoutManager = LinearLayoutManager(activity)
         binding.rvListBarang.adapter = adapter
     }

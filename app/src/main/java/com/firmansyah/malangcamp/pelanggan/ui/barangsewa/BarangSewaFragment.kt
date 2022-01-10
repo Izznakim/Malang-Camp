@@ -29,7 +29,7 @@ class BarangSewaFragment : Fragment() {
     private lateinit var adapter: BarangAdapter
     private lateinit var database: FirebaseDatabase
     private lateinit var databaseRef: DatabaseReference
-    private lateinit var userRef: DatabaseReference
+    private lateinit var keranjangRef: DatabaseReference
     private lateinit var storage: FirebaseStorage
     private lateinit var storageRef: StorageReference
     private lateinit var auth: FirebaseAuth
@@ -53,7 +53,7 @@ class BarangSewaFragment : Fragment() {
 
         database = Firebase.database
         databaseRef = database.getReference("barang")
-        userRef = database.getReference("users/${auth.currentUser?.uid}/keranjang")
+        keranjangRef = database.getReference("users/${auth.currentUser?.uid}/keranjang")
 
         _binding = FragmentBarangsewaBinding.inflate(inflater, container, false)
         return binding.root
@@ -67,35 +67,9 @@ class BarangSewaFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        adapter = BarangAdapter(arrayListOf(), arrayListOf(), false) { barang, jumlah ->
-            uploadToFirebase(barang, jumlah)
-        }
+        adapter = BarangAdapter(arrayListOf(), keranjangRef, false) {}
         binding.rvInfoBarang.layoutManager = LinearLayoutManager(activity)
         binding.rvInfoBarang.adapter = adapter
-    }
-
-    private fun uploadToFirebase(barang: Barang, jumlah: Int) {
-        val model = Keranjang(
-            barang.id,
-            barang.nama,
-            barang.harga,
-            jumlah,
-            barang.harga * jumlah
-        )
-        userRef.child(barang.id).setValue(model)
-
-        userRef.child(barang.id).get().addOnSuccessListener {
-            val idBarang=it
-            val jmlh=it.child("jumlah").getValue<Int>()
-            Log.d("idBarang ==> ", idBarang.toString())
-            if (jmlh == 0) {
-                it.ref.removeValue()
-            }else{
-                userRef.child(barang.id).setValue(model)
-            }
-        }.addOnFailureListener {
-            Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
-        }
     }
 
     private fun viewModel() {
@@ -104,12 +78,6 @@ class BarangSewaFragment : Fragment() {
             listBarang.observe(viewLifecycleOwner, {
                 if (it != null) {
                     adapter.setData(it)
-                }
-            })
-            getListJumlah(userRef)
-            listKeranjang.observe(viewLifecycleOwner,{
-                if (it!=null){
-                    adapter.setKeranjang(it)
                 }
             })
             toast.observe(viewLifecycleOwner, {

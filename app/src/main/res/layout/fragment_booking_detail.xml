@@ -189,6 +189,7 @@
                 android:id="@+id/tvValidasi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textAllCaps="true"
                 android:gravity="center"
                 tools:text="Info Validasi" />
 

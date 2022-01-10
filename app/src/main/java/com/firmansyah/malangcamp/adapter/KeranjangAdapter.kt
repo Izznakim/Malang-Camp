@@ -2,14 +2,18 @@ package com.firmansyah.malangcamp.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.firmansyah.malangcamp.databinding.ListKeranjangBinding
 import com.firmansyah.malangcamp.model.Keranjang
+import com.google.firebase.database.DatabaseReference
 import java.text.NumberFormat
 import java.util.*
 
-class KeranjangAdapter(private val listBarang: ArrayList<Keranjang>):RecyclerView.Adapter<KeranjangAdapter.ListViewHolder>() {
+class KeranjangAdapter(private val listBarang: ArrayList<Keranjang>,private val keranjangRef: DatabaseReference, private val isDetail: Boolean):RecyclerView.Adapter<KeranjangAdapter.ListViewHolder>() {
     fun setData(data: List<Keranjang>) {
         listBarang.clear()
         listBarang.addAll(data)
@@ -31,6 +35,22 @@ class KeranjangAdapter(private val listBarang: ArrayList<Keranjang>):RecyclerVie
                 tvJumlah.text = "(${barang.jumlah})"
                 tvSubtotal.text =
                     currencyFormat.format(barang.hargaBarang * barang.jumlah)
+
+                if (isDetail){
+                    btnDelete.visibility= View.GONE
+                }else{
+                    btnDelete.visibility=View.VISIBLE
+                }
+
+                if (btnDelete.isVisible){
+                    btnDelete.setOnClickListener {
+                        keranjangRef.child(barang.idBarang).get().addOnSuccessListener {
+                            it.ref.removeValue()
+                        }.addOnFailureListener {
+                            Toast.makeText(itemView.context,it.message,Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
             }
         }
     }

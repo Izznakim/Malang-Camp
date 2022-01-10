@@ -301,6 +301,7 @@ class PembayaranFragment : Fragment() {
     private fun clear() {
         listReady.clear()
         activity?.supportFragmentManager?.popBackStack()
+        keranjangRef.removeValue()
     }
 
     private fun buttonCam() {
@@ -336,7 +337,7 @@ class PembayaranFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        adapter = KeranjangAdapter(arrayListOf())
+        adapter = KeranjangAdapter(arrayListOf(),keranjangRef,false)
         binding.rvListBarang.layoutManager = LinearLayoutManager(activity)
         binding.rvListBarang.adapter = adapter
     }
