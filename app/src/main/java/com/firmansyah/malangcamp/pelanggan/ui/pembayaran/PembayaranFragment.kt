@@ -20,6 +20,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.firmansyah.malangcamp.CustomTimePickerDialog
 import com.firmansyah.malangcamp.adapter.KeranjangAdapter
 import com.firmansyah.malangcamp.databinding.FragmentPembayaranBinding
 import com.firmansyah.malangcamp.model.Keranjang
@@ -139,7 +140,7 @@ class PembayaranFragment : Fragment() {
             }
 
         binding.btnTgl.setOnClickListener {
-            TimePickerDialog(
+            CustomTimePickerDialog(
                 requireContext(), timeSetListener,
                 kalender.get(Calendar.HOUR_OF_DAY),
                 kalender.get(Calendar.MINUTE),
