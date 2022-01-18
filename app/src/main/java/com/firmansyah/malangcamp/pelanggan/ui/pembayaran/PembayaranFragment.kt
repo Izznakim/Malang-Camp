@@ -8,13 +8,9 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.DatePicker
-import android.widget.TimePicker
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -61,7 +57,6 @@ class PembayaranFragment : Fragment() {
     private var total: Int = 0
     private var totalH: Int = 0
     private var imageUri: Uri? = null
-    private var imageBitmap: Bitmap? = null
     private var ready: Boolean? = null
 
     // This property is only valid between onCreateView and
@@ -100,7 +95,7 @@ class PembayaranFragment : Fragment() {
         initAdapter()
         viewModel()
         buttonTglJam()
-        buttonCam()
+        buttonGaleri()
         buttonSewa()
     }
 
@@ -157,10 +152,6 @@ class PembayaranFragment : Fragment() {
 
     private fun buttonSewa() {
         binding.btnSewa.setOnClickListener {
-            val baos = ByteArrayOutputStream()
-            imageBitmap?.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-            val data = baos.toByteArray()
-
             for (i in listReady.indices) {
                 if (!listReady[i]) {
                     ready = false
@@ -184,9 +175,8 @@ class PembayaranFragment : Fragment() {
                         etHari.text.isEmpty() -> etHari.error = "Lama penyewaan harus diisi"
                         namaPenyewa.isEmpty() -> textInputLayout2.error = "Nama Penyewa harus diisi"
                         noTelp.isEmpty() -> textInputLayout3.error = "Nomor Telepon harus diisi"
-                        imageUri != null -> uploadToFirebase(imageUri, null)
-                        imageBitmap != null -> uploadToFirebase(null, data)
-                        imageUri == null || imageBitmap == null -> Toast.makeText(
+                        imageUri != null -> uploadToFirebase(imageUri)
+                        imageUri == null -> Toast.makeText(
                             activity,
                             "Anda belum memilih gambarnya",
                             Toast.LENGTH_LONG
@@ -209,7 +199,7 @@ class PembayaranFragment : Fragment() {
         }
     }
 
-    private fun uploadToFirebase(imageUri: Uri?, imageBitmap: ByteArray?) {
+    private fun uploadToFirebase(imageUri: Uri?) {
         val idAkun = auth.currentUser?.uid
         val idPembayar = pembayaranRef.push().key
         val buktiRef = storageRef.child("${idPembayar}.jpg")
@@ -217,7 +207,6 @@ class PembayaranFragment : Fragment() {
         if (idAkun != null && idPembayar != null) {
             when {
                 imageUri != null -> withImageUri(idAkun, idPembayar, buktiRef, imageUri)
-                imageBitmap != null -> withImageBitmap(idAkun, idPembayar, buktiRef, imageBitmap)
             }
             for (i in listSewa.indices) {
                 barangRef.child(listSewa[i].idBarang).child("stock")
@@ -225,42 +214,6 @@ class PembayaranFragment : Fragment() {
             }
         }
 
-    }
-
-    private fun withImageBitmap(
-        idAkun: String,
-        idPembayar: String,
-        buktiRef: StorageReference,
-        imageBitmap: ByteArray
-    ) {
-        buktiRef.putBytes(imageBitmap).addOnSuccessListener {
-            if (it.metadata != null && it.metadata?.reference != null) {
-                val result = it.storage.downloadUrl
-                result.addOnSuccessListener { bitmap ->
-                    val imageUrl = bitmap.toString()
-                    val model = Pembayaran(
-                        idAkun,
-                        idPembayar,
-                        tanggalPengambilan,
-                        jamPengambilan,
-                        binding.etHari.text.toString().toInt(),
-                        namaPenyewa,
-                        noTelp,
-                        imageUrl,
-                        totalH,
-                        "netral",
-                        listSewa
-                    )
-                    pembayaranRef.child(idPembayar).setValue(model)
-                    Toast.makeText(activity, "Anda telah menyewa", Toast.LENGTH_LONG)
-                        .show()
-                    clear()
-                }
-            }
-        }.addOnFailureListener {
-            Toast.makeText(activity, it.message, Toast.LENGTH_LONG)
-                .show()
-        }
     }
 
     private fun withImageUri(
@@ -305,19 +258,13 @@ class PembayaranFragment : Fragment() {
         keranjangRef.removeValue()
     }
 
-    private fun buttonCam() {
-        binding.btnGaleri.setOnClickListener {
+    private fun buttonGaleri() {
+        binding.imgBukti.setOnClickListener {
             val intent = Intent()
             intent.type = "image/*"
             intent.action = Intent.ACTION_GET_CONTENT
 
             startActivityForResult(intent, 1)
-        }
-        binding.btnCamera.setOnClickListener {
-            val intent = Intent()
-            intent.action = MediaStore.ACTION_IMAGE_CAPTURE
-
-            startActivityForResult(intent, 2)
         }
     }
 
@@ -328,12 +275,6 @@ class PembayaranFragment : Fragment() {
             imageUri = data.data
 
             binding.imgBukti.setImageURI(imageUri)
-        }
-
-        if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
-            imageBitmap = data?.extras?.get("data") as Bitmap
-
-            binding.imgBukti.setImageBitmap(imageBitmap)
         }
     }
 

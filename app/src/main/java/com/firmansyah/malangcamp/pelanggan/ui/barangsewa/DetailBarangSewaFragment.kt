@@ -1,5 +1,6 @@
 package com.firmansyah.malangcamp.pelanggan.ui.barangsewa
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.firmansyah.malangcamp.R
+import com.firmansyah.malangcamp.ZoomImageActivity
 import com.firmansyah.malangcamp.databinding.FragmentDetailBarangSewaBinding
 import com.firmansyah.malangcamp.model.Barang
 import com.firmansyah.malangcamp.model.Keranjang
@@ -144,6 +146,13 @@ class DetailBarangSewaFragment : DialogFragment() {
                             btnTambah.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.blue))
                         }
                     } catch (e: NumberFormatException) {
+                    }
+                }
+
+                imgBarang.setOnClickListener {
+                    Intent(activity, ZoomImageActivity::class.java).also {
+                        it.putExtra(ZoomImageActivity.EXTRA_IMAGE, barang?.gambar)
+                        startActivity(it)
                     }
                 }
 

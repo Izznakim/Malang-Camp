@@ -1,6 +1,7 @@
 package com.firmansyah.malangcamp.admin.ui.listbooking
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -13,7 +14,9 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.firmansyah.malangcamp.ZoomImageActivity
 import com.firmansyah.malangcamp.adapter.KeranjangAdapter
+import com.firmansyah.malangcamp.admin.AdminLoginActivity
 import com.firmansyah.malangcamp.databinding.FragmentBookingDetailBinding
 import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.model.Pembayaran
@@ -113,6 +116,12 @@ class BookingDetailFragment : DialogFragment() {
                 .load(pembayaran?.buktiPembayaran)
                 .apply(RequestOptions())
                 .into(imgBukti)
+            imgBukti.setOnClickListener {
+                Intent(activity, ZoomImageActivity::class.java).also {
+                    it.putExtra(ZoomImageActivity.EXTRA_IMAGE, pembayaran?.buktiPembayaran)
+                    startActivity(it)
+                }
+            }
 
             val idPembayaran=pembayaran?.idPembayaran
             when{
