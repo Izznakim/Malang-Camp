@@ -1,4 +1,4 @@
-package com.firmansyah.malangcamp
+package com.firmansyah.malangcamp.other
 
 import android.graphics.Matrix
 import android.graphics.PointF
@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.firmansyah.malangcamp.databinding.ActivityHomeBinding
 import com.firmansyah.malangcamp.databinding.ActivityZoomImageBinding
 
 class ZoomImageActivity : AppCompatActivity(), View.OnTouchListener {

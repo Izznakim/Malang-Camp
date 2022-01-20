@@ -5,7 +5,6 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,7 +15,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.firmansyah.malangcamp.CustomTimePickerDialog
+import com.firmansyah.malangcamp.other.CustomTimePickerDialog
 import com.firmansyah.malangcamp.adapter.KeranjangAdapter
 import com.firmansyah.malangcamp.databinding.FragmentPembayaranBinding
 import com.firmansyah.malangcamp.model.Keranjang
@@ -29,7 +28,6 @@ import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import java.io.ByteArrayOutputStream
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*

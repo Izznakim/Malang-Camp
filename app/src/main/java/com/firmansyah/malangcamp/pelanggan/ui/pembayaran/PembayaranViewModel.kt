@@ -3,7 +3,7 @@ package com.firmansyah.malangcamp.pelanggan.ui.pembayaran
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.firmansyah.malangcamp.SingleLiveEvent
+import com.firmansyah.malangcamp.other.SingleLiveEvent
 import com.firmansyah.malangcamp.model.Keranjang
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

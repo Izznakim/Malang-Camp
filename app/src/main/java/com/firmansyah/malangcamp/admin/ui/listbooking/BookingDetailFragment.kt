@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
+import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,12 +16,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.firmansyah.malangcamp.ZoomImageActivity
 import com.firmansyah.malangcamp.adapter.KeranjangAdapter
-import com.firmansyah.malangcamp.admin.AdminLoginActivity
 import com.firmansyah.malangcamp.databinding.FragmentBookingDetailBinding
 import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.model.Pembayaran
+import com.firmansyah.malangcamp.other.ZoomImageActivity
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
@@ -157,21 +158,33 @@ class BookingDetailFragment : DialogFragment() {
                         when(status){
                             "diterima"-> {
                                 tvValidasi.text =
-                                    "pesanan anda di terima. silakan mengambil barang sesuai dengan tanggal dan jam yang di pesan. tetap memakai masker pada saat pengambilan barang."
+                                    "pesanan anda di terima. silakan mengambil barang sesuai dengan tanggal dan jam yang di pesan. tetap memakai masker pada saat pengambilan barang.\nHubungi nomor di bawah ini untuk informasi lebih lanjut."
                                 tvValidasi.setTextColor(Color.parseColor("#43a047"))
                                 tvValidasi.typeface = Typeface.DEFAULT_BOLD
+                                etNomorWA.setOnClickListener {
+                                    val phone=etNomorWA.text
+                                    intentToWhatsApp(phone)
+                                }
                                 btnHapus.text="Hapus pesanan"
                             }
                             "ditolak"-> {
                                 tvValidasi.text =
-                                    "MAAF, PESANAN ANDA TIDAK BISA KAMI PROSES KARENA TIDAK VALID"
+                                    "MAAF, PESANAN ANDA TIDAK BISA KAMI PROSES KARENA TIDAK VALID.\nHubungi nomor di bawah ini untuk informasi lebih lanjut."
                                 tvValidasi.setTextColor(Color.parseColor("#FF0A0A"))
                                 tvValidasi.typeface = Typeface.DEFAULT_BOLD
+                                etNomorWA.setOnClickListener {
+                                    val phone=etNomorWA.text
+                                    intentToWhatsApp(phone)
+                                }
                                 btnHapus.text="Hapus pesanan"
                             }
                             "netral"-> {
                                 tvValidasi.text =
-                                    "MAAF, PESANAN ANDA BELUM KAMI KONFIRMASI. DIMOHON UNTUK MENUNGGU BEBERAPA SAAT LAGI."
+                                    "MAAF, PESANAN ANDA BELUM KAMI KONFIRMASI. DIMOHON UNTUK MENUNGGU BEBERAPA SAAT LAGI.\nHubungi nomor di bawah ini untuk informasi lebih lanjut."
+                                etNomorWA.setOnClickListener {
+                                    val phone=etNomorWA.text
+                                    intentToWhatsApp(phone)
+                                }
                                 btnHapus.text="Batalkan pemesanan"
                             }
                         }
@@ -204,6 +217,24 @@ class BookingDetailFragment : DialogFragment() {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private fun intentToWhatsApp(phone: Editable) {
+        val packageManager=context?.packageManager
+        val intent=Intent(Intent.ACTION_VIEW)
+
+        if (packageManager!=null) {
+            try {
+                val url = "https://api.whatsapp.com/send?phone=$phone"
+                intent.setPackage("com.whatsapp")
+                intent.data = Uri.parse(url)
+                if (intent.resolveActivity(packageManager) != null) {
+                    context?.startActivity(intent)
+                }
+            }catch (e:Exception){
+                e.printStackTrace()
             }
         }
     }

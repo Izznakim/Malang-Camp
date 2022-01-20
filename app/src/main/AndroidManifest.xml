@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MalangCamp" >
         <activity
-            android:name=".ZoomImageActivity"
+            android:name=".other.ZoomImageActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity

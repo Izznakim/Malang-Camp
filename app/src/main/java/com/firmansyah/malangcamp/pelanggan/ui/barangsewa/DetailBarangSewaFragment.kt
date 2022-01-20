@@ -14,10 +14,10 @@ import androidx.fragment.app.DialogFragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.firmansyah.malangcamp.R
-import com.firmansyah.malangcamp.ZoomImageActivity
 import com.firmansyah.malangcamp.databinding.FragmentDetailBarangSewaBinding
 import com.firmansyah.malangcamp.model.Barang
 import com.firmansyah.malangcamp.model.Keranjang
+import com.firmansyah.malangcamp.other.ZoomImageActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase

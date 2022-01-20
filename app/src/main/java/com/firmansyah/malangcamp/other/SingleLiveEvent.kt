@@ -1,4 +1,4 @@
-package com.firmansyah.malangcamp
+package com.firmansyah.malangcamp.other
 
 import android.util.Log
 import androidx.annotation.MainThread

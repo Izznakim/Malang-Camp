@@ -103,6 +103,22 @@ xmlns:tools="http://schemas.android.com/tools"
                 android:layout_marginTop="4dp"
                 android:layout_weight="1"
                 android:text="@string/pemesanan2" />
+
+            <EditText
+                android:id="@+id/etNomorWA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:inputType="none"
+                android:editable="false"
+                android:focusable="false"
+                android:clickable="true"
+                android:longClickable="false"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="@string/NmerTlpnAdmin"
+                android:textColor="@color/blue"/>
+
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 

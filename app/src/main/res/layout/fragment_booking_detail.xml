@@ -193,6 +193,22 @@
                 android:gravity="center"
                 tools:text="Info Validasi" />
 
+            <EditText
+                android:id="@+id/etNomorWA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:inputType="none"
+                android:editable="false"
+                android:focusable="false"
+                android:clickable="true"
+                android:longClickable="false"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:text="@string/NmerTlpnAdmin"
+                android:textSize="14sp"
+                android:textColor="@color/blue"/>
+
             <Button
                 android:id="@+id/btnHapus"
                 android:layout_width="wrap_content"

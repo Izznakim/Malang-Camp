@@ -81,7 +81,7 @@
     <string name="aturan5">Penyewa mengembalikan dengan kondisi lengkap, diusahakan Bersih, tidak perlu di cuci.</string>
     <string name="pemesanan_via_aplikasi">Pemesanan via Aplikasi</string>
     <string name="pemesanan1">Aplikasi Malang camp ini hanya melayani pemesanan Alat- Alat Outdoor dan barang yang Di sewa tetap di Ambil di toko Malang</string>
-    <string name="pemesanan2">Apliksi ini tidak melayani perubahan tanggal Sewa jika Ada perubahan Hari/ Tanggal harap segera Menghubungi No admin 08945321567 Via Wa (whatapp ).</string>
+    <string name="pemesanan2">Aplikasi ini tidak melayani perubahan tanggal Sewa jika Ada perubahan Hari/ Tanggal harap segera Menghubungi No admin Via WA (WhatsApp) di bawah ini:</string>
     <string name="diambil_pada_tanggal_pada_jam">Diambil pada tanggal: __/__/____\nPada jam: 00:00</string>
     <string name="selama_hari">Selama __ Hari</string>
     <string name="pesanan">Pesanan __/__/____</string>
@@ -91,4 +91,5 @@
     <string name="title_activity_peraturan_sewa">PeraturanSewaActivity</string>
     <string name="tambah_ke_keranjang">Tambah ke Keranjang</string>
     <string name="harap_foto_bukti_pembayaran_harus_jelas_jika_tidak_kemungkinan_pesanan_anda_di_tolak">HARAP FOTO BUKTI PEMBAYARAN HARUS JELAS, JIKA TIDAK KEMUNGKINAN PESANAN ANDA DI TOLAK.</string>
+    <string name="NmerTlpnAdmin">+6285646547053</string>
 </resources>
