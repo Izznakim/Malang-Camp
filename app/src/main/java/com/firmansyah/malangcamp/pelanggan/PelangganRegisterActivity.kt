@@ -3,6 +3,7 @@ package com.firmansyah.malangcamp.pelanggan
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.firmansyah.malangcamp.databinding.ActivityPelangganRegisterBinding
@@ -138,6 +139,7 @@ class PelangganRegisterActivity : AppCompatActivity() {
         noTelp: String,
         password: String
     ) {
+        binding.progressBar.visibility= View.VISIBLE
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) {
                 if (it.isSuccessful) {
@@ -150,16 +152,19 @@ class PelangganRegisterActivity : AppCompatActivity() {
                                 .show()
                             ref.child(id).setValue(model)
                             Intent(this, PelangganHomeActivity::class.java).also { intent ->
+                                    binding.progressBar.visibility= View.GONE
                                 intent.flags =
                                     Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 startActivity(intent)
                             }
                         }.addOnFailureListener { e->
+                                binding.progressBar.visibility= View.GONE
                             Toast.makeText(this, e.message, Toast.LENGTH_SHORT)
                                 .show()
                         }
                     }
                 } else {
+                            binding.progressBar.visibility= View.GONE
                     Toast.makeText(this, it.exception?.message, Toast.LENGTH_SHORT).show()
                 }
             }

@@ -120,8 +120,12 @@ class PembayaranFragment : Fragment() {
 
                 if (isAmbil==true){
                     binding.etBtnTanggalAmbil.setText(date.format(kalender.time))
-                    val diff =kalender.timeInMillis-Date().time
-                    selisihSkrgAmbil= (diff/1000/60/60/24+1).toInt()
+                    selisihSkrgAmbil = if (date.format(kalender.time)!=date.format(Date().time)) {
+                        val diff = kalender.timeInMillis - Date().time
+                        (diff/1000/60/60/24+1).toInt()
+                    }else{
+                        0
+                    }
                     kalenderAmbil=kalender.timeInMillis
                     tanggalPengambilan = date.format(kalender.time)
                     binding.etBtnTanggalKembali.isEnabled=true

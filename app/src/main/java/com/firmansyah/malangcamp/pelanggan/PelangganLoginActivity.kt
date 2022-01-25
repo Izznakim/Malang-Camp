@@ -3,6 +3,7 @@ package com.firmansyah.malangcamp.pelanggan
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.firmansyah.malangcamp.admin.AdminHomeActivity
@@ -62,12 +63,14 @@ class PelangganLoginActivity : AppCompatActivity() {
     }
 
     private fun loginPelanggan(email: String, password: String) {
+        binding.progressBar.visibility= View.VISIBLE
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) {
                 if (it.isSuccessful) {
                     val id = auth.currentUser?.uid
                     if (id != null) {
                         ref.child(id).get().addOnSuccessListener { snapshot ->
+                                    binding.progressBar.visibility= View.GONE
                             if (!snapshot.child("isAdmin").exists()) {
                                 Intent(
                                     this@PelangganLoginActivity,
@@ -78,6 +81,7 @@ class PelangganLoginActivity : AppCompatActivity() {
                                     startActivity(intent)
                                 }
                             } else {
+                                binding.progressBar.visibility= View.GONE
                                 Toast.makeText(
                                     this,
                                     "Pelanggan belum terdaftar",
@@ -85,10 +89,12 @@ class PelangganLoginActivity : AppCompatActivity() {
                                 ).show()
                             }
                         }.addOnFailureListener{ e->
+                            binding.progressBar.visibility= View.GONE
                             Toast.makeText(this,e.message,Toast.LENGTH_SHORT).show()
                         }
                     }
                 }else{
+                    binding.progressBar.visibility= View.GONE
                     Toast.makeText(this,it.exception?.message, Toast.LENGTH_SHORT).show()
                 }
             }
@@ -98,7 +104,9 @@ class PelangganLoginActivity : AppCompatActivity() {
         super.onStart()
         val idAuth = auth.currentUser?.uid
         if (idAuth != null) {
+            binding.progressBar.visibility= View.VISIBLE
             ref.child(idAuth).get().addOnSuccessListener { snapshot ->
+                        binding.progressBar.visibility= View.GONE
                 if (!snapshot.child("isAdmin").exists()) {
                     Intent(
                         this,
@@ -110,6 +118,7 @@ class PelangganLoginActivity : AppCompatActivity() {
                     }
                 }
             }.addOnFailureListener { e ->
+                binding.progressBar.visibility= View.GONE
                 Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
             }
         }

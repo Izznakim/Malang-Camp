@@ -3,6 +3,7 @@ package com.firmansyah.malangcamp.admin
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.firmansyah.malangcamp.databinding.ActivityAdminLoginBinding
@@ -60,6 +61,7 @@ class AdminLoginActivity : AppCompatActivity() {
     }
 
     private fun loginAdmin(email: String, password: String) {
+        binding.progressBar.visibility= View.VISIBLE
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this){
                 if (it.isSuccessful){
@@ -68,17 +70,21 @@ class AdminLoginActivity : AppCompatActivity() {
                         ref.child(id).get().addOnSuccessListener{ snapshot ->
                             if (snapshot.child("isAdmin").value == true){
                                 Intent(this, AdminHomeActivity::class.java).also { intent ->
+                                    binding.progressBar.visibility= View.GONE
                                     intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                     startActivity(intent)
                                 }
                             } else {
+                                binding.progressBar.visibility= View.GONE
                                 Toast.makeText(this,"Maaf, Anda belum terdaftar sebagai Admin",Toast.LENGTH_LONG).show()
                             }
                         }.addOnFailureListener{
+                            binding.progressBar.visibility= View.GONE
                             Toast.makeText(this,"Gagal untuk memuat data",Toast.LENGTH_SHORT).show()
                         }
                     }
                 }else{
+                    binding.progressBar.visibility= View.GONE
                     Toast.makeText(this,it.exception?.message, Toast.LENGTH_SHORT).show()
                 }
             }
@@ -88,15 +94,18 @@ class AdminLoginActivity : AppCompatActivity() {
         super.onStart()
         val idAuth = auth.currentUser?.uid
         if (idAuth != null) {
+            binding.progressBar.visibility= View.VISIBLE
             ref.child(idAuth).get().addOnSuccessListener { snapshot ->
                 if (snapshot.child("isAdmin").exists()) {
                     Intent(this, AdminHomeActivity::class.java).also { intent ->
+                        binding.progressBar.visibility= View.GONE
                         intent.flags =
                             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
                     }
                 }
             }.addOnFailureListener { e ->
+                binding.progressBar.visibility= View.GONE
                 Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
             }
         }
