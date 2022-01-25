@@ -8,6 +8,7 @@ data class Pembayaran(
     var idAkun: String = "",
     var idPembayaran: String = "",
     var tanggalPengambilan:String="",
+    var tanggalPengembalian:String="",
     var jamPengambilan:String="",
     var hari: Int=0,
     var namaPenyewa: String = "",

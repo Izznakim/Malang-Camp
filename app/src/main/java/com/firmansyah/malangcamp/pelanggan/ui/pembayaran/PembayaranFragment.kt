@@ -7,6 +7,7 @@ import android.app.TimePickerDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,8 +22,7 @@ import com.firmansyah.malangcamp.databinding.FragmentPembayaranBinding
 import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.model.Pembayaran
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
@@ -49,6 +49,9 @@ class PembayaranFragment : Fragment() {
     private lateinit var listStock: ArrayList<Int>
 
     private var tanggalPengambilan: String = ""
+    private var tanggalPengembalian:String=""
+    private var selisihSkrgAmbil:Int=0
+    private var selisihHari:Int=0
     private var jamPengambilan:String=""
     private var namaPenyewa: String = ""
     private var noTelp: String = ""
@@ -56,6 +59,8 @@ class PembayaranFragment : Fragment() {
     private var totalH: Int = 0
     private var imageUri: Uri? = null
     private var ready: Boolean? = null
+    private var isAmbil:Boolean?=null
+    private var kalenderAmbil:Long=0
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -105,11 +110,28 @@ class PembayaranFragment : Fragment() {
         val date = SimpleDateFormat(dateFormat, Locale.getDefault())
         val time = SimpleDateFormat(timeFormat, Locale.getDefault())
 
+        binding.etBtnTanggalKembali.isEnabled=false
+
         val dateSetListener =
             DatePickerDialog.OnDateSetListener { _, tahun, bulan, tanggal ->
                 kalender.set(Calendar.YEAR, tahun)
                 kalender.set(Calendar.MONTH, bulan)
                 kalender.set(Calendar.DAY_OF_MONTH, tanggal)
+
+                if (isAmbil==true){
+                    binding.etBtnTanggalAmbil.setText(date.format(kalender.time))
+                    val diff =kalender.timeInMillis-Date().time
+                    selisihSkrgAmbil= (diff/1000/60/60/24+1).toInt()
+                    kalenderAmbil=kalender.timeInMillis
+                    tanggalPengambilan = date.format(kalender.time)
+                    binding.etBtnTanggalKembali.isEnabled=true
+                }else{
+                    binding.etBtnTanggalKembali.setText(date.format(kalender.time))
+                    val diff =kalender.timeInMillis-kalenderAmbil
+                    selisihHari=(diff/1000/60/60/24).toInt()
+                    tanggalPengembalian=date.format(kalender.time)
+                    binding.tvHari.text= selisihHari.toString()
+                }
             }
         val timeSetListener =
             TimePickerDialog.OnTimeSetListener { _, jam, menit ->
@@ -117,33 +139,49 @@ class PembayaranFragment : Fragment() {
                 kalender.set(Calendar.MINUTE, menit)
 
                 if (jam in 7..19){
-                    binding.btnTgl.text =
-                        "Diambil pada tanggal: ${date.format(kalender.time)}\nPada jam: ${
-                            time.format(
-                                kalender.time
-                            )
-                        }"
-                    tanggalPengambilan = date.format(kalender.time)
+                    binding.etBtnJam.setText(time.format(kalender.time))
                     jamPengambilan = time.format(kalender.time)
                 }else {
-                    binding.btnTgl.text =
+                    binding.etBtnJam.error =
                         "HARUS DISAAT JAM KERJA\n(07:00 - 20:00)"
                     return@OnTimeSetListener
                 }
             }
 
-        binding.btnTgl.setOnClickListener {
+        binding.etBtnTanggalAmbil.setOnClickListener {
+            val datePickerDialog=DatePickerDialog(
+                requireContext(), dateSetListener,
+                kalender.get(Calendar.YEAR),
+                kalender.get(Calendar.MONTH),
+                kalender.get(Calendar.DAY_OF_MONTH)
+            )
+            val datePicker=datePickerDialog.datePicker
+
+            datePicker.minDate=System.currentTimeMillis()-1000
+            datePickerDialog.show()
+
+            isAmbil=true
+        }
+        binding.etBtnTanggalKembali.setOnClickListener {
+            val datePickerDialog=DatePickerDialog(
+                requireContext(), dateSetListener,
+                kalender.get(Calendar.YEAR),
+                kalender.get(Calendar.MONTH),
+                kalender.get(Calendar.DAY_OF_MONTH)
+            )
+            val datePicker=datePickerDialog.datePicker
+
+            datePicker.minDate=System.currentTimeMillis()+1000*60*60*24*(selisihSkrgAmbil+1)
+            datePickerDialog.show()
+
+            isAmbil=false
+        }
+        binding.etBtnJam.setOnClickListener {
             CustomTimePickerDialog(
                 requireContext(), timeSetListener,
                 kalender.get(Calendar.HOUR_OF_DAY),
                 kalender.get(Calendar.MINUTE),
                 true
-            ).show()
-            DatePickerDialog(
-                requireContext(), dateSetListener,
-                kalender.get(Calendar.YEAR),
-                kalender.get(Calendar.MONTH),
-                kalender.get(Calendar.DAY_OF_MONTH)
             ).show()
         }
     }
@@ -170,7 +208,6 @@ class PembayaranFragment : Fragment() {
                             "Tanggal pengambilan dan jamnya harus diisi",
                             Toast.LENGTH_LONG
                         ).show()
-                        etHari.text.isEmpty() -> etHari.error = "Lama penyewaan harus diisi"
                         namaPenyewa.isEmpty() -> textInputLayout2.error = "Nama Penyewa harus diisi"
                         noTelp.isEmpty() -> textInputLayout3.error = "Nomor Telepon harus diisi"
                         imageUri != null -> uploadToFirebase(imageUri)
@@ -229,8 +266,9 @@ class PembayaranFragment : Fragment() {
                         idAkun,
                         idPembayar,
                         tanggalPengambilan,
+                        tanggalPengembalian,
                         jamPengambilan,
-                        binding.etHari.text.toString().toInt(),
+                        binding.tvHari.text.toString().toInt(),
                         namaPenyewa,
                         noTelp,
                         imageUrl,
@@ -308,7 +346,7 @@ class PembayaranFragment : Fragment() {
 
                 pengecekanStok()
 
-                binding.etHari.doOnTextChanged { text, _, _, _ ->
+                binding.tvHari.doOnTextChanged { text, _, _, _ ->
                     totalH = 0
                     when {
                         text.isNullOrEmpty() || text.toString().toInt() <= 0 -> totalH = total * 0

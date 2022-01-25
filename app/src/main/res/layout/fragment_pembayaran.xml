@@ -35,6 +35,79 @@
             app:layout_constraintTop_toBottomOf="@+id/textView6"
             tools:listitem="@layout/list_keranjang" />
 
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvListBarang">
+
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Diambil pada tanggal: " />
+
+                <EditText
+                    android:id="@+id/etBtnTanggalAmbil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:longClickable="false"
+                    android:text="__/__/____"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dikembalikan pada tanggal: " />
+
+                <EditText
+                    android:id="@+id/etBtnTanggalKembali"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:longClickable="false"
+                    android:text="__/__/____"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pada Jam: " />
+
+                <EditText
+                    android:id="@+id/etBtnJam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:editable="false"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:longClickable="false"
+                    android:text="__:__"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp" />
+            </TableRow>
+        </TableLayout>
+
         <Button
             android:id="@+id/btnTgl"
             android:layout_width="wrap_content"
@@ -42,32 +115,45 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:text="@string/diambil_pada_tanggal_pada_jam"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rvListBarang" />
 
-        <EditText
-            android:id="@+id/etHari"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal"
             android:gravity="center"
-            android:hint="@string/selama_hari"
-            android:inputType="number"
+            app:layout_constraintBottom_toBottomOf="@+id/tableLayout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnTgl"
-            tools:ignore="Autofill" />
+            app:layout_constraintStart_toEndOf="@+id/tableLayout"
+            app:layout_constraintTop_toTopOf="@+id/tableLayout">
+
+            <TextView
+                android:id="@+id/tvHari"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Hari" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etHari">
+            app:layout_constraintTop_toBottomOf="@+id/tableLayout">
 
             <TextView
                 android:id="@+id/textView7"
