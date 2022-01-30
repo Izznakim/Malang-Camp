@@ -11,11 +11,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_mc_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MalangCamp" >
+        android:theme="@style/Theme.MalangCamp">
+        <activity
+            android:name=".pelanggan.PelangganAkunActivity"
+            android:exported="false" />
         <activity
             android:name=".other.ZoomImageActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".pelanggan.PeraturanSewaActivity"
             android:exported="false"
@@ -44,7 +47,7 @@
         <activity
             android:name=".SplashActivity"
             android:exported="true"
-            android:theme="@style/splashScreenStyle" >
+            android:theme="@style/splashScreenStyle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -332,7 +332,7 @@ class PembayaranFragment : Fragment() {
 
         with(pembayaranViewModel) {
             getListBarang(keranjangRef)
-            listBarang.observe(viewLifecycleOwner, {
+            listBarang.observe(viewLifecycleOwner) {
                 if (it != null) {
                     adapter.setData(it)
                 }
@@ -359,13 +359,13 @@ class PembayaranFragment : Fragment() {
 
                     binding.tvTotal.text = currencyFormat.format(totalH)
                 }
-            })
-            toast.observe(viewLifecycleOwner, {
+            }
+            toast.observe(viewLifecycleOwner) {
                 if (it != null) {
                     val toast = it.format(this)
                     Toast.makeText(activity, toast, Toast.LENGTH_SHORT).show()
                 }
-            })
+            }
         }
     }
 

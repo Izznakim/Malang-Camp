@@ -57,17 +57,21 @@ class RiwayatPemesananFragment : Fragment() {
     private fun viewModel() {
         with(riwayatPemesananViewModel) {
             getListRiwayat(ref,auth)
-            listRiwayat.observe(viewLifecycleOwner, {
+            listRiwayat.observe(viewLifecycleOwner) {
                 if (it != null) {
                     adapter.setData(it)
                 }
-            })
-            toast.observe(viewLifecycleOwner, {
+            }
+            toast.observe(viewLifecycleOwner) {
                 if (it != null) {
                     val toast = it.format(this)
-                    android.widget.Toast.makeText(activity, toast, android.widget.Toast.LENGTH_SHORT).show()
+                    android.widget.Toast.makeText(
+                        activity,
+                        toast,
+                        android.widget.Toast.LENGTH_SHORT
+                    ).show()
                 }
-            })
+            }
         }
     }
 

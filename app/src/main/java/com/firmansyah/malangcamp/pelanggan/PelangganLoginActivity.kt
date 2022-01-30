@@ -106,12 +106,9 @@ class PelangganLoginActivity : AppCompatActivity() {
         if (idAuth != null) {
             binding.progressBar.visibility= View.VISIBLE
             ref.child(idAuth).get().addOnSuccessListener { snapshot ->
-                        binding.progressBar.visibility= View.GONE
                 if (!snapshot.child("isAdmin").exists()) {
-                    Intent(
-                        this,
-                        PelangganHomeActivity::class.java
-                    ).also { intent ->
+                    Intent(this,PelangganHomeActivity::class.java).also { intent ->
+                        binding.progressBar.visibility= View.GONE
                         intent.flags =
                             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)
@@ -121,6 +118,8 @@ class PelangganLoginActivity : AppCompatActivity() {
                 binding.progressBar.visibility= View.GONE
                 Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
             }
+        }else{
+            binding.progressBar.visibility= View.GONE
         }
     }
 }

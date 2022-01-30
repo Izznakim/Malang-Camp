@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/ukuran"
                     android:importantForAutofill="no"
-                    android:inputType="number"
+                    android:inputType="textCapCharacters"
                     tools:text="@string/ukuran" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>

@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/actionAkun"
+        android:title="@string/akun"
+        android:icon="@drawable/ic_sharp_account_circle_24"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/actionPeraturanSewa"
         android:title="@string/aturan_sewa"
         app:showAsAction="never"/>

@@ -67,6 +67,13 @@ class PelangganHomeActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
             }
+            R.id.actionAkun->{
+                val idAuth = auth.currentUser?.uid
+                Intent(this, PelangganAkunActivity::class.java).also { intent ->
+                    intent.putExtra(PelangganAkunActivity.EXTRA_UID,idAuth)
+                    startActivity(intent)
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
     }

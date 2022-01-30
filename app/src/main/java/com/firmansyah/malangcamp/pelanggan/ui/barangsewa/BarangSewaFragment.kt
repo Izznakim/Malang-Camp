@@ -75,17 +75,17 @@ class BarangSewaFragment : Fragment() {
     private fun viewModel() {
         with(barangSewaViewModel) {
             getListBarang(databaseRef)
-            listBarang.observe(viewLifecycleOwner, {
+            listBarang.observe(viewLifecycleOwner) {
                 if (it != null) {
                     adapter.setData(it)
                 }
-            })
-            toast.observe(viewLifecycleOwner, {
+            }
+            toast.observe(viewLifecycleOwner) {
                 if (it != null) {
                     val toast = it.format(this)
                     Toast.makeText(activity, toast, Toast.LENGTH_SHORT).show()
                 }
-            })
+            }
         }
     }
 
