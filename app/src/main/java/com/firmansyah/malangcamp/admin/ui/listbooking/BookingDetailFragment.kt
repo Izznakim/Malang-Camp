@@ -38,10 +38,20 @@ import android.R.attr.text
 
 import android.R
 import android.R.attr
+import android.R.attr.label
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
+import android.os.Build
 import android.text.SpannableStringBuilder
 import android.text.style.StyleSpan
 import android.util.Log
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
+
+
+
 
 
 class BookingDetailFragment : DialogFragment() {
@@ -161,6 +171,16 @@ class BookingDetailFragment : DialogFragment() {
             val idPembayaran = pembayaran?.idPembayaran
             when {
                 btnTerima.isVisible && btnTolak.isVisible -> {
+                    tvNoTelp.setTextColor(Color.BLUE)
+                    tvNoTelp.setOnClickListener {
+                        val phone=tvNoTelp.text
+                        val clipboard =
+                            activity?.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                        val clip=ClipData.newPlainText("phone",phone)
+                        clipboard.setPrimaryClip(clip)
+                        Toast.makeText(activity, "Nomor Telpon telah dicopy", Toast.LENGTH_LONG)
+                            .show()
+                    }
                     if (idPembayaran != null) {
                         btnTerima.setOnClickListener {
                             pembayaranRef.child(idPembayaran).child("status").setValue("diterima")
@@ -278,8 +298,12 @@ class BookingDetailFragment : DialogFragment() {
                 val url = "https://api.whatsapp.com/send?phone=$phone"
                 intent.setPackage("com.whatsapp")
                 intent.data = Uri.parse(url)
-                if (intent.resolveActivity(packageManager) != null) {
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
                     context?.startActivity(intent)
+                }else {
+                    if (intent.resolveActivity(packageManager) != null) {
+                        context?.startActivity(intent)
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

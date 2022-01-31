@@ -58,17 +58,17 @@ class ListBookingFragment : Fragment() {
     private fun viewModel() {
         with(listBookingViewModel) {
             getListBooking(ref)
-            listBooking.observe(viewLifecycleOwner, {
+            listBooking.observe(viewLifecycleOwner) {
                 if (it != null) {
                     adapter.setData(it)
                 }
-            })
-            toast.observe(viewLifecycleOwner, {
+            }
+            toast.observe(viewLifecycleOwner) {
                 if (it != null) {
                     val toast = it.format(this)
                     Toast.makeText(activity, toast, Toast.LENGTH_SHORT).show()
                 }
-            })
+            }
         }
     }
 

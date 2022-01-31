@@ -2,6 +2,7 @@ package com.firmansyah.malangcamp.pelanggan
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.firmansyah.malangcamp.R
@@ -27,8 +28,12 @@ class PeraturanSewaActivity : AppCompatActivity() {
                     val url = "https://api.whatsapp.com/send?phone=$phone"
                     intent.setPackage("com.whatsapp")
                     intent.data = Uri.parse(url)
-                    if (intent.resolveActivity(packageManager) != null) {
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
                         this.startActivity(intent)
+                    }else {
+                        if (intent.resolveActivity(packageManager) != null) {
+                            this.startActivity(intent)
+                        }
                     }
                 }catch (e:Exception){
                     e.printStackTrace()
