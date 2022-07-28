@@ -46,7 +46,7 @@ class AdminHomeActivity : AppCompatActivity() {
         navView.itemIconTintList = null
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.profil_admin,menu)
         return super.onCreateOptionsMenu(menu)
     }

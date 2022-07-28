@@ -1,20 +1,24 @@
 package com.firmansyah.malangcamp.admin.ui.listbooking
 
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context.CLIPBOARD_SERVICE
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.Spannable
-import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +29,7 @@ import com.firmansyah.malangcamp.databinding.FragmentBookingDetailBinding
 import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.model.Pembayaran
 import com.firmansyah.malangcamp.other.ZoomImageActivity
+import com.firmansyah.malangcamp.pelanggan.RatingFragment
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
@@ -34,25 +39,6 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.text.NumberFormat
 import java.util.*
-import android.R.attr.text
-
-import android.R
-import android.R.attr
-import android.R.attr.label
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.content.Context.CLIPBOARD_SERVICE
-import android.os.Build
-import android.text.SpannableStringBuilder
-import android.text.style.StyleSpan
-import android.util.Log
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
-
-
-
-
 
 class BookingDetailFragment : DialogFragment() {
 
@@ -178,7 +164,7 @@ class BookingDetailFragment : DialogFragment() {
                             activity?.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
                         val clip=ClipData.newPlainText("phone",phone)
                         clipboard.setPrimaryClip(clip)
-                        Toast.makeText(activity, "Nomor Telpon telah dicopy", Toast.LENGTH_LONG)
+                        Toast.makeText(activity, "Nomor Telpon telah disalin", Toast.LENGTH_LONG)
                             .show()
                     }
                     if (idPembayaran != null) {
@@ -251,6 +237,7 @@ class BookingDetailFragment : DialogFragment() {
 
                         btnHapus.setOnClickListener {
                             if (idPembayaran != null) {
+                                RatingFragment().show(parentFragmentManager, RatingFragment::class.java.simpleName)
                                 pembayaranRef.child(idPembayaran).get().addOnSuccessListener {
                                     if (btnHapus.text == "Batalkan pemesanan") {
                                         if (barangSewa?.indices != null) {
