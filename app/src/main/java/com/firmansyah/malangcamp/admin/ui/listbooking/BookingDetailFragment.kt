@@ -238,41 +238,40 @@ class BookingDetailFragment : DialogFragment() {
 
                         btnHapus.setOnClickListener {
                             if (idPembayaran != null) {
-//                                Intent to RatingDialogFragment
                                 val ratingFragment=RatingFragment()
                                 val bundle=Bundle()
                                 bundle.putParcelableArrayList(EXTRA_BARANG,barangSewa)
                                 ratingFragment.show(parentFragmentManager, RatingFragment::class.java.simpleName)
                                 ratingFragment.arguments=bundle
-//                                pembayaranRef.child(idPembayaran).get().addOnSuccessListener {
-//                                    if (btnHapus.text == "Batalkan pemesanan") {
-//                                        if (barangSewa?.indices != null) {
-//                                            for (i in barangSewa.indices) {
-//                                                barangRef.child(barangSewa[i].idBarang)
-//                                                    .child("stock").get()
-//                                                    .addOnSuccessListener { snapshot ->
-//                                                        val value = snapshot.getValue<Int>()
-//                                                        if (value != null) {
-//                                                            barangRef.child(barangSewa[i].idBarang)
-//                                                                .child("stock")
-//                                                                .setValue(value + barangSewa[i].jumlah)
-//                                                        }
-//                                                    }.addOnFailureListener { e ->
-//                                                    Toast.makeText(
-//                                                        activity,
-//                                                        e.message,
-//                                                        Toast.LENGTH_LONG
-//                                                    ).show()
-//                                                }
-//                                            }
-//                                        }
-//                                    }
-//
-//                                    it.ref.removeValue()
-//                                    storageBuktiRef.child("${idPembayaran}.jpg").delete()
-//                                }.addOnFailureListener {
-//                                    Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
-//                                }
+                                pembayaranRef.child(idPembayaran).get().addOnSuccessListener {
+                                    if (btnHapus.text == "Batalkan pemesanan") {
+                                        if (barangSewa?.indices != null) {
+                                            for (i in barangSewa.indices) {
+                                                barangRef.child(barangSewa[i].idBarang)
+                                                    .child("stock").get()
+                                                    .addOnSuccessListener { snapshot ->
+                                                        val value = snapshot.getValue<Int>()
+                                                        if (value != null) {
+                                                            barangRef.child(barangSewa[i].idBarang)
+                                                                .child("stock")
+                                                                .setValue(value + barangSewa[i].jumlah)
+                                                        }
+                                                    }.addOnFailureListener { e ->
+                                                    Toast.makeText(
+                                                        activity,
+                                                        e.message,
+                                                        Toast.LENGTH_LONG
+                                                    ).show()
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    it.ref.removeValue()
+                                    storageBuktiRef.child("${idPembayaran}.jpg").delete()
+                                }.addOnFailureListener {
+                                    Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+                                }
                             }
                             dialog?.dismiss()
                         }

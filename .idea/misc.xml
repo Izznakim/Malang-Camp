@@ -67,10 +67,14 @@
         <entry key="..\:/Android_Dev/PROJECT/MalangCamp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.240625" />
         <entry key="..\:/Dari_Local_disk_E/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/activity_home.xml" value="0.17255434782608695" />
         <entry key="..\:/Dari_Local_disk_E/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/activity_splash.xml" value="0.17255434782608695" />
+        <entry key="..\:/Dari_Local_disk_E/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/fragment_barangsewa.xml" value="0.33" />
         <entry key="..\:/Dari_Local_disk_E/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/fragment_booking_detail.xml" value="0.22447916666666667" />
-        <entry key="..\:/Dari_Local_disk_E/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/fragment_detail_barang_sewa.xml" value="0.17255434782608695" />
+        <entry key="..\:/Dari_Local_disk_E/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/fragment_detail_barang_sewa.xml" value="0.33" />
+        <entry key="..\:/Dari_Local_disk_E/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/fragment_detail_informasi.xml" value="0.33" />
+        <entry key="..\:/Dari_Local_disk_E/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/fragment_informasi_barang.xml" value="0.1" />
         <entry key="..\:/Dari_Local_disk_E/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/fragment_rating.xml" value="0.33" />
         <entry key="..\:/Dari_Local_disk_E/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/fragment_riwayatpemesanan.xml" value="0.1743659420289855" />
+        <entry key="..\:/Dari_Local_disk_E/Android_Dev/PROJECT/MalangCamp/app/src/main/res/layout/list_sewabarang.xml" value="0.5" />
       </map>
     </option>
   </component>

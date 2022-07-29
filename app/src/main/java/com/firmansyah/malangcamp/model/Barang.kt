@@ -16,6 +16,7 @@ data class Barang(
     var warna: String = "",
     var stock: Int = 0,
     var harga: Int = 0,
+    var rating: String = "",
     var caraPemasangan: String = "",
     var kegunaanBarang: String = "",
     var gambar: String = ""

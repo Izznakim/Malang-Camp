@@ -24,6 +24,19 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tv_rate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            app:drawableTopCompat="@drawable/ic_baseline_star_rate_24"
+            app:layout_constraintEnd_toEndOf="@+id/imgBarang"
+            app:layout_constraintStart_toStartOf="@+id/imgBarang"
+            app:layout_constraintTop_toBottomOf="@+id/imgBarang"
+            tools:text="0 / 5" />
+
+        <TextView
             android:id="@+id/tvNamaBarang"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -34,7 +47,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgBarang" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_rate" />
 
         <LinearLayout
             android:id="@+id/linearLayout4"

@@ -73,6 +73,17 @@ class DetailBarangSewaFragment : DialogFragment() {
         currencyFormat.maximumFractionDigits = 0
         currencyFormat.currency = Currency.getInstance("IDR")
 
+        val ratingArray= barang?.rating?.split(", ")?.toTypedArray()
+        var sum = 0
+        if (barang?.rating?.isEmpty() == true) {
+            sum = 0
+        } else {
+            ratingArray?.forEach {
+                sum += it.toInt()
+            }
+        }
+        val rating:Double = sum.toDouble() / (ratingArray?.size?.toDouble() ?: 0.0)
+
         val stock=barang?.stock
 
         with(binding) {
@@ -100,6 +111,7 @@ class DetailBarangSewaFragment : DialogFragment() {
                 .load(barang?.gambar)
                 .apply(RequestOptions())
                 .into(imgBarang)
+            tvRate.text = getString(R.string.rate_5, rating)
             tvNamaBarang.text = barang?.nama
             tvJenisBarang.text = barang?.jenis
             tvUkuranBarang.text = getString(R.string.ukuran___, barang?.ukuran)

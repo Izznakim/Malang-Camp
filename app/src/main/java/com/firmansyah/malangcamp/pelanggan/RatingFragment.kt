@@ -59,7 +59,7 @@ class RatingFragment : DialogFragment() {
 
             btnSendRate.setOnClickListener {
                 barangSewa?.forEach {
-                    barangRef.child(it.idBarang).child("Rating").get().addOnSuccessListener { data ->
+                    barangRef.child(it.idBarang).child("rating").get().addOnSuccessListener { data ->
                         listNilai.clear()
                         when {
                             rbRate1.isChecked -> nilai = rbRate1.text.toString().toInt()
@@ -71,16 +71,12 @@ class RatingFragment : DialogFragment() {
                         listNilai.add(nilai)
 
                         val result=data.value
-                        if (result!=null) {
-                            result.toString().split(", ").toTypedArray().forEach { item ->
-                                listNilai.add(item.toInt())
-                            }
-                            Log.d("RatingFragment", "result: $result")
+                        result?.toString()?.split(", ")?.toTypedArray()?.forEach { item ->
+                            listNilai.add(item.toInt())
                         }
-                        barangRef.child(it.idBarang).child("Rating").setValue(
+                        barangRef.child(it.idBarang).child("rating").setValue(
                             listNilai.joinToString { item-> item.toString() }
                         )
-                        Log.d("RatingFragment", "onViewCreated: $listNilai")
 
                         dialog?.dismiss()
                     }
