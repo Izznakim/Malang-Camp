@@ -30,6 +30,7 @@ import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.model.Pembayaran
 import com.firmansyah.malangcamp.other.ZoomImageActivity
 import com.firmansyah.malangcamp.pelanggan.RatingFragment
+import com.firmansyah.malangcamp.pelanggan.ui.barangsewa.DetailBarangSewaFragment.Companion.EXTRA_BARANG
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
@@ -237,36 +238,41 @@ class BookingDetailFragment : DialogFragment() {
 
                         btnHapus.setOnClickListener {
                             if (idPembayaran != null) {
-                                RatingFragment().show(parentFragmentManager, RatingFragment::class.java.simpleName)
-                                pembayaranRef.child(idPembayaran).get().addOnSuccessListener {
-                                    if (btnHapus.text == "Batalkan pemesanan") {
-                                        if (barangSewa?.indices != null) {
-                                            for (i in barangSewa.indices) {
-                                                barangRef.child(barangSewa[i].idBarang)
-                                                    .child("stock").get()
-                                                    .addOnSuccessListener { snapshot ->
-                                                        val value = snapshot.getValue<Int>()
-                                                        if (value != null) {
-                                                            barangRef.child(barangSewa[i].idBarang)
-                                                                .child("stock")
-                                                                .setValue(value + barangSewa[i].jumlah)
-                                                        }
-                                                    }.addOnFailureListener { e ->
-                                                    Toast.makeText(
-                                                        activity,
-                                                        e.message,
-                                                        Toast.LENGTH_LONG
-                                                    ).show()
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                    it.ref.removeValue()
-                                    storageBuktiRef.child("${idPembayaran}.jpg").delete()
-                                }.addOnFailureListener {
-                                    Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
-                                }
+//                                Intent to RatingDialogFragment
+                                val ratingFragment=RatingFragment()
+                                val bundle=Bundle()
+                                bundle.putParcelableArrayList(EXTRA_BARANG,barangSewa)
+                                ratingFragment.show(parentFragmentManager, RatingFragment::class.java.simpleName)
+                                ratingFragment.arguments=bundle
+//                                pembayaranRef.child(idPembayaran).get().addOnSuccessListener {
+//                                    if (btnHapus.text == "Batalkan pemesanan") {
+//                                        if (barangSewa?.indices != null) {
+//                                            for (i in barangSewa.indices) {
+//                                                barangRef.child(barangSewa[i].idBarang)
+//                                                    .child("stock").get()
+//                                                    .addOnSuccessListener { snapshot ->
+//                                                        val value = snapshot.getValue<Int>()
+//                                                        if (value != null) {
+//                                                            barangRef.child(barangSewa[i].idBarang)
+//                                                                .child("stock")
+//                                                                .setValue(value + barangSewa[i].jumlah)
+//                                                        }
+//                                                    }.addOnFailureListener { e ->
+//                                                    Toast.makeText(
+//                                                        activity,
+//                                                        e.message,
+//                                                        Toast.LENGTH_LONG
+//                                                    ).show()
+//                                                }
+//                                            }
+//                                        }
+//                                    }
+//
+//                                    it.ref.removeValue()
+//                                    storageBuktiRef.child("${idPembayaran}.jpg").delete()
+//                                }.addOnFailureListener {
+//                                    Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+//                                }
                             }
                             dialog?.dismiss()
                         }
