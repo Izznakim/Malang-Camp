@@ -16,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
+//  Halaman daftar riwayat
 class RiwayatPemesananFragment : Fragment() {
 
     private lateinit var riwayatPemesananViewModel: RiwayatPemesananViewModel

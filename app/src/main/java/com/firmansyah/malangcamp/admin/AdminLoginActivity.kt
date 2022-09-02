@@ -15,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
+//  Halaman login sebagai admin
 class AdminLoginActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivityAdminLoginBinding
@@ -54,7 +55,7 @@ class AdminLoginActivity : AppCompatActivity() {
                     etPassword.requestFocus()
                     return@setOnClickListener
                 }
-                
+
                 loginAdmin(email,password)
             }
         }

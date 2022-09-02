@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
+//  Halaman register sebagai pelanggan
 class PelangganRegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPelangganRegisterBinding
@@ -152,19 +153,19 @@ class PelangganRegisterActivity : AppCompatActivity() {
                                 .show()
                             ref.child(id).setValue(model)
                             Intent(this, PelangganHomeActivity::class.java).also { intent ->
-                                    binding.progressBar.visibility= View.GONE
+                                binding.progressBar.visibility = View.GONE
                                 intent.flags =
                                     Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 startActivity(intent)
                             }
                         }.addOnFailureListener { e->
-                                binding.progressBar.visibility= View.GONE
+                            binding.progressBar.visibility = View.GONE
                             Toast.makeText(this, e.message, Toast.LENGTH_SHORT)
                                 .show()
                         }
                     }
                 } else {
-                            binding.progressBar.visibility= View.GONE
+                    binding.progressBar.visibility = View.GONE
                     Toast.makeText(this, it.exception?.message, Toast.LENGTH_SHORT).show()
                 }
             }

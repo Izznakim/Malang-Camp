@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
+//  Halaman detail informasi barang
 class DetailInformasiFragment : DialogFragment(), View.OnClickListener {
 
     private var barang: Barang? = null

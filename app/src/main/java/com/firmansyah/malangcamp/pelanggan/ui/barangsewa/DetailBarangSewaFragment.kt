@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase
 import java.text.NumberFormat
 import java.util.*
 
+//  Halaman detail informasi barang
 class DetailBarangSewaFragment : DialogFragment() {
 
     private lateinit var database: FirebaseDatabase

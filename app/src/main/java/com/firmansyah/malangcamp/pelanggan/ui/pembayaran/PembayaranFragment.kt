@@ -32,6 +32,7 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
+//  Halaman pembayaran
 class PembayaranFragment : Fragment() {
 
     private lateinit var pembayaranViewModel: PembayaranViewModel

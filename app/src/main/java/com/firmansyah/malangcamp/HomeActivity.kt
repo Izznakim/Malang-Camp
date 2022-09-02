@@ -16,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
+// Halaman home
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding

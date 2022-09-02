@@ -18,6 +18,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.util.*
 
+//  Halaman menambahkan barang
 class SubmitBarangFragment : DialogFragment() {
 
     private var _binding: FragmentTambahBarangBinding? = null
@@ -360,8 +361,8 @@ class SubmitBarangFragment : DialogFragment() {
                         )
                         databaseRef.child(id).setValue(model)
                         with(binding) {
-                                Toast.makeText(activity, "Sukses mengupload", Toast.LENGTH_LONG)
-                                    .show()
+                            Toast.makeText(activity, "Sukses mengupload", Toast.LENGTH_LONG)
+                                .show()
                             allClear(this)
 
                             rgJenisBarang.visibility = View.GONE

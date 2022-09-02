@@ -9,6 +9,7 @@ import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.databinding.ActivityHomeBinding
 import com.firmansyah.malangcamp.databinding.ActivityPeraturanSewaBinding
 
+//  Halaman peraturan sewa menyewa
 class PeraturanSewaActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPeraturanSewaBinding

@@ -41,6 +41,7 @@ import com.google.firebase.storage.StorageReference
 import java.text.NumberFormat
 import java.util.*
 
+//  Halaman detail informasi pelanggan yang memesan
 class BookingDetailFragment : DialogFragment() {
 
     private lateinit var adapter: KeranjangAdapter
@@ -188,9 +189,9 @@ class BookingDetailFragment : DialogFragment() {
                                                     .setValue(value + barangSewa[i].jumlah)
                                             }
                                         }.addOnFailureListener {
-                                        Toast.makeText(activity, it.message, Toast.LENGTH_LONG)
-                                            .show()
-                                    }
+                                            Toast.makeText(activity, it.message, Toast.LENGTH_LONG)
+                                                .show()
+                                        }
                                 }
                             }
                             Toast.makeText(activity, "Penyewaan telah diTOLAK", Toast.LENGTH_LONG)
@@ -257,12 +258,12 @@ class BookingDetailFragment : DialogFragment() {
                                                                 .setValue(value + barangSewa[i].jumlah)
                                                         }
                                                     }.addOnFailureListener { e ->
-                                                    Toast.makeText(
-                                                        activity,
-                                                        e.message,
-                                                        Toast.LENGTH_LONG
-                                                    ).show()
-                                                }
+                                                        Toast.makeText(
+                                                            activity,
+                                                            e.message,
+                                                            Toast.LENGTH_LONG
+                                                        ).show()
+                                                    }
                                             }
                                         }
                                     }

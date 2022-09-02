@@ -11,6 +11,7 @@ import com.firmansyah.malangcamp.databinding.ActivityPelangganLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
+//  Halaman login sebagai pelanggan
 class PelangganLoginActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivityPelangganLoginBinding
@@ -70,7 +71,7 @@ class PelangganLoginActivity : AppCompatActivity() {
                     val id = auth.currentUser?.uid
                     if (id != null) {
                         ref.child(id).get().addOnSuccessListener { snapshot ->
-                                    binding.progressBar.visibility= View.GONE
+                            binding.progressBar.visibility = View.GONE
                             if (!snapshot.child("isAdmin").exists()) {
                                 Intent(
                                     this@PelangganLoginActivity,

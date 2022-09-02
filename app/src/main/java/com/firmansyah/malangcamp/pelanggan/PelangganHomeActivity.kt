@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
+//  Halaman home pelanggan untuk menampung fragmen
 class PelangganHomeActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth

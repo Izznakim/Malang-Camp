@@ -22,6 +22,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
 
+//  Halaman akun profile pelanggan
 class PelangganAkunActivity : AppCompatActivity() {
 
     private lateinit var database:FirebaseDatabase

@@ -13,7 +13,7 @@ import com.firmansyah.malangcamp.pelanggan.ui.barangsewa.DetailBarangSewaFragmen
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
-
+//  Dialog rating
 class RatingFragment : DialogFragment() {
 
     private lateinit var database: FirebaseDatabase

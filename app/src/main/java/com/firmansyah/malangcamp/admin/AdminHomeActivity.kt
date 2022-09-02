@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
+//  Halaman home Admin untuk menampung fragment
 class AdminHomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAdminHomeBinding

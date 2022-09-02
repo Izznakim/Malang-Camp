@@ -17,6 +17,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
+//  Halaman daftar barang
 class InformasiBarangFragment : Fragment() {
 
     private lateinit var informasiBarangViewModel: InformasiBarangViewModel
