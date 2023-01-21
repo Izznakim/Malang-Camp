@@ -2,112 +2,87 @@ package com.firmansyah.malangcamp.admin
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Patterns
-import android.view.View
-import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import com.firmansyah.malangcamp.component.*
 import com.firmansyah.malangcamp.databinding.ActivityAdminLoginBinding
-import com.firmansyah.malangcamp.pelanggan.PelangganHomeActivity
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
+import com.firmansyah.malangcamp.theme.MalangCampTheme
 
 //  Halaman login sebagai admin
 class AdminLoginActivity : AppCompatActivity() {
 
-    private lateinit var binding:ActivityAdminLoginBinding
-    private lateinit var auth:FirebaseAuth
-    private lateinit var database: FirebaseDatabase
-    private lateinit var ref: DatabaseReference
+    private lateinit var binding: ActivityAdminLoginBinding
+    private val loginViewModel by viewModels<AdminLoginViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= ActivityAdminLoginBinding.inflate(layoutInflater)
+        binding = ActivityAdminLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        database= Firebase.database
-        ref=database.getReference("users")
-
-        auth= Firebase.auth
-
-        with(binding){
-            btnMasuk.setOnClickListener {
-                val email=etEmail.text.toString().trim()
-                val password=etPassword.text.toString().trim()
-
-                if (email.isEmpty()){
-                    etEmail.error="Email harus diisi"
-                    etEmail.requestFocus()
-                    return@setOnClickListener
-                }
-
-                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    etEmail.error = "Email tidak valid"
-                    etEmail.requestFocus()
-                    return@setOnClickListener
-                }
-
-                if (password.isEmpty() || password.length<6){
-                    etPassword.error="Password harus lebih dari 6 karakter"
-                    etPassword.requestFocus()
-                    return@setOnClickListener
-                }
-
-                loginAdmin(email,password)
+        binding.composeAdminLogin.setContent {
+            MalangCampTheme {
+                AdminLogin(loginViewModel)
             }
         }
     }
+}
 
-    private fun loginAdmin(email: String, password: String) {
-        binding.progressBar.visibility= View.VISIBLE
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this){
-                if (it.isSuccessful){
-                    val id = auth.currentUser?.uid
-                    if (id != null) {
-                        ref.child(id).get().addOnSuccessListener{ snapshot ->
-                            if (snapshot.child("isAdmin").value == true){
-                                Intent(this, AdminHomeActivity::class.java).also { intent ->
-                                    binding.progressBar.visibility= View.GONE
-                                    intent.flags= Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                    startActivity(intent)
-                                }
-                            } else {
-                                binding.progressBar.visibility= View.GONE
-                                Toast.makeText(this,"Maaf, Anda belum terdaftar sebagai Admin",Toast.LENGTH_LONG).show()
-                            }
-                        }.addOnFailureListener{
-                            binding.progressBar.visibility= View.GONE
-                            Toast.makeText(this,"Gagal untuk memuat data",Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }else{
-                    binding.progressBar.visibility= View.GONE
-                    Toast.makeText(this,it.exception?.message, Toast.LENGTH_SHORT).show()
-                }
+@Composable
+private fun AdminLogin(viewModel: AdminLoginViewModel) {
+    var email by rememberSaveable { mutableStateOf("") }
+    var password by rememberSaveable { mutableStateOf("") }
+    var emailError by rememberSaveable { mutableStateOf(true) }
+    var passwordError by rememberSaveable { mutableStateOf(true) }
+    val context = LocalContext.current
+
+    Surface {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            if (viewModel.isLoading.value) {
+                LinearProgressBar(1f)
+            } else {
+                LinearProgressBar(0f)
             }
-    }
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                LogoLoginAdmin()
+                LoginAdmin()
+                emailError = emailInput(email = email.trim(), onEmailValueChange = { newValue ->
+                    email = newValue.trim()
+                })
+                passwordError = passwordInput(password = password.trim(),
+                    onPasswordValueChange = { newValue -> password = newValue.trim() })
+                ButtonAdminLogin(viewModel, email, password, emailError, passwordError)
 
-    override fun onStart() {
-        super.onStart()
-        val idAuth = auth.currentUser?.uid
-        if (idAuth != null) {
-            binding.progressBar.visibility= View.VISIBLE
-            ref.child(idAuth).get().addOnSuccessListener { snapshot ->
-                if (snapshot.child("isAdmin").exists()) {
-                    Intent(this, AdminHomeActivity::class.java).also { intent ->
-                        binding.progressBar.visibility= View.GONE
+                if (viewModel.isIntent.value) {
+                    Intent(context, AdminHomeActivity::class.java).also { intent ->
                         intent.flags =
                             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(intent)
+                        context.startActivity(intent)
                     }
                 }
-            }.addOnFailureListener { e ->
-                binding.progressBar.visibility= View.GONE
-                Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
             }
         }
     }
