@@ -2,6 +2,7 @@ package com.firmansyah.malangcamp.admin
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Arrangement
@@ -19,21 +20,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.firmansyah.malangcamp.component.*
-import com.firmansyah.malangcamp.databinding.ActivityAdminLoginBinding
 import com.firmansyah.malangcamp.theme.MalangCampTheme
 
 //  Halaman login sebagai admin
 class AdminLoginActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityAdminLoginBinding
     private val loginViewModel by viewModels<AdminLoginViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAdminLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
-        binding.composeAdminLogin.setContent {
+        setContent {
             MalangCampTheme {
                 AdminLogin(loginViewModel)
             }

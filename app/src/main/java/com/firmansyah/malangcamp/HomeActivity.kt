@@ -1,6 +1,7 @@
 package com.firmansyah.malangcamp
 
 import android.os.Bundle
+import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,25 +16,17 @@ import androidx.compose.ui.platform.LocalContext
 import com.firmansyah.malangcamp.component.ButtonAdmin
 import com.firmansyah.malangcamp.component.ButtonPelanggan
 import com.firmansyah.malangcamp.component.LogoMalangCamp
-import com.firmansyah.malangcamp.databinding.ActivityHomeBinding
 import com.firmansyah.malangcamp.theme.MalangCampTheme
 import com.firmansyah.malangcamp.theme.darkGreen
 
 // Halaman home
 class HomeActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityHomeBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityHomeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
-        with(binding) {
-            composeHome.setContent {
-                MalangCampTheme {
-                    Home()
-                }
+        setContent {
+            MalangCampTheme {
+                Home()
             }
         }
     }

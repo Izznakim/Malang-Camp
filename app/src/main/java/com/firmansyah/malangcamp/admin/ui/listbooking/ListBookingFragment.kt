@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.firmansyah.malangcamp.adapter.BookingAdapter
-import com.firmansyah.malangcamp.databinding.FragmentListBookingBinding
+import com.firmansyah.malangcamp.component.bookingItem
+import com.firmansyah.malangcamp.theme.MalangCampTheme
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
@@ -21,16 +22,9 @@ import com.google.firebase.ktx.Firebase
 class ListBookingFragment : Fragment() {
 
     private lateinit var listBookingViewModel: ListBookingViewModel
-    private lateinit var adapter: BookingAdapter
     private lateinit var database: FirebaseDatabase
     private lateinit var ref: DatabaseReference
     private lateinit var auth: FirebaseAuth
-
-    private var _binding: FragmentListBookingBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,42 +39,22 @@ class ListBookingFragment : Fragment() {
 
         auth = Firebase.auth
 
-        _binding = FragmentListBookingBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        initAdapter()
-        viewModel()
-    }
-
-    private fun viewModel() {
-        with(listBookingViewModel) {
-            getListBooking(ref)
-            listBooking.observe(viewLifecycleOwner) {
-                if (it != null) {
-                    adapter.setData(it)
-                }
-            }
-            toast.observe(viewLifecycleOwner) {
-                if (it != null) {
-                    val toast = it.format(this)
-                    Toast.makeText(activity, toast, Toast.LENGTH_SHORT).show()
+        return ComposeView(requireContext()).apply {
+            setContent {
+                MalangCampTheme {
+                    ListBooking()
                 }
             }
         }
     }
 
-    private fun initAdapter() {
-        adapter = BookingAdapter(arrayListOf(),true)
-        binding.rvListBooking.layoutManager = LinearLayoutManager(activity)
-        binding.rvListBooking.adapter = adapter
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    @Composable
+    private fun ListBooking() {
+        listBookingViewModel.getListBooking(ref)
+        val listPembayaran = listBookingViewModel.listBooking.value
+        LazyColumn {
+            bookingItem(listPembayaran, requireContext())
+        }
     }
 }
+
