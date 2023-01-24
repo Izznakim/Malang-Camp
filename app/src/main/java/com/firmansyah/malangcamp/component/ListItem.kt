@@ -1,8 +1,6 @@
 package com.firmansyah.malangcamp.component
 
 import android.content.Context
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -14,9 +12,8 @@ import androidx.compose.material.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.firmansyah.malangcamp.admin.ui.informasibarang.DetailInformasiFragment
-import com.firmansyah.malangcamp.admin.ui.listbooking.BookingDetailFragment
 import com.firmansyah.malangcamp.model.Pembayaran
+import com.firmansyah.malangcamp.other.toDetailPembayaran
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -46,19 +43,4 @@ fun LazyListScope.bookingItem(listPembayaran: List<Pembayaran>, context: Context
             }
         }
     })
-}
-
-
-private fun toDetailPembayaran(
-    context: Context,
-    pembayaran: Pembayaran
-) {
-    val bookingDetailFragment = BookingDetailFragment()
-    val mFragmentManager = (context as AppCompatActivity).supportFragmentManager
-    val bundle = Bundle()
-
-    bundle.putParcelable(BookingDetailFragment.EXTRA_PEMBAYARAN, pembayaran)
-    bundle.putBoolean(BookingDetailFragment.EXTRA_ISADMIN, true)
-    bookingDetailFragment.arguments = bundle
-    bookingDetailFragment.show(mFragmentManager, DetailInformasiFragment::class.java.simpleName)
 }

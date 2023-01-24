@@ -140,20 +140,20 @@ class DetailInformasiFragment : DialogFragment(), View.OnClickListener {
     private fun withoutUpdateImage(it: Barang) {
         val model =
             Barang(
-                it.id,
-                it.jenis,
-                binding.etInputNama.text.toString(),
-                it.bahan,
-                binding.etInputTipe.text.toString(),
-                binding.etInputUkuran.text.toString(),
-                binding.etInputFrame.text.toString(),
-                binding.etInputPasak.text.toString(),
-                binding.etInputWarna.text.toString(),
-                binding.etInputStock.text.toString().toInt(),
-                binding.etInputHarga.text.toString().toInt(),
-                binding.etInputCaraPemasangan.text.toString(),
-                binding.etInputKegunaan.text.toString(),
-                it.gambar
+                id = it.id,
+                jenis = it.jenis,
+                nama = binding.etInputNama.text.toString(),
+                bahan = it.bahan,
+                tipe = binding.etInputTipe.text.toString(),
+                ukuran = binding.etInputUkuran.text.toString(),
+                frame = binding.etInputFrame.text.toString(),
+                pasak = binding.etInputPasak.text.toString(),
+                warna = binding.etInputWarna.text.toString(),
+                stock = binding.etInputStock.text.toString().toInt(),
+                harga = binding.etInputHarga.text.toString().toInt(),
+                caraPemasangan = binding.etInputCaraPemasangan.text.toString(),
+                kegunaanBarang = binding.etInputKegunaan.text.toString(),
+                gambar = it.gambar
             )
         databaseRef.child(it.id).get().addOnSuccessListener { _ ->
             databaseRef.child(it.id).setValue(model)

@@ -5,8 +5,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.firmansyah.malangcamp.R
-import com.firmansyah.malangcamp.databinding.ActivityHomeBinding
 import com.firmansyah.malangcamp.databinding.ActivityPeraturanSewaBinding
 
 //  Halaman peraturan sewa menyewa

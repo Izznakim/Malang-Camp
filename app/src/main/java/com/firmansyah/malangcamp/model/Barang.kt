@@ -19,5 +19,6 @@ data class Barang(
     var rating: String = "",
     var caraPemasangan: String = "",
     var kegunaanBarang: String = "",
-    var gambar: String = ""
+    var gambar: String = "",
+    var delete: Boolean = false
 ) : Parcelable

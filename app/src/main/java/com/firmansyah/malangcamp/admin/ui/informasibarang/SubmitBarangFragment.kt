@@ -13,10 +13,10 @@ import androidx.fragment.app.DialogFragment
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.databinding.FragmentTambahBarangBinding
 import com.firmansyah.malangcamp.model.Barang
-import com.google.firebase.database.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import java.util.*
 
 //  Halaman menambahkan barang
 class SubmitBarangFragment : DialogFragment() {
@@ -36,8 +36,8 @@ class SubmitBarangFragment : DialogFragment() {
     private var frameBarang: String = ""
     private var warnaBarang: String = ""
     private var pasakBarang: String = ""
-    private var stockBarang:String=""
-    private var hargaBarang:String=""
+    private var stockBarang: String = ""
+    private var hargaBarang: String = ""
     private var caraPemasangan: String = ""
     private var kegunaanBarang: String = ""
     private var gambarUrl: String = ""
@@ -307,8 +307,8 @@ class SubmitBarangFragment : DialogFragment() {
         }
     }
 
-    private fun allClear(bind:FragmentTambahBarangBinding){
-        with(bind){
+    private fun allClear(bind: FragmentTambahBarangBinding) {
+        with(bind) {
             imgBarang.setImageResource(R.drawable.ic_add_photo)
             rgJenisBarang.clearCheck()
             etNamaBarang.text.clear()
@@ -334,30 +334,30 @@ class SubmitBarangFragment : DialogFragment() {
     }
 
     private fun uploadToFirebase(uri: Uri?) {
-        val id=databaseRef.push().key
+        val id = databaseRef.push().key
         val fileRef =
             storageRef.child("${id}.jpg")
-        if (uri != null && id !=null) {
+        if (uri != null && id != null) {
             fileRef.putFile(uri).addOnSuccessListener {
                 if (it.metadata != null && it.metadata?.reference != null) {
                     val result = it.storage.downloadUrl
                     result.addOnSuccessListener { uri ->
                         gambarUrl = uri.toString()
                         val model = Barang(
-                            id,
-                            jenisBarang,
-                            namaBarang,
-                            bahanBarang,
-                            tipeBarang,
-                            ukuranBarang,
-                            frameBarang,
-                            pasakBarang,
-                            warnaBarang,
-                            stockBarang.toInt(),
-                            hargaBarang.toInt(),
-                            caraPemasangan,
-                            kegunaanBarang,
-                            gambarUrl
+                            id = id,
+                            jenis = jenisBarang,
+                            nama = namaBarang,
+                            bahan = bahanBarang,
+                            tipe = tipeBarang,
+                            ukuran = ukuranBarang,
+                            frame = frameBarang,
+                            pasak = pasakBarang,
+                            warna = warnaBarang,
+                            stock = stockBarang.toInt(),
+                            harga = hargaBarang.toInt(),
+                            caraPemasangan = caraPemasangan,
+                            kegunaanBarang = kegunaanBarang,
+                            gambar = gambarUrl
                         )
                         databaseRef.child(id).setValue(model)
                         with(binding) {

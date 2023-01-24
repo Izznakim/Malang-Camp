@@ -39,7 +39,7 @@
     <string name="warna">Warna</string>
     <string name="cara_pemasangan">Cara Pemasangan</string>
     <string name="stock">Stock</string>
-    <string name="rp">Rp. %1$d /Hari</string>
+    <string name="rp">Rp. %1$s /Hari</string>
     <string name="rp_harga_per_hari">Rp. Harga/Hari</string>
     <string name="update">Update</string>
     <string name="gambar_barang">Gambar Barang</string>
