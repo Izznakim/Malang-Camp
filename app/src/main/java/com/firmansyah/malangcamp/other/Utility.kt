@@ -1,8 +1,12 @@
 package com.firmansyah.malangcamp.other
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import com.firmansyah.malangcamp.admin.ui.informasibarang.DetailInformasiFragment
 import com.firmansyah.malangcamp.admin.ui.listbooking.BookingDetailFragment
 import com.firmansyah.malangcamp.model.Barang
@@ -33,7 +37,7 @@ fun currencyIdrFormat(): NumberFormat {
     return currencyFormat
 }
 
-fun toDetailPembayaran(
+fun toBookingDetail(
     context: Context,
     pembayaran: Pembayaran
 ) {
@@ -61,4 +65,17 @@ fun toDetailInformasiBarang(
         DetailInformasiFragment::class.java.simpleName
     )
     detailInformasiFragment.arguments = bundle
+}
+
+fun copyPhoneNumber(activity: FragmentActivity?, pembayaran: Pembayaran?) {
+    val clipboard =
+        activity?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    val clip = ClipData.newPlainText("phone", "${pembayaran?.noTelp}")
+    clipboard.setPrimaryClip(clip)
+    Toast.makeText(
+        activity,
+        "Nomor Telpon telah disalin",
+        Toast.LENGTH_LONG
+    )
+        .show()
 }
