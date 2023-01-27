@@ -36,28 +36,39 @@ fun LoginAdmin() {
 }
 
 @Composable
-fun PhoneNumber(activity: FragmentActivity?, pembayaran: Pembayaran?) {
+fun ListBarangTitle() {
     Text(
-        text = stringResource(id = R.string.nomor_telepon),
-        fontWeight = FontWeight.SemiBold,
-        modifier = Modifier.padding(top = 8.dp)
+        text = stringResource(id = R.string.list_barang),
+        modifier = Modifier.padding(top = 16.dp),
+        fontWeight = FontWeight.Bold
     )
-    Text(
-        text = "${pembayaran?.noTelp}",
-        color = Color.Blue,
-        modifier = Modifier.clickable {
-            copyPhoneNumber(activity, pembayaran)
-        })
 }
 
 @Composable
-fun NamaPenyewa(pembayaran: Pembayaran?) {
+fun TglSerahTerima(pembayaran: Pembayaran?) {
+    Text(text = buildAnnotatedString {
+        append("Barang diambil tanggal: ")
+        withStyle(style = SpanStyle(color = Color.Green)) {
+            append("${pembayaran?.tanggalPengambilan}")
+        }
+        append(" dan dikembalikan tanggal: ")
+        withStyle(style = SpanStyle(color = Color.Red)) {
+            append("${pembayaran?.tanggalPengembalian}")
+        }
+        append(", pada jam ")
+        withStyle(style = SpanStyle(color = Color.Blue)) {
+            append("${pembayaran?.jamPengambilan}")
+        }
+    }, modifier = Modifier.padding(top = 8.dp))
+}
+
+@Composable
+fun Hari(pembayaran: Pembayaran?) {
     Text(
-        text = stringResource(id = R.string.text_nama_penyewa),
-        fontWeight = FontWeight.SemiBold,
-        modifier = Modifier.padding(top = 16.dp)
+        text = "Selama ${pembayaran?.hari.toString()} Hari",
+        modifier = Modifier.fillMaxWidth(),
+        textAlign = TextAlign.End
     )
-    Text(text = "${pembayaran?.namaPenyewa}")
 }
 
 @Composable
@@ -81,37 +92,38 @@ fun Total(pembayaran: Pembayaran?) {
 }
 
 @Composable
-fun Hari(pembayaran: Pembayaran?) {
+fun NamaPenyewa(pembayaran: Pembayaran?) {
     Text(
-        text = "Selama ${pembayaran?.hari.toString()} Hari",
-        modifier = Modifier.fillMaxWidth(),
-        textAlign = TextAlign.End
+        text = stringResource(id = R.string.text_nama_penyewa),
+        fontWeight = FontWeight.SemiBold,
+        modifier = Modifier.padding(top = 16.dp)
     )
+    Text(text = "${pembayaran?.namaPenyewa}")
 }
 
 @Composable
-fun SerahTerima(pembayaran: Pembayaran?) {
-    Text(text = buildAnnotatedString {
-        append("Barang diambil tanggal: ")
-        withStyle(style = SpanStyle(color = Color.Green)) {
-            append("${pembayaran?.tanggalPengambilan}")
-        }
-        append(" dan dikembalikan tanggal: ")
-        withStyle(style = SpanStyle(color = Color.Red)) {
-            append("${pembayaran?.tanggalPengembalian}")
-        }
-        append(", pada jam ")
-        withStyle(style = SpanStyle(color = Color.Blue)) {
-            append("${pembayaran?.jamPengambilan}")
-        }
-    }, modifier = Modifier.padding(top = 8.dp))
-}
-
-@Composable
-fun ListBarangTitle() {
+fun PhoneNumber(activity: FragmentActivity?, pembayaran: Pembayaran?) {
     Text(
-        text = stringResource(id = R.string.list_barang),
-        modifier = Modifier.padding(top = 16.dp),
-        fontWeight = FontWeight.Bold
+        text = stringResource(id = R.string.nomor_telepon),
+        fontWeight = FontWeight.SemiBold,
+        modifier = Modifier.padding(top = 8.dp)
+    )
+    Text(
+        text = "${pembayaran?.noTelp}",
+        color = Color.Blue,
+        modifier = Modifier.clickable {
+            copyPhoneNumber(activity, pembayaran)
+        })
+}
+
+@Composable
+fun ErrorText(text: String) {
+    Text(
+        text = text,
+        color = MaterialTheme.colors.error,
+        style = MaterialTheme.typography.caption,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp)
     )
 }

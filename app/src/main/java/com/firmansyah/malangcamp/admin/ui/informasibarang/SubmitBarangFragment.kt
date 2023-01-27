@@ -1,48 +1,43 @@
 package com.firmansyah.malangcamp.admin.ui.informasibarang
 
-import android.app.Activity.RESULT_OK
-import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.view.isVisible
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Text
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import com.firmansyah.malangcamp.R
-import com.firmansyah.malangcamp.databinding.FragmentTambahBarangBinding
-import com.firmansyah.malangcamp.model.Barang
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
+import com.firmansyah.malangcamp.component.*
+import com.firmansyah.malangcamp.theme.MalangCampTheme
 
 //  Halaman menambahkan barang
 class SubmitBarangFragment : DialogFragment() {
-
-    private var _binding: FragmentTambahBarangBinding? = null
-    private lateinit var storage: FirebaseStorage
-    private lateinit var database: FirebaseDatabase
-    private lateinit var storageRef: StorageReference
-    private lateinit var databaseRef: DatabaseReference
-
-    private var imageUri: Uri? = null
-    private var jenisBarang: String = ""
-    private var namaBarang: String = ""
-    private var bahanBarang: String = ""
-    private var tipeBarang: String = ""
-    private var ukuranBarang: String = ""
-    private var frameBarang: String = ""
-    private var warnaBarang: String = ""
-    private var pasakBarang: String = ""
-    private var stockBarang: String = ""
-    private var hargaBarang: String = ""
-    private var caraPemasangan: String = ""
-    private var kegunaanBarang: String = ""
-    private var gambarUrl: String = ""
-
-    private val binding get() = _binding!!
+    private val viewModel by viewModels<SubmitBarangViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,350 +45,218 @@ class SubmitBarangFragment : DialogFragment() {
     ): View {
         // Inflate the layout for this fragment
 
-        _binding = FragmentTambahBarangBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        if (savedInstanceState != null) {
-            imageUri = savedInstanceState.getParcelable("imageUri")
-            binding.imgBarang.setImageURI(imageUri)
-        }
-
-        storage = FirebaseStorage.getInstance()
-        storageRef = storage.getReference("images/")
-
-        database = FirebaseDatabase.getInstance()
-        databaseRef = database.getReference("barang")
-
-        buttonClick()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelable("imageUri", imageUri)
-    }
-
-    private fun buttonClick() {
-        with(binding) {
-
-            imgBarang.setOnClickListener {
-                selectImage()
-            }
-
-            rgJenisBarang.setOnCheckedChangeListener { _, checkedId ->
-                when (checkedId) {
-                    R.id.rbSepatu, R.id.rbJaket, R.id.rbTas -> {
-                        jenisBarang = when {
-                            rbSepatu.isChecked -> "Sepatu"
-                            rbJaket.isChecked -> "Jaket"
-                            else -> "Tas"
-                        }
-                        visibilitySepatuJaketAtauTas()
-                        allClearRgJenisBarang()
+        return ComposeView(requireContext()).apply {
+            setContent {
+                var imageUri by rememberSaveable { mutableStateOf<Uri?>(null) }
+                val bitmap by rememberSaveable { mutableStateOf<Bitmap?>(null) }
+                val launcher =
+                    rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
+                        imageUri = uri
                     }
-                    R.id.rbSleepingBag -> {
-                        jenisBarang = "Sleeping Bag"
-                        visibilitySleepingBag()
-                        allClearRgJenisBarang()
-                    }
-                    R.id.rbTenda -> {
-                        jenisBarang = "Tenda"
-                        visibilityTenda()
-                        allClearRgJenisBarang()
-                    }
-                    R.id.rbBarangLainnya -> {
-                        jenisBarang = "Barang Lainnya"
-                        visibilityBarangLainnya()
-                        allClearRgJenisBarang()
-                    }
-                    else -> {
-                        jenisBarang = ""
-                        etNamaBarang.visibility = View.GONE
-                        bahanLayout.visibility = View.GONE
-                        etTipeBarang.visibility = View.GONE
-                        etUkuranBarang.visibility = View.GONE
-                        etFrameBarang.visibility = View.GONE
-                        etWarnaBarang.visibility = View.GONE
-                        etPasakBarang.visibility = View.GONE
-                        etStockBarang.visibility = View.GONE
-                        etHargaBarang.visibility = View.GONE
-                        etCaraPemasangan.visibility = View.GONE
-                        etKegunaanBarang.visibility = View.GONE
-                    }
-                }
 
-                if (jenisBarang.isNotEmpty()) {
-                    etNamaBarang.visibility = View.VISIBLE
-                    etStockBarang.visibility = View.VISIBLE
-                    etHargaBarang.visibility = View.VISIBLE
-                }
-            }
+                val context = LocalContext.current
 
-            rgBahanBarang.setOnCheckedChangeListener { _, checkedId ->
-                bahanBarang = when (checkedId) {
-                    R.id.rbPolar -> "Polar"
-                    R.id.rbBulu -> "Bulu"
-                    else -> ""
-                }
-            }
-
-            btnCancel.setOnClickListener {
-                dialog?.cancel()
-            }
-
-            btnSubmit.setOnClickListener {
-                namaBarang = etNamaBarang.text.toString()
-                tipeBarang = etTipeBarang.text.toString()
-                ukuranBarang = etUkuranBarang.text.toString()
-                frameBarang = etFrameBarang.text.toString()
-                warnaBarang = etWarnaBarang.text.toString()
-                pasakBarang = etPasakBarang.text.toString()
-                stockBarang = etStockBarang.text.toString()
-                hargaBarang = etHargaBarang.text.toString()
-                caraPemasangan = etCaraPemasangan.text.toString()
-                kegunaanBarang = etKegunaanBarang.text.toString()
-
-                if (jenisBarang.isEmpty() && rgJenisBarang.isVisible) {
-                    btnSubmit.error
-                    btnSubmit.requestFocus()
-                    Toast.makeText(
-                        activity,
-                        "Jenis barang harus dipilih salah satu",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    return@setOnClickListener
-                }
-
-                if (namaBarang.isEmpty() && etNamaBarang.isVisible) {
-                    etNamaBarang.error = "Nama harus diisi"
-                    etNamaBarang.requestFocus()
-                    return@setOnClickListener
-                }
-
-                if (bahanBarang.isEmpty() && bahanLayout.isVisible) {
-                    btnSubmit.error
-                    btnSubmit.requestFocus()
-                    Toast.makeText(activity, "Bahan harus diisi", Toast.LENGTH_LONG).show()
-                    return@setOnClickListener
-                }
-
-                if (tipeBarang.isEmpty() && etTipeBarang.isVisible) {
-                    etTipeBarang.error = "Tipe harus diisi"
-                    etTipeBarang.requestFocus()
-                    return@setOnClickListener
-                }
-
-                if (ukuranBarang.isEmpty() && etUkuranBarang.isVisible) {
-                    etUkuranBarang.error = "Ukuran harus diisi"
-                    etUkuranBarang.requestFocus()
-                    return@setOnClickListener
-                }
-
-                if (frameBarang.isEmpty() && etFrameBarang.isVisible) {
-                    etFrameBarang.error = "Frame harus diisi"
-                    etFrameBarang.requestFocus()
-                    return@setOnClickListener
-                }
-
-                if (warnaBarang.isEmpty() && etWarnaBarang.isVisible) {
-                    etWarnaBarang.error = "Warna harus diisi"
-                    etWarnaBarang.requestFocus()
-                    return@setOnClickListener
-                }
-
-                if (pasakBarang.isEmpty() && etPasakBarang.isVisible) {
-                    etPasakBarang.error = "Pasak harus diisi"
-                    etPasakBarang.requestFocus()
-                    return@setOnClickListener
-                }
-
-                if (caraPemasangan.isEmpty() && etCaraPemasangan.isVisible) {
-                    etCaraPemasangan.error = "Cara untuk memasang tenda harus diisi"
-                    etCaraPemasangan.requestFocus()
-                    return@setOnClickListener
-                }
-
-                if (kegunaanBarang.isEmpty() && etKegunaanBarang.isVisible) {
-                    etKegunaanBarang.error = "Kegunaan pada barang harus diisi"
-                    etKegunaanBarang.requestFocus()
-                    return@setOnClickListener
-                }
-
-                if (stockBarang.isEmpty() && etStockBarang.isVisible) {
-                    etStockBarang.error = "Stock barang harus diisi"
-                    etStockBarang.requestFocus()
-                    return@setOnClickListener
-                }
-
-                if (hargaBarang.isEmpty() && etHargaBarang.isVisible) {
-                    etHargaBarang.error = "Harga barang harus diisi"
-                    etHargaBarang.requestFocus()
-                    return@setOnClickListener
-                }
-
-                uploadData()
-            }
-        }
-    }
-
-    private fun visibilityBarangLainnya() {
-        with(binding) {
-            etUkuranBarang.visibility = View.GONE
-            bahanLayout.visibility = View.GONE
-            etTipeBarang.visibility = View.GONE
-            etFrameBarang.visibility = View.GONE
-            etWarnaBarang.visibility = View.GONE
-            etPasakBarang.visibility = View.GONE
-            etCaraPemasangan.visibility = View.GONE
-            etKegunaanBarang.visibility = View.VISIBLE
-        }
-    }
-
-    private fun visibilityTenda() {
-        with(binding) {
-            etUkuranBarang.visibility = View.VISIBLE
-            bahanLayout.visibility = View.GONE
-            etTipeBarang.visibility = View.VISIBLE
-            etFrameBarang.visibility = View.VISIBLE
-            etWarnaBarang.visibility = View.GONE
-            etPasakBarang.visibility = View.VISIBLE
-            etCaraPemasangan.visibility = View.VISIBLE
-            etKegunaanBarang.visibility = View.GONE
-        }
-    }
-
-    private fun visibilitySleepingBag() {
-        with(binding) {
-            etUkuranBarang.visibility = View.VISIBLE
-            bahanLayout.visibility = View.VISIBLE
-            etTipeBarang.visibility = View.GONE
-            etFrameBarang.visibility = View.GONE
-            etWarnaBarang.visibility = View.GONE
-            etPasakBarang.visibility = View.GONE
-            etCaraPemasangan.visibility = View.GONE
-            etKegunaanBarang.visibility = View.GONE
-        }
-    }
-
-    private fun visibilitySepatuJaketAtauTas() {
-        with(binding) {
-            etUkuranBarang.visibility = View.VISIBLE
-            bahanLayout.visibility = View.GONE
-            etTipeBarang.visibility = View.GONE
-            etFrameBarang.visibility = View.GONE
-            etWarnaBarang.visibility = View.VISIBLE
-            etPasakBarang.visibility = View.GONE
-            etCaraPemasangan.visibility = View.GONE
-            etKegunaanBarang.visibility = View.GONE
-        }
-    }
-
-    private fun allClearRgJenisBarang() {
-        with(binding) {
-            etNamaBarang.text.clear()
-            rgBahanBarang.clearCheck()
-            etTipeBarang.text.clear()
-            etUkuranBarang.text.clear()
-            etFrameBarang.text.clear()
-            etPasakBarang.text.clear()
-            etWarnaBarang.text.clear()
-            etStockBarang.text.clear()
-            etHargaBarang.text.clear()
-            etCaraPemasangan.text.clear()
-            etKegunaanBarang.text.clear()
-        }
-    }
-
-    private fun allClear(bind: FragmentTambahBarangBinding) {
-        with(bind) {
-            imgBarang.setImageResource(R.drawable.ic_add_photo)
-            rgJenisBarang.clearCheck()
-            etNamaBarang.text.clear()
-            rgBahanBarang.clearCheck()
-            etTipeBarang.text.clear()
-            etUkuranBarang.text.clear()
-            etFrameBarang.text.clear()
-            etPasakBarang.text.clear()
-            etWarnaBarang.text.clear()
-            etStockBarang.text.clear()
-            etHargaBarang.text.clear()
-            etCaraPemasangan.text.clear()
-            etKegunaanBarang.text.clear()
-        }
-    }
-
-    private fun uploadData() {
-        if (imageUri != null) {
-            uploadToFirebase(imageUri)
-        } else {
-            Toast.makeText(activity, "Anda belum memilih gambarnya", Toast.LENGTH_LONG).show()
-        }
-    }
-
-    private fun uploadToFirebase(uri: Uri?) {
-        val id = databaseRef.push().key
-        val fileRef =
-            storageRef.child("${id}.jpg")
-        if (uri != null && id != null) {
-            fileRef.putFile(uri).addOnSuccessListener {
-                if (it.metadata != null && it.metadata?.reference != null) {
-                    val result = it.storage.downloadUrl
-                    result.addOnSuccessListener { uri ->
-                        gambarUrl = uri.toString()
-                        val model = Barang(
-                            id = id,
-                            jenis = jenisBarang,
-                            nama = namaBarang,
-                            bahan = bahanBarang,
-                            tipe = tipeBarang,
-                            ukuran = ukuranBarang,
-                            frame = frameBarang,
-                            pasak = pasakBarang,
-                            warna = warnaBarang,
-                            stock = stockBarang.toInt(),
-                            harga = hargaBarang.toInt(),
-                            caraPemasangan = caraPemasangan,
-                            kegunaanBarang = kegunaanBarang,
-                            gambar = gambarUrl
+                val drwbl =
+                    AppCompatResources.getDrawable(context, R.drawable.ic_add_photo)?.toBitmap()
+                val jenisList by remember {
+                    mutableStateOf(
+                        listOf(
+                            getString(R.string.sepatu),
+                            getString(R.string.jaket),
+                            getString(R.string.tas),
+                            getString(R.string.sleeping_bag),
+                            getString(R.string.tenda),
+                            getString(R.string.barang_lainnya)
                         )
-                        databaseRef.child(id).setValue(model)
-                        with(binding) {
-                            Toast.makeText(activity, "Sukses mengupload", Toast.LENGTH_LONG)
-                                .show()
-                            allClear(this)
+                    )
+                }
+                val bahanList by remember {
+                    mutableStateOf(
+                        listOf(
+                            getString(R.string.polar),
+                            getString(R.string.bulu)
+                        )
+                    )
+                }
 
-                            rgJenisBarang.visibility = View.GONE
-                            etNamaBarang.visibility = View.GONE
-                            etUkuranBarang.visibility = View.GONE
-                            etStockBarang.visibility = View.GONE
-                            etHargaBarang.visibility = View.GONE
+                var jenisBarang by rememberSaveable { mutableStateOf("") }
+                var namaBarang by rememberSaveable { mutableStateOf("") }
+                var stockBarang by rememberSaveable { mutableStateOf("") }
+                var hargaBarang by rememberSaveable { mutableStateOf("") }
+                var ukuranBarang by rememberSaveable { mutableStateOf("") }
+                var warnaBarang by rememberSaveable { mutableStateOf("") }
+                var bahanBarang by rememberSaveable { mutableStateOf("") }
+                var tipeBarang by rememberSaveable { mutableStateOf("") }
+                var frameBarang by rememberSaveable { mutableStateOf("") }
+                var pasakBarang by rememberSaveable { mutableStateOf("") }
+                var caraPemasangan by rememberSaveable { mutableStateOf("") }
+                var kegunaanBarang by rememberSaveable { mutableStateOf("") }
+
+                MalangCampTheme {
+                    Column(
+                        modifier = Modifier
+                            .padding(start = 8.dp, end = 8.dp)
+                            .verticalScroll(
+                                rememberScrollState()
+                            )
+                    ) {
+                        GetImageFromGallery(launcher, imageUri, bitmap, context, drwbl)
+
+                        if (imageUri != null) {
+                            jenisBarang = radioButtonJenisBarang(jenisList, jenisBarang)
+                            namaBarang = editTextDeskBarang(
+                                namaBarang, false, stringResource(id = R.string.nama),
+                                KeyboardType.Text, titleDesk = "Nama barang",
+                                keyboardCapitalize = KeyboardCapitalization.Words
+                            )
+                            stockBarang = editTextDeskBarang(
+                                stockBarang, true, stringResource(id = R.string.stock),
+                                KeyboardType.Number, titleDesk = "Stock barang"
+                            )
+                            hargaBarang = editTextDeskBarang(
+                                hargaBarang, true, stringResource(id = R.string.rp_harga_per_hari),
+                                KeyboardType.Number, titleDesk = "Harga barang"
+                            )
+                        } else {
+                            ErrorText(text = "Anda belum memilih gambarnya")
                         }
+
+                        when (jenisBarang) {
+                            "Sepatu", "Jaket", "Tas" -> {
+                                ukuranBarang = editTextDeskBarang(
+                                    ukuranBarang,
+                                    false,
+                                    stringResource(id = R.string.ukuran),
+                                    KeyboardType.Text,
+                                    KeyboardCapitalization.Characters,
+                                    "Ukuran barang"
+                                )
+                                warnaBarang = editTextDeskBarang(
+                                    warnaBarang,
+                                    false,
+                                    stringResource(id = R.string.warna),
+                                    KeyboardType.Text,
+                                    titleDesk = "Warna barang",
+                                    imeAct = ImeAction.Done
+                                )
+                                bahanBarang = ""
+                                tipeBarang = ""
+                                frameBarang = ""
+                                pasakBarang = ""
+                                caraPemasangan = ""
+                                kegunaanBarang = ""
+                            }
+                            "Sleeping Bag" -> {
+                                ukuranBarang = editTextDeskBarang(
+                                    ukuranBarang,
+                                    true,
+                                    stringResource(id = R.string.ukuran),
+                                    KeyboardType.Text,
+                                    KeyboardCapitalization.Characters,
+                                    "Ukuran barang", imeAct = ImeAction.Done
+                                )
+                                Text(
+                                    text = stringResource(id = R.string.bahan),
+                                    modifier = Modifier.padding(top = 8.dp)
+                                )
+                                bahanBarang = radioButtonJenisBarang(
+                                    bahanList,
+                                    bahanBarang,
+                                    Modifier.fillMaxWidth()
+                                )
+                                warnaBarang = ""
+                                tipeBarang = ""
+                                frameBarang = ""
+                                pasakBarang = ""
+                                caraPemasangan = ""
+                                kegunaanBarang = ""
+                            }
+                            "Tenda" -> {
+                                ukuranBarang = editTextDeskBarang(
+                                    ukuranBarang, false, stringResource(id = R.string.ukuran),
+                                    KeyboardType.Text, titleDesk = "Ukuran tenda"
+                                )
+                                tipeBarang = editTextDeskBarang(
+                                    tipeBarang, false, stringResource(id = R.string.tipe),
+                                    KeyboardType.Text, titleDesk = "Tipe tenda"
+                                )
+                                frameBarang = editTextDeskBarang(
+                                    frameBarang, true, stringResource(id = R.string.frame),
+                                    KeyboardType.Number, titleDesk = "Frame tenda"
+                                )
+                                pasakBarang = editTextDeskBarang(
+                                    pasakBarang, true, stringResource(id = R.string.pasak),
+                                    KeyboardType.Number, titleDesk = "Pasak tenda"
+                                )
+                                caraPemasangan = editTextDeskBarang(
+                                    caraPemasangan,
+                                    false,
+                                    stringResource(id = R.string.cara_pemasangan),
+                                    KeyboardType.Text,
+                                    KeyboardCapitalization.Sentences,
+                                    titleDesk = "Cara untuk memasang tenda",
+                                    singleLine = false,
+                                    maxLines = 10,
+                                    minLines = 6, imeAct = ImeAction.None
+                                )
+                                bahanBarang = ""
+                                warnaBarang = ""
+                                kegunaanBarang = ""
+                            }
+                            "Barang Lainnya" -> {
+                                kegunaanBarang = editTextDeskBarang(
+                                    kegunaanBarang,
+                                    false,
+                                    stringResource(id = R.string.kegunaan_barang),
+                                    KeyboardType.Text,
+                                    KeyboardCapitalization.Sentences,
+                                    "Kegunaan pada barang",
+                                    singleLine = false,
+                                    maxLines = 10,
+                                    minLines = 6, imeAct = ImeAction.None
+                                )
+                                ukuranBarang = ""
+                                bahanBarang = ""
+                                warnaBarang = ""
+                                tipeBarang = ""
+                                frameBarang = ""
+                                pasakBarang = ""
+                                caraPemasangan = ""
+                            }
+                        }
+
+                        val basicDeskBarangEmpty =
+                            jenisBarang.isEmpty() || namaBarang.isEmpty() || stockBarang.isEmpty() || hargaBarang.isEmpty()
+                        val warnaAndBahanEmpty = warnaBarang.isEmpty() && bahanBarang.isEmpty()
+                        val whichHasUkuranEmpty =
+                            ukuranBarang.isEmpty() || warnaAndBahanEmpty && tipeBarang.isEmpty() ||
+                                    warnaAndBahanEmpty && frameBarang.isEmpty() ||
+                                    warnaAndBahanEmpty && pasakBarang.isEmpty() ||
+                                    warnaAndBahanEmpty && caraPemasangan.isEmpty()
+                        val isError =
+                            basicDeskBarangEmpty || whichHasUkuranEmpty && kegunaanBarang.isEmpty()
+
+                        SubmitBarangButton(
+                            imageUri,
+                            jenisBarang,
+                            namaBarang,
+                            bahanBarang,
+                            tipeBarang,
+                            ukuranBarang,
+                            frameBarang,
+                            pasakBarang,
+                            warnaBarang,
+                            stockBarang,
+                            hargaBarang,
+                            caraPemasangan,
+                            kegunaanBarang,
+                            isError,
+                            dialog,
+                            viewModel
+                        )
                     }
                 }
-            }.addOnFailureListener {
-                Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
             }
-        }
-    }
-
-    private fun selectImage() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-
-        startActivityForResult(intent, 1)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.data != null) {
-            imageUri = data.data
-
-            binding.imgBarang.setImageURI(imageUri)
         }
     }
 
@@ -406,18 +269,5 @@ class SubmitBarangFragment : DialogFragment() {
             val height = ViewGroup.LayoutParams.MATCH_PARENT
             dialog.window?.setLayout(width, height)
         }
-        binding.rgJenisBarang.visibility = View.GONE
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (imageUri != null) {
-            binding.rgJenisBarang.visibility = View.VISIBLE
-        }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

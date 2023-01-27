@@ -81,7 +81,7 @@ class BookingDetailFragment : DialogFragment() {
                                 .fillMaxSize()
                         ) {
                             item { ListBarangTitle() }
-                            item { SerahTerima(pembayaran) }
+                            item { TglSerahTerima(pembayaran) }
                             item {
                                 Divider(
                                     thickness = 1.dp,

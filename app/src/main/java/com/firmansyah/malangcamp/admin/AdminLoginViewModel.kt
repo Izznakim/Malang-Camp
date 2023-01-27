@@ -3,7 +3,6 @@ package com.firmansyah.malangcamp.admin
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.firmansyah.malangcamp.other.SingleLiveEvent
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -20,8 +19,6 @@ class AdminLoginViewModel : ViewModel() {
 
     private var _isIntent = mutableStateOf(false)
     val isIntent: State<Boolean> = _isIntent
-
-    internal val toast = SingleLiveEvent<String>()
 
     init {
         getAdminStart()
