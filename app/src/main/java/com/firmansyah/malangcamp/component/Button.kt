@@ -205,7 +205,7 @@ fun FabAddBarang(childFragmentManager: FragmentManager) {
 }
 
 @Composable
-fun radioButtonJenisBarang(
+fun radioButtonJnsBhnBarang(
     list: List<String>,
     deskBarang: String,
     modifier: Modifier = Modifier
@@ -224,7 +224,7 @@ fun radioButtonJenisBarang(
                 RadioButton(
                     selected = deskBrng == it,
                     onClick = { deskBrng = it },
-                    colors = RadioButtonDefaults.colors(Color.Green)
+//                    colors = RadioButtonDefaults.colors(Color.Green)
                 )
                 Text(text = it, modifier = Modifier
                     .align(Alignment.CenterVertically)
@@ -265,7 +265,7 @@ fun SubmitBarangButton(
     ) {
         OutlinedButton(
             onClick = {
-                dialog?.dismiss()
+                dialog?.cancel()
             },
             modifier = Modifier
                 .padding(horizontal = 32.dp)

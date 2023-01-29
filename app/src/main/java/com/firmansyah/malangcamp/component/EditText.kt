@@ -1,13 +1,11 @@
 package com.firmansyah.malangcamp.component
 
 import android.util.Patterns
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
@@ -17,8 +15,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
@@ -118,42 +116,43 @@ fun editTextDeskBarang(
     deskBarang: String,
     trim: Boolean,
     placeholderText: String,
-    keyboardType: KeyboardType,
-    keyboardCapitalize: KeyboardCapitalization = KeyboardCapitalization.Sentences,
     titleDesk: String,
+    keyboardOptions: KeyboardOptions,
     singleLine: Boolean = true,
     maxLines: Int = 1,
     minLines: Int = 1,
-    imeAct: ImeAction = ImeAction.Next
+    modifier: Modifier = Modifier
+        .fillMaxWidth()
+        .padding(top = 8.dp),
+    textStyle: TextStyle = LocalTextStyle.current
 ): String {
     var deskBrng by rememberSaveable { mutableStateOf(deskBarang) }
-    TextField(
-        value = if (trim) deskBrng.trim() else deskBrng,
-        onValueChange = { newValue ->
-            deskBrng = if (trim) newValue.trim() else newValue
-        },
-        trailingIcon = {
-            if (deskBrng.isEmpty()) {
-                Icon(
-                    Icons.Filled.Warning,
-                    contentDescription = "error",
-                    tint = MaterialTheme.colors.error
-                )
-            }
-        },
-        isError = deskBrng.isEmpty(),
-        placeholder = { Text(text = placeholderText) },
-        singleLine = singleLine,
-        keyboardOptions = KeyboardOptions(
-            keyboardType = keyboardType,
-            imeAction = imeAct, capitalization = keyboardCapitalize
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 8.dp), maxLines = maxLines, minLines = minLines
-    )
-    if (deskBrng.isEmpty()) {
-        ErrorText("$titleDesk harus diisi")
+    Column(modifier = modifier) {
+        TextField(
+            value = if (trim) deskBrng.trim() else deskBrng,
+            onValueChange = { newValue ->
+                deskBrng = if (trim) newValue.trim() else newValue
+            },
+            trailingIcon = {
+                if (deskBrng.isEmpty()) {
+                    Icon(
+                        Icons.Filled.Warning,
+                        contentDescription = "error",
+                        tint = MaterialTheme.colors.error
+                    )
+                }
+            },
+            isError = deskBrng.isEmpty(),
+            label = { Text(text = placeholderText, softWrap = true) },
+            placeholder = { Text(text = placeholderText, softWrap = true) },
+            singleLine = singleLine,
+            keyboardOptions = keyboardOptions,
+            modifier = Modifier.fillMaxWidth(), maxLines = maxLines, minLines = minLines,
+            textStyle = textStyle
+        )
+        if (deskBrng.isEmpty()) {
+            ErrorText("$titleDesk harus diisi")
+        }
     }
     return deskBrng
 }

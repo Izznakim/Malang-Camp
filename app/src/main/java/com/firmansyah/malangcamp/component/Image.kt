@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -27,6 +28,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.FragmentActivity
 import coil.compose.AsyncImage
 import com.firmansyah.malangcamp.R
@@ -98,9 +100,11 @@ fun GetImageFromGallery(
     imgUri: Uri?,
     bitmap: Bitmap?,
     context: Context,
-    drwbl: Bitmap?
+    drwbl: Drawable? = null,
+    url: String? = null,
+    contentDescription: String
 ) {
-    var bitmap1 = bitmap
+    var btmp = bitmap
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -110,7 +114,7 @@ fun GetImageFromGallery(
         border = BorderStroke(1.dp, Color.Black)
     ) {
         imgUri?.let {
-            bitmap1 = if (Build.VERSION.SDK_INT < 28) {
+            btmp = if (Build.VERSION.SDK_INT < 28) {
                 MediaStore.Images
                     .Media.getBitmap(context.contentResolver, it)
 
@@ -121,10 +125,18 @@ fun GetImageFromGallery(
             }
         }
 
-        Image(
-            bitmap = (((bitmap1?.asImageBitmap() ?: drwbl?.asImageBitmap())!!)),
-            contentDescription = null,
-            modifier = Modifier.size(400.dp)
-        )
+        if (btmp != null || drwbl != null) {
+            Image(
+                bitmap = ((((btmp?.asImageBitmap() ?: drwbl?.toBitmap()?.asImageBitmap())!!))),
+                contentDescription = contentDescription,
+                modifier = Modifier.size(400.dp)
+            )
+        } else {
+            AsyncImage(
+                model = url,
+                contentDescription = contentDescription,
+                modifier = Modifier.size(400.dp)
+            )
+        }
     }
 }

@@ -14,7 +14,6 @@ import com.firmansyah.malangcamp.model.Pembayaran
 import java.text.NumberFormat
 import java.util.*
 
-
 fun rating(barang: Barang): Double {
     val ratingArray = barang.rating.split(", ").toTypedArray()
     var sum = 0
@@ -26,8 +25,7 @@ fun rating(barang: Barang): Double {
         }
     }
 
-    val rating: Double = sum.toDouble() / ratingArray.size.toDouble()
-    return rating
+    return sum.toDouble() / ratingArray.size.toDouble()
 }
 
 fun currencyIdrFormat(): NumberFormat {

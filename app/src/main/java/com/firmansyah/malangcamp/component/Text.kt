@@ -122,8 +122,6 @@ fun ErrorText(text: String) {
         text = text,
         color = MaterialTheme.colors.error,
         style = MaterialTheme.typography.caption,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 16.dp)
+        softWrap = true
     )
 }

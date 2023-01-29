@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.runtime.getValue
@@ -28,7 +29,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.firmansyah.malangcamp.R
@@ -40,8 +40,7 @@ class SubmitBarangFragment : DialogFragment() {
     private val viewModel by viewModels<SubmitBarangViewModel>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
 
@@ -56,8 +55,7 @@ class SubmitBarangFragment : DialogFragment() {
 
                 val context = LocalContext.current
 
-                val drwbl =
-                    AppCompatResources.getDrawable(context, R.drawable.ic_add_photo)?.toBitmap()
+                val drwbl = AppCompatResources.getDrawable(context, R.drawable.ic_add_photo)
                 val jenisList by remember {
                     mutableStateOf(
                         listOf(
@@ -73,8 +71,7 @@ class SubmitBarangFragment : DialogFragment() {
                 val bahanList by remember {
                     mutableStateOf(
                         listOf(
-                            getString(R.string.polar),
-                            getString(R.string.bulu)
+                            getString(R.string.polar), getString(R.string.bulu)
                         )
                     )
                 }
@@ -100,22 +97,46 @@ class SubmitBarangFragment : DialogFragment() {
                                 rememberScrollState()
                             )
                     ) {
-                        GetImageFromGallery(launcher, imageUri, bitmap, context, drwbl)
+                        GetImageFromGallery(
+                            launcher = launcher,
+                            imgUri = imageUri,
+                            bitmap = bitmap,
+                            context = context,
+                            drwbl = drwbl,
+                            contentDescription = getString(R.string.tombol_gambar_untuk_menambahkan_gambar)
+                        )
 
                         if (imageUri != null) {
-                            jenisBarang = radioButtonJenisBarang(jenisList, jenisBarang)
+                            jenisBarang = radioButtonJnsBhnBarang(jenisList, jenisBarang)
                             namaBarang = editTextDeskBarang(
-                                namaBarang, false, stringResource(id = R.string.nama),
-                                KeyboardType.Text, titleDesk = "Nama barang",
-                                keyboardCapitalize = KeyboardCapitalization.Words
+                                namaBarang,
+                                false,
+                                stringResource(id = R.string.nama),
+                                titleDesk = "Nama barang",
+                                KeyboardOptions(
+                                    capitalization = KeyboardCapitalization.Words,
+                                    imeAction = ImeAction.Next
+                                )
                             )
                             stockBarang = editTextDeskBarang(
-                                stockBarang, true, stringResource(id = R.string.stock),
-                                KeyboardType.Number, titleDesk = "Stock barang"
+                                stockBarang,
+                                true,
+                                stringResource(id = R.string.stock),
+                                titleDesk = "Stock barang",
+                                KeyboardOptions(
+                                    keyboardType = KeyboardType.Number,
+                                    imeAction = ImeAction.Next
+                                )
                             )
                             hargaBarang = editTextDeskBarang(
-                                hargaBarang, true, stringResource(id = R.string.rp_harga_per_hari),
-                                KeyboardType.Number, titleDesk = "Harga barang"
+                                hargaBarang,
+                                true,
+                                stringResource(id = R.string.rp_harga_per_hari),
+                                titleDesk = "Harga barang",
+                                KeyboardOptions(
+                                    keyboardType = KeyboardType.Number,
+                                    imeAction = ImeAction.Next
+                                )
                             )
                         } else {
                             ErrorText(text = "Anda belum memilih gambarnya")
@@ -127,17 +148,21 @@ class SubmitBarangFragment : DialogFragment() {
                                     ukuranBarang,
                                     false,
                                     stringResource(id = R.string.ukuran),
-                                    KeyboardType.Text,
-                                    KeyboardCapitalization.Characters,
-                                    "Ukuran barang"
+                                    "Ukuran barang",
+                                    KeyboardOptions(
+                                        capitalization = KeyboardCapitalization.Characters,
+                                        imeAction = ImeAction.Next
+                                    )
                                 )
                                 warnaBarang = editTextDeskBarang(
                                     warnaBarang,
                                     false,
                                     stringResource(id = R.string.warna),
-                                    KeyboardType.Text,
                                     titleDesk = "Warna barang",
-                                    imeAct = ImeAction.Done
+                                    KeyboardOptions(
+                                        capitalization = KeyboardCapitalization.Words,
+                                        imeAction = ImeAction.Done
+                                    )
                                 )
                                 bahanBarang = ""
                                 tipeBarang = ""
@@ -151,18 +176,19 @@ class SubmitBarangFragment : DialogFragment() {
                                     ukuranBarang,
                                     true,
                                     stringResource(id = R.string.ukuran),
-                                    KeyboardType.Text,
-                                    KeyboardCapitalization.Characters,
-                                    "Ukuran barang", imeAct = ImeAction.Done
+                                    "Ukuran barang",
+                                    KeyboardOptions(
+                                        imeAction = ImeAction.Done,
+                                        capitalization =
+                                        KeyboardCapitalization.Characters
+                                    )
                                 )
                                 Text(
                                     text = stringResource(id = R.string.bahan),
                                     modifier = Modifier.padding(top = 8.dp)
                                 )
-                                bahanBarang = radioButtonJenisBarang(
-                                    bahanList,
-                                    bahanBarang,
-                                    Modifier.fillMaxWidth()
+                                bahanBarang = radioButtonJnsBhnBarang(
+                                    bahanList, bahanBarang, Modifier.fillMaxWidth()
                                 )
                                 warnaBarang = ""
                                 tipeBarang = ""
@@ -173,31 +199,55 @@ class SubmitBarangFragment : DialogFragment() {
                             }
                             "Tenda" -> {
                                 ukuranBarang = editTextDeskBarang(
-                                    ukuranBarang, false, stringResource(id = R.string.ukuran),
-                                    KeyboardType.Text, titleDesk = "Ukuran tenda"
+                                    ukuranBarang,
+                                    false,
+                                    stringResource(id = R.string.ukuran),
+                                    titleDesk = "Ukuran tenda",
+                                    KeyboardOptions(
+                                        imeAction = ImeAction.Next
+                                    )
                                 )
                                 tipeBarang = editTextDeskBarang(
-                                    tipeBarang, false, stringResource(id = R.string.tipe),
-                                    KeyboardType.Text, titleDesk = "Tipe tenda"
+                                    tipeBarang,
+                                    false,
+                                    stringResource(id = R.string.tipe),
+                                    titleDesk = "Tipe tenda",
+                                    KeyboardOptions(
+                                        imeAction = ImeAction.Next
+                                    )
                                 )
                                 frameBarang = editTextDeskBarang(
-                                    frameBarang, true, stringResource(id = R.string.frame),
-                                    KeyboardType.Number, titleDesk = "Frame tenda"
+                                    frameBarang,
+                                    true,
+                                    stringResource(id = R.string.frame),
+                                    titleDesk = "Frame tenda",
+                                    KeyboardOptions(
+                                        keyboardType = KeyboardType.Number,
+                                        imeAction = ImeAction.Next
+                                    )
                                 )
                                 pasakBarang = editTextDeskBarang(
-                                    pasakBarang, true, stringResource(id = R.string.pasak),
-                                    KeyboardType.Number, titleDesk = "Pasak tenda"
+                                    pasakBarang,
+                                    true,
+                                    stringResource(id = R.string.pasak),
+                                    titleDesk = "Pasak tenda",
+                                    KeyboardOptions(
+                                        keyboardType = KeyboardType.Number,
+                                        imeAction = ImeAction.Next
+                                    )
                                 )
                                 caraPemasangan = editTextDeskBarang(
                                     caraPemasangan,
                                     false,
                                     stringResource(id = R.string.cara_pemasangan),
-                                    KeyboardType.Text,
-                                    KeyboardCapitalization.Sentences,
                                     titleDesk = "Cara untuk memasang tenda",
+                                    KeyboardOptions(
+                                        capitalization = KeyboardCapitalization.Sentences,
+                                        imeAction = ImeAction.None
+                                    ),
                                     singleLine = false,
                                     maxLines = 10,
-                                    minLines = 6, imeAct = ImeAction.None
+                                    minLines = 6
                                 )
                                 bahanBarang = ""
                                 warnaBarang = ""
@@ -208,12 +258,14 @@ class SubmitBarangFragment : DialogFragment() {
                                     kegunaanBarang,
                                     false,
                                     stringResource(id = R.string.kegunaan_barang),
-                                    KeyboardType.Text,
-                                    KeyboardCapitalization.Sentences,
                                     "Kegunaan pada barang",
+                                    KeyboardOptions(
+                                        capitalization = KeyboardCapitalization.Sentences,
+                                        imeAction = ImeAction.None
+                                    ),
                                     singleLine = false,
                                     maxLines = 10,
-                                    minLines = 6, imeAct = ImeAction.None
+                                    minLines = 6
                                 )
                                 ukuranBarang = ""
                                 bahanBarang = ""
@@ -228,11 +280,11 @@ class SubmitBarangFragment : DialogFragment() {
                         val basicDeskBarangEmpty =
                             jenisBarang.isEmpty() || namaBarang.isEmpty() || stockBarang.isEmpty() || hargaBarang.isEmpty()
                         val warnaAndBahanEmpty = warnaBarang.isEmpty() && bahanBarang.isEmpty()
-                        val whichHasUkuranEmpty =
-                            ukuranBarang.isEmpty() || warnaAndBahanEmpty && tipeBarang.isEmpty() ||
-                                    warnaAndBahanEmpty && frameBarang.isEmpty() ||
-                                    warnaAndBahanEmpty && pasakBarang.isEmpty() ||
-                                    warnaAndBahanEmpty && caraPemasangan.isEmpty()
+                        val whichHasUkuranEmpty = ukuranBarang.isEmpty() ||
+                                warnaAndBahanEmpty && tipeBarang.isEmpty() ||
+                                warnaAndBahanEmpty && frameBarang.isEmpty() ||
+                                warnaAndBahanEmpty && pasakBarang.isEmpty() ||
+                                warnaAndBahanEmpty && caraPemasangan.isEmpty()
                         val isError =
                             basicDeskBarangEmpty || whichHasUkuranEmpty && kegunaanBarang.isEmpty()
 
