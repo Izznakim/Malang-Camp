@@ -1,143 +1,93 @@
 package com.firmansyah.malangcamp.other
 
-import android.graphics.Matrix
-import android.graphics.PointF
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.MotionEvent
-import android.view.View
-import android.widget.ImageView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.firmansyah.malangcamp.databinding.ActivityZoomImageBinding
+import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTransformGestures
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import com.firmansyah.malangcamp.R
+import com.firmansyah.malangcamp.theme.MalangCampTheme
 
-class ZoomImageActivity : AppCompatActivity(), View.OnTouchListener {
-    private var matrix: Matrix = Matrix()
-    var savedMatrix: Matrix = Matrix()
-    var mode = NONE
-
-    var start = PointF()
-    var mid = PointF()
-    var oldDist = 1f
-
-    companion object{
-        const val EXTRA_IMAGE="extra_image"
-        private const val TAG = "Touch"
-        private const val MIN_ZOOM = 1f
-        private const val MAX_ZOOM = 1f
-
-        const val NONE = 0
-        const val DRAG = 1
-        const val ZOOM = 2
-    }
-
-    private lateinit var binding: ActivityZoomImageBinding
-
+class ZoomImageActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityZoomImageBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
-        val image=intent.getStringExtra(EXTRA_IMAGE)
+        val image = intent.getStringExtra(EXTRA_IMAGE)
 
-        Glide.with(this)
-            .load(image)
-            .apply(RequestOptions())
-            .into(binding.imgZoom)
+        setContent {
+            MalangCampTheme {
+                var scale by remember { mutableStateOf(1f) }
+                var rotationState by remember { mutableStateOf(1f) }
+                var offsetX by remember { mutableStateOf(0f) }
+                var offsetY by remember { mutableStateOf(0f) }
+                var size by remember { mutableStateOf(IntSize.Zero) }
+                Box(
+                    modifier = Modifier
+                        .clip(RectangleShape)
+                        .fillMaxSize()
+                        .background(Color.Gray)
+                        .onSizeChanged { size = it }
+                        .pointerInput(Unit) {
+                            detectTransformGestures { _, pan, zoom, rotation ->
+                                scale = maxOf(.5f, minOf(scale * zoom, 5f))
+                                rotationState += rotation
 
-        binding.imgZoom.setOnTouchListener(this)
-    }
-
-    override fun onTouch(v: View, event: MotionEvent): Boolean {
-        val view: ImageView = v as ImageView
-        view.scaleType = ImageView.ScaleType.MATRIX
-        val scale: Float
-        dumpEvent(event)
-        when (event.action and MotionEvent.ACTION_MASK) {
-            MotionEvent.ACTION_DOWN -> {
-                matrix.set(view.imageMatrix)
-                savedMatrix.set(matrix)
-                start[event.x] = event.y
-                Log.d(TAG, "mode=DRAG")
-                mode = DRAG
-            }
-            MotionEvent.ACTION_UP, MotionEvent.ACTION_POINTER_UP -> {
-                mode = NONE
-                Log.d(TAG, "mode=NONE")
-            }
-            MotionEvent.ACTION_POINTER_DOWN -> {
-                oldDist = spacing(event)
-                Log.d(TAG, "oldDist=$oldDist")
-                if (oldDist > 5f) {
-                    savedMatrix.set(matrix)
-                    midPoint(mid, event)
-                    mode = ZOOM
-                    Log.d(TAG, "mode=ZOOM")
-                }
-            }
-            MotionEvent.ACTION_MOVE -> if (mode == DRAG) {
-                matrix.set(savedMatrix)
-                matrix.postTranslate(
-                    event.x - start.x,
-                    event.y - start.y
-                )
-            } else if (mode == ZOOM) {
-                val newDist = spacing(event)
-                Log.d(TAG, "newDist=$newDist")
-                if (newDist > 5f) {
-                    matrix.set(savedMatrix)
-                    scale = newDist / oldDist
-                    matrix.postScale(scale, scale, mid.x, mid.y)
+                                val maxX = (size.width * scale)
+                                val minX = -maxX
+                                offsetX = maxOf(minX, minOf(maxX, offsetX + pan.x))
+                                val maxY = (size.height * scale)
+                                val minY = -maxY
+                                offsetY = maxOf(minY, minOf(maxY, offsetY + pan.y))
+                            }
+                        }
+                        .padding(
+                            top = 8.dp
+                        )
+                ) {
+                    AsyncImage(
+                        model = image,
+                        contentDescription = stringResource(id = R.string.foto_bukti_pembayaran),
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .graphicsLayer(
+                                scaleX = scale,
+                                scaleY = scale,
+                                rotationZ = rotationState,
+                                translationX = offsetX,
+                                translationY = offsetY
+                            ),
+                        contentScale = ContentScale.Inside,
+                        placeholder = painterResource(
+                            id = R.drawable.ic_photo
+                        )
+                    )
                 }
             }
         }
-        view.imageMatrix = matrix
-        return true
     }
 
-    private fun spacing(event: MotionEvent): Float {
-        val x = event.getX(0) - event.getX(1)
-        val y = event.getY(0) - event.getY(1)
-        return Math.sqrt((x * x + y * y).toDouble()).toFloat()
-    }
-
-    private fun midPoint(point: PointF, event: MotionEvent) {
-        val x = event.getX(0) + event.getX(1)
-        val y = event.getY(0) + event.getY(1)
-        point[x / 2] = y / 2
-    }
-
-    private fun dumpEvent(event: MotionEvent) {
-        val names = arrayOf(
-            "DOWN",
-            "UP",
-            "MOVE",
-            "CANCEL",
-            "OUTSIDE",
-            "POINTER_DOWN",
-            "POINTER_UP",
-            "7?",
-            "8?",
-            "9?"
-        )
-        val sb = StringBuilder()
-        val action = event.action
-        val actionCode = action and MotionEvent.ACTION_MASK
-        sb.append("event ACTION_").append(names[actionCode])
-        if (actionCode == MotionEvent.ACTION_POINTER_DOWN || actionCode == MotionEvent.ACTION_POINTER_UP) {
-            sb.append("(pid ").append(action shr MotionEvent.ACTION_POINTER_ID_SHIFT)
-            sb.append(")")
-        }
-        sb.append("[")
-        for (i in 0 until event.pointerCount) {
-            sb.append("#").append(i)
-            sb.append("(pid ").append(event.getPointerId(i))
-            sb.append(")=").append(event.getX(i).toInt())
-            sb.append(",").append(event.getY(i).toInt())
-            if (i + 1 < event.pointerCount) sb.append(";")
-        }
-        sb.append("]")
-        Log.d("Touch Events ---------", sb.toString())
+    companion object {
+        const val EXTRA_IMAGE = "extra_image"
     }
 }
