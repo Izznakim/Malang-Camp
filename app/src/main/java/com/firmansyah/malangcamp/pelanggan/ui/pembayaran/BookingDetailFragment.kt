@@ -1,4 +1,4 @@
-package com.firmansyah.malangcamp.admin.ui.listbooking
+package com.firmansyah.malangcamp.pelanggan.ui.pembayaran
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -10,18 +10,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.Divider
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.unit.dp
 import androidx.fragment.app.DialogFragment
 import com.firmansyah.malangcamp.adapter.KeranjangAdapter
 import com.firmansyah.malangcamp.component.*
 import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.model.Pembayaran
-import com.firmansyah.malangcamp.theme.MalangCampTheme
-import com.firmansyah.malangcamp.theme.black
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
@@ -70,44 +64,7 @@ class BookingDetailFragment : DialogFragment() {
 //        return binding.root
         return ComposeView(requireContext()).apply {
             setContent {
-                MalangCampTheme {
-                    val idPembayaran = pembayaran?.idPembayaran
-                    val barangSewa = pembayaran?.barangSewa
 
-                    if (idPembayaran != null) {
-                        LazyColumn(
-                            modifier = Modifier
-                                .padding(horizontal = 8.dp)
-                                .fillMaxSize()
-                        ) {
-                            item { ListBarangTitle() }
-                            item { TglSerahTerima(pembayaran) }
-                            item {
-                                Divider(
-                                    thickness = 1.dp,
-                                    color = black, modifier = Modifier
-                                        .padding(top = 16.dp)
-                                )
-                            }
-                            ListKeranjang(listKeranjang)
-                            item { Hari(pembayaran) }
-                            item { Total(pembayaran) }
-                            item { NamaPenyewa(pembayaran) }
-                            item { PhoneNumber(activity, pembayaran) }
-                            item { BuktiPembayaranImage(pembayaran, activity) }
-                            item {
-                                ButtonConfirm(
-                                    idPembayaran,
-                                    barangSewa,
-                                    pembayaranRef,
-                                    barangRef,
-                                    activity,
-                                    dialog
-                                )
-                            }
-                        }
-                    }
-                }
             }
         }
     }

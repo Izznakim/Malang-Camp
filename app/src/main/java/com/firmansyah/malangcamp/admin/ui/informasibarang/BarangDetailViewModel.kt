@@ -1,15 +1,27 @@
 package com.firmansyah.malangcamp.admin.ui.informasibarang
 
 import android.net.Uri
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.firmansyah.malangcamp.model.Barang
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
-class DetailInformasiViewModel : ViewModel() {
+class BarangDetailViewModel : ViewModel() {
     private val storageRef = Firebase.storage.getReference("images/")
     private val databaseRef = Firebase.database.getReference("barang")
+
+    var barang by mutableStateOf(Barang())
+        private set
+
+    fun getBarang(mBarang: Barang?) {
+        if (mBarang != null) {
+            barang = mBarang
+        }
+    }
 
     fun updateBarang(
 //        context: Context,
@@ -108,7 +120,7 @@ class DetailInformasiViewModel : ViewModel() {
             databaseRef.child(it.id).setValue(model)
 //            Toast.makeText(context, "Sukses mengupdate", Toast.LENGTH_SHORT)
 //                .show()
-        }.addOnFailureListener { e ->
+        }.addOnFailureListener {
 //            Toast.makeText(context, e.message, Toast.LENGTH_SHORT)
 //                .show()
         }

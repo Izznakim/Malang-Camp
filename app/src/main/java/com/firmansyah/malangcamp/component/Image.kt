@@ -23,7 +23,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
-import androidx.fragment.app.FragmentActivity
 import coil.compose.AsyncImage
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.model.Pembayaran
@@ -50,13 +49,13 @@ fun LogoLoginAdmin() {
 }
 
 @Composable
-fun BuktiPembayaranImage(pembayaran: Pembayaran?, activity: FragmentActivity?) {
+fun BuktiPembayaranImage(pembayaran: Pembayaran, context: Context) {
     Text(
         text = stringResource(id = R.string.text_bukti_pembayaran),
         modifier = Modifier.padding(top = 16.dp)
     )
     AsyncImage(
-        model = pembayaran?.buktiPembayaran,
+        model = pembayaran.buktiPembayaran,
         contentDescription = stringResource(id = R.string.foto_bukti_pembayaran),
         modifier = Modifier
             .padding(
@@ -66,14 +65,14 @@ fun BuktiPembayaranImage(pembayaran: Pembayaran?, activity: FragmentActivity?) {
             .fillMaxWidth()
             .clickable {
                 Intent(
-                    activity,
+                    context,
                     ZoomImageActivity::class.java
                 ).also {
                     it.putExtra(
                         ZoomImageActivity.EXTRA_IMAGE,
-                        pembayaran?.buktiPembayaran
+                        pembayaran.buktiPembayaran
                     )
-                    activity?.startActivity(it)
+                    context.startActivity(it)
                 }
             }
             .border(

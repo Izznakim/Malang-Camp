@@ -1,6 +1,5 @@
 package com.firmansyah.malangcamp.component
 
-import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -16,18 +15,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.firmansyah.malangcamp.admin.Screen
 import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.model.Pembayaran
 import com.firmansyah.malangcamp.other.currencyIdrFormat
-import com.firmansyah.malangcamp.other.toBookingDetail
 import com.firmansyah.malangcamp.theme.black
 
 
 @OptIn(ExperimentalMaterialApi::class)
-fun LazyListScope.bookingItem(listPembayaran: List<Pembayaran>, context: Context) {
+fun LazyListScope.bookingItem(listPembayaran: List<Pembayaran>, navController: NavHostController) {
     items(items = listPembayaran, itemContent = {
         Card(
-            onClick = { toBookingDetail(context, it) },
+            onClick = {
+                navController.currentBackStackEntry?.savedStateHandle?.set("pembayaran", it)
+                navController.navigate(Screen.BookingDetailScreen.route)
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 16.dp, horizontal = 8.dp)
@@ -52,7 +55,7 @@ fun LazyListScope.bookingItem(listPembayaran: List<Pembayaran>, context: Context
     })
 }
 
-fun LazyListScope.ListKeranjang(listKeranjang: ArrayList<Keranjang>) {
+fun LazyListScope.listKeranjang(listKeranjang: ArrayList<Keranjang>) {
     items(items = listKeranjang, itemContent = { barang ->
         Column(
             modifier = Modifier

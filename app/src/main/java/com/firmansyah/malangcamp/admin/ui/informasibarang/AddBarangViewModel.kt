@@ -7,7 +7,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
-class SubmitBarangViewModel : ViewModel() {
+class AddBarangViewModel : ViewModel() {
     private val storageRef = Firebase.storage.getReference("images/")
 
     private val databaseRef = Firebase.database.getReference("barang")

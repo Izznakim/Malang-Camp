@@ -7,17 +7,20 @@ import com.firmansyah.malangcamp.model.Pembayaran
 import com.firmansyah.malangcamp.other.SingleLiveEvent
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class ListBookingViewModel : ViewModel() {
+    private val ref = Firebase.database.getReference("pembayaran")
+
     private val _listBooking = mutableStateOf<List<Pembayaran>>(emptyList())
     val listBooking: State<List<Pembayaran>> = _listBooking
 
     internal val toast = SingleLiveEvent<String>()
 
-    fun getListBooking(databaseRef: DatabaseReference) {
-        databaseRef.addValueEventListener(object : ValueEventListener {
+    fun getListBooking() {
+        ref.addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 val list: ArrayList<Pembayaran> = arrayListOf()

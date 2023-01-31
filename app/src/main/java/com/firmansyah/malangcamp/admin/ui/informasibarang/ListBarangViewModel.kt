@@ -9,9 +9,12 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.storage.StorageReference
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 
-class InformasiBarangViewModel : ViewModel() {
+class ListBarangViewModel : ViewModel() {
+    private val storageRef = Firebase.storage.getReference("images/")
+
     private val _listBarang = mutableStateOf<List<Barang>>(emptyList())
     val listBarang: State<List<Barang>> = _listBarang
 
@@ -37,7 +40,7 @@ class InformasiBarangViewModel : ViewModel() {
         })
     }
 
-    fun deleteBarang(databaseRef: DatabaseReference, storageRef: StorageReference, model: Barang) {
+    fun deleteBarang(databaseRef: DatabaseReference, model: Barang) {
         databaseRef.child(model.id).addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 snapshot.ref.removeValue()

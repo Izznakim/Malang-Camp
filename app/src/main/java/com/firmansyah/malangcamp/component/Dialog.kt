@@ -10,18 +10,16 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import com.firmansyah.malangcamp.admin.ui.informasibarang.InformasiBarangViewModel
+import com.firmansyah.malangcamp.admin.ui.informasibarang.ListBarangViewModel
 import com.firmansyah.malangcamp.model.Barang
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.storage.StorageReference
 
 
 @Composable
 fun DeleteDialog(
     barang: Barang,
     databaseRef: DatabaseReference,
-    storageRef: StorageReference,
-    informasiBarangViewModel: InformasiBarangViewModel
+    listBarangViewModel: ListBarangViewModel
 ) {
     if (barang.delete) {
         AlertDialog(
@@ -44,9 +42,8 @@ fun DeleteDialog(
             confirmButton = {
                 Button(
                     onClick = {
-                        informasiBarangViewModel.deleteBarang(
+                        listBarangViewModel.deleteBarang(
                             databaseRef,
-                            storageRef,
                             barang
                         )
                     },

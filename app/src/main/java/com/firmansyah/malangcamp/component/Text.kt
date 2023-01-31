@@ -1,5 +1,6 @@
 package com.firmansyah.malangcamp.component
 
+import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,7 +17,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.fragment.app.FragmentActivity
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.model.Pembayaran
 import com.firmansyah.malangcamp.other.copyPhoneNumber
@@ -45,34 +45,34 @@ fun ListBarangTitle() {
 }
 
 @Composable
-fun TglSerahTerima(pembayaran: Pembayaran?) {
+fun TglSerahTerima(pembayaran: Pembayaran) {
     Text(text = buildAnnotatedString {
         append("Barang diambil tanggal: ")
         withStyle(style = SpanStyle(color = Color.Green)) {
-            append("${pembayaran?.tanggalPengambilan}")
+            append(pembayaran.tanggalPengambilan)
         }
         append(" dan dikembalikan tanggal: ")
         withStyle(style = SpanStyle(color = Color.Red)) {
-            append("${pembayaran?.tanggalPengembalian}")
+            append(pembayaran.tanggalPengembalian)
         }
         append(", pada jam ")
         withStyle(style = SpanStyle(color = Color.Blue)) {
-            append("${pembayaran?.jamPengambilan}")
+            append(pembayaran.jamPengambilan)
         }
     }, modifier = Modifier.padding(top = 8.dp))
 }
 
 @Composable
-fun Hari(pembayaran: Pembayaran?) {
+fun Hari(pembayaran: Pembayaran) {
     Text(
-        text = "Selama ${pembayaran?.hari.toString()} Hari",
+        text = "Selama ${pembayaran.hari} Hari",
         modifier = Modifier.fillMaxWidth(),
         textAlign = TextAlign.End
     )
 }
 
 @Composable
-fun Total(pembayaran: Pembayaran?) {
+fun Total(pembayaran: Pembayaran) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -83,7 +83,7 @@ fun Total(pembayaran: Pembayaran?) {
             fontWeight = FontWeight.SemiBold
         )
         Text(
-            text = currencyIdrFormat().format(pembayaran?.total),
+            text = currencyIdrFormat().format(pembayaran.total),
             textAlign = TextAlign.End,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier.fillMaxWidth()
@@ -92,27 +92,27 @@ fun Total(pembayaran: Pembayaran?) {
 }
 
 @Composable
-fun NamaPenyewa(pembayaran: Pembayaran?) {
+fun NamaPenyewa(pembayaran: Pembayaran) {
     Text(
         text = stringResource(id = R.string.text_nama_penyewa),
         fontWeight = FontWeight.SemiBold,
         modifier = Modifier.padding(top = 16.dp)
     )
-    Text(text = "${pembayaran?.namaPenyewa}")
+    Text(text = pembayaran.namaPenyewa)
 }
 
 @Composable
-fun PhoneNumber(activity: FragmentActivity?, pembayaran: Pembayaran?) {
+fun PhoneNumber(context: Context, pembayaran: Pembayaran) {
     Text(
         text = stringResource(id = R.string.nomor_telepon),
         fontWeight = FontWeight.SemiBold,
         modifier = Modifier.padding(top = 8.dp)
     )
     Text(
-        text = "${pembayaran?.noTelp}",
+        text = pembayaran.noTelp,
         color = Color.Blue,
         modifier = Modifier.clickable {
-            copyPhoneNumber(activity, pembayaran)
+            copyPhoneNumber(context, pembayaran)
         })
 }
 

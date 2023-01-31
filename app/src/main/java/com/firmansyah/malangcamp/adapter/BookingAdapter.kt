@@ -19,10 +19,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.recyclerview.widget.RecyclerView
-import com.firmansyah.malangcamp.admin.ui.informasibarang.DetailInformasiFragment
-import com.firmansyah.malangcamp.admin.ui.listbooking.BookingDetailFragment
 import com.firmansyah.malangcamp.databinding.ListBookingBinding
 import com.firmansyah.malangcamp.model.Pembayaran
+import com.firmansyah.malangcamp.pelanggan.ui.pembayaran.BookingDetailFragment
 import com.firmansyah.malangcamp.theme.MalangCampTheme
 
 class BookingAdapter(
@@ -102,7 +101,7 @@ private fun toDetailPembayaran(
     bundle.putParcelable(BookingDetailFragment.EXTRA_PEMBAYARAN, pembayaran)
     bundle.putBoolean(BookingDetailFragment.EXTRA_ISADMIN, isAdmin)
     bookingDetailFragment.arguments = bundle
-    bookingDetailFragment.show(mFragmentManager, DetailInformasiFragment::class.java.simpleName)
+    bookingDetailFragment.show(mFragmentManager, BookingDetailFragment::class.java.simpleName)
 }
 
 @Preview

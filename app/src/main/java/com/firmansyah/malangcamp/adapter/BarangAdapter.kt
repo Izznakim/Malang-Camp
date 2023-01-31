@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.firmansyah.malangcamp.R
-import com.firmansyah.malangcamp.admin.ui.informasibarang.DetailInformasiFragment
 import com.firmansyah.malangcamp.databinding.ListSewabarangBinding
 import com.firmansyah.malangcamp.model.Barang
 import com.firmansyah.malangcamp.pelanggan.ui.barangsewa.DetailBarangSewaFragment
@@ -103,17 +102,17 @@ class BarangAdapter(
 
                 itemView.setOnClickListener {
                     if (isAdmin) {
-                        val detailInformasiFragment = DetailInformasiFragment()
-                        val mFragmentManager =
-                            (itemView.context as AppCompatActivity).supportFragmentManager
-                        val bundle = Bundle()
-
-                        bundle.putParcelable(DetailInformasiFragment.EXTRA_BARANG, barang)
-                        detailInformasiFragment.show(
-                            mFragmentManager,
-                            DetailInformasiFragment::class.java.simpleName
-                        )
-                        detailInformasiFragment.arguments = bundle
+//                        val detailInformasiFragment = DetailInformasiFragment()
+//                        val mFragmentManager =
+//                            (itemView.context as AppCompatActivity).supportFragmentManager
+//                        val bundle = Bundle()
+//
+//                        bundle.putParcelable(DetailInformasiFragment.EXTRA_BARANG, barang)
+//                        detailInformasiFragment.show(
+//                            mFragmentManager,
+//                            DetailInformasiFragment::class.java.simpleName
+//                        )
+//                        detailInformasiFragment.arguments = bundle
                     } else {
                         val detailBarangSewa = DetailBarangSewaFragment()
                         val mFragmentManager =

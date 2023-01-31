@@ -1,6 +1,5 @@
 package com.firmansyah.malangcamp.component
 
-import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -13,23 +12,30 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.firmansyah.malangcamp.R
+import com.firmansyah.malangcamp.admin.Screen
 import com.firmansyah.malangcamp.model.Barang
 import com.firmansyah.malangcamp.other.currencyIdrFormat
 import com.firmansyah.malangcamp.other.rating
-import com.firmansyah.malangcamp.other.toDetailInformasiBarang
 import com.firmansyah.malangcamp.theme.black
 
 
 @Composable
 @OptIn(ExperimentalMaterialApi::class)
-fun ItemBarangCard(barang: Barang, context: Context) {
+fun ItemBarangCard(
+    barang: Barang,
+    navController: NavHostController
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 16.dp),
-        onClick = { toDetailInformasiBarang(barang, context) }
+        onClick = {
+            navController.currentBackStackEntry?.savedStateHandle?.set("barang", barang)
+            navController.navigate(Screen.BarangDetailScreen.route)
+        }
     ) {
         Row(
             horizontalArrangement = Arrangement.Center,

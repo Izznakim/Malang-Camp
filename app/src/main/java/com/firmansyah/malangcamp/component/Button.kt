@@ -1,6 +1,5 @@
 package com.firmansyah.malangcamp.component
 
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -24,20 +23,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
+import androidx.navigation.NavHostController
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.admin.AdminLoginActivity
 import com.firmansyah.malangcamp.admin.AdminLoginViewModel
-import com.firmansyah.malangcamp.admin.ui.informasibarang.SubmitBarangFragment
-import com.firmansyah.malangcamp.admin.ui.informasibarang.SubmitBarangViewModel
+import com.firmansyah.malangcamp.admin.Screen
+import com.firmansyah.malangcamp.admin.ui.informasibarang.AddBarangViewModel
+import com.firmansyah.malangcamp.admin.ui.listbooking.BookingDetailViewModel
 import com.firmansyah.malangcamp.model.Barang
 import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.pelanggan.PelangganLoginActivity
 import com.firmansyah.malangcamp.theme.green
 import com.firmansyah.malangcamp.theme.white
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ktx.getValue
 
 
 @Composable
@@ -121,12 +119,11 @@ fun ButtonAdminLogin(
 
 @Composable
 fun ButtonConfirm(
+    navController: NavHostController,
     idPembayaran: String,
-    barangSewa: ArrayList<Keranjang>?,
-    pembayaranRef: DatabaseReference,
-    barangRef: DatabaseReference,
-    activity: FragmentActivity?,
-    dialog: Dialog?
+    barangSewa: ArrayList<Keranjang>,
+    bookingDetailViewModel: BookingDetailViewModel,
+    context: Context
 ) {
     Row(
         modifier = Modifier
@@ -137,26 +134,10 @@ fun ButtonConfirm(
     ) {
         OutlinedButton(
             onClick = {
-                pembayaranRef.child(idPembayaran).child("status").setValue("ditolak")
-                if (barangSewa?.indices != null) {
-                    for (i in barangSewa.indices) {
-                        barangRef.child(barangSewa[i].idBarang).child("stock").get()
-                            .addOnSuccessListener {
-                                val value = it.getValue<Int>()
-                                if (value != null) {
-                                    barangRef.child(barangSewa[i].idBarang)
-                                        .child("stock")
-                                        .setValue(value + barangSewa[i].jumlah)
-                                }
-                            }.addOnFailureListener {
-                                Toast.makeText(activity, it.message, Toast.LENGTH_LONG)
-                                    .show()
-                            }
-                    }
-                }
-                Toast.makeText(activity, "Penyewaan telah diTOLAK", Toast.LENGTH_LONG)
+                bookingDetailViewModel.pembayaranDitolak(idPembayaran, barangSewa)
+                Toast.makeText(context, "Penyewaan telah diTOLAK", Toast.LENGTH_LONG)
                     .show()
-                dialog?.dismiss()
+                navController.popBackStack()
             },
             modifier = Modifier
                 .padding(horizontal = 32.dp)
@@ -173,10 +154,10 @@ fun ButtonConfirm(
         }
         Button(
             onClick = {
-                pembayaranRef.child(idPembayaran).child("status").setValue("diterima")
-                Toast.makeText(activity, "Penyewaan telah diTERIMA", Toast.LENGTH_LONG)
+                bookingDetailViewModel.pembayaranDiterima(idPembayaran)
+                Toast.makeText(context, "Penyewaan telah diTERIMA", Toast.LENGTH_LONG)
                     .show()
-                dialog?.dismiss()
+                navController.popBackStack()
             },
             modifier = Modifier
                 .padding(horizontal = 32.dp)
@@ -188,14 +169,10 @@ fun ButtonConfirm(
 }
 
 @Composable
-fun FabAddBarang(childFragmentManager: FragmentManager) {
+fun FabAddBarang(navController: NavHostController) {
     FloatingActionButton(
         onClick = {
-            val submitBarangFragment = SubmitBarangFragment()
-            submitBarangFragment.show(
-                childFragmentManager,
-                SubmitBarangFragment::class.java.simpleName
-            )
+            navController.navigate(Screen.AddBarangScreen.route)
         }) {
         Icon(
             imageVector = Icons.Filled.Add,
@@ -253,8 +230,8 @@ fun SubmitBarangButton(
     caraPemasangan: String,
     kegunaanBarang: String,
     isError: Boolean,
-    dialog: Dialog?,
-    viewModel: SubmitBarangViewModel
+    navController: NavHostController,
+    viewModel: AddBarangViewModel
 ) {
     Row(
         modifier = Modifier
@@ -265,7 +242,7 @@ fun SubmitBarangButton(
     ) {
         OutlinedButton(
             onClick = {
-                dialog?.cancel()
+                navController.popBackStack()
             },
             modifier = Modifier
                 .padding(horizontal = 32.dp)
@@ -298,7 +275,7 @@ fun SubmitBarangButton(
                     caraPemasangan,
                     kegunaanBarang
                 )
-                dialog?.dismiss()
+                navController.popBackStack()
             },
             modifier = Modifier
                 .padding(horizontal = 32.dp)

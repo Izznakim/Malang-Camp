@@ -2,9 +2,9 @@ package com.firmansyah.malangcamp.admin
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,7 +23,7 @@ import com.firmansyah.malangcamp.component.*
 import com.firmansyah.malangcamp.theme.MalangCampTheme
 
 //  Halaman login sebagai admin
-class AdminLoginActivity : AppCompatActivity() {
+class AdminLoginActivity : ComponentActivity() {
     private val loginViewModel by viewModels<AdminLoginViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
