@@ -42,13 +42,13 @@ fun emailInput(
             if (isEmpty) {
                 Icon(
                     Icons.Filled.Warning,
-                    contentDescription = "error",
+                    contentDescription = stringResource(R.string.e_mail_error),
                     tint = MaterialTheme.colors.error
                 )
             } else if (!isValid) {
                 Icon(
                     Icons.Filled.Warning,
-                    contentDescription = "error",
+                    contentDescription = stringResource(R.string.e_mail_error),
                     tint = MaterialTheme.colors.error
                 )
             }
@@ -66,9 +66,9 @@ fun emailInput(
     )
 
     if (isEmpty) {
-        ErrorText("Email harus diisi")
+        ErrorText(stringResource(R.string.email_harus_diisi))
     } else if (!isValid) {
-        ErrorText("Email tidak valid")
+        ErrorText(stringResource(R.string.email_tidak_valid))
     }
     return isError
 }
@@ -88,7 +88,7 @@ fun passwordInput(password: String, onPasswordValueChange: (newValue: String) ->
             if (isNotEnough) {
                 Icon(
                     Icons.Filled.Warning,
-                    contentDescription = "error",
+                    contentDescription = stringResource(R.string.password_error),
                     tint = MaterialTheme.colors.error
                 )
             }
@@ -106,7 +106,7 @@ fun passwordInput(password: String, onPasswordValueChange: (newValue: String) ->
         visualTransformation = PasswordVisualTransformation()
     )
     if (isNotEnough) {
-        ErrorText("Password harus lebih dari 6 karakter")
+        ErrorText(stringResource(R.string.password_harus_lebih_dari6_karakter))
     }
     return isError
 }
@@ -137,7 +137,7 @@ fun editTextDeskBarang(
                 if (deskBrng.isEmpty()) {
                     Icon(
                         Icons.Filled.Warning,
-                        contentDescription = "error",
+                        contentDescription = stringResource(R.string.deskbarang_error, titleDesk),
                         tint = MaterialTheme.colors.error
                     )
                 }
@@ -151,7 +151,7 @@ fun editTextDeskBarang(
             textStyle = textStyle
         )
         if (deskBrng.isEmpty()) {
-            ErrorText("$titleDesk harus diisi")
+            ErrorText(stringResource(R.string.deskbarang_harus_diisi, titleDesk))
         }
     }
     return deskBrng

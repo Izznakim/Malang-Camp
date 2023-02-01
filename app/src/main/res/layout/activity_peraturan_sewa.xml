@@ -116,7 +116,7 @@ xmlns:tools="http://schemas.android.com/tools"
                 android:longClickable="false"
                 android:gravity="center"
                 android:layout_gravity="center"
-                android:text="@string/NmerTlpnAdmin"
+                android:text="@string/NmerTlpnPegawai"
                 android:textColor="@color/blue"/>
 
         </LinearLayout>

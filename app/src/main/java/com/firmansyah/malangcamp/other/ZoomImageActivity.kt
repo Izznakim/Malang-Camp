@@ -1,8 +1,8 @@
 package com.firmansyah.malangcamp.other
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Box
@@ -27,9 +27,10 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.firmansyah.malangcamp.R
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.EXTRA_IMAGE
 import com.firmansyah.malangcamp.theme.MalangCampTheme
 
-class ZoomImageActivity : AppCompatActivity() {
+class ZoomImageActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -85,9 +86,5 @@ class ZoomImageActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    companion object {
-        const val EXTRA_IMAGE = "extra_image"
     }
 }

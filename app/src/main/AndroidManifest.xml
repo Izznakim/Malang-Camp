@@ -30,9 +30,9 @@
             android:exported="false"
             android:label="@string/title_activity_pelanggan_home" />
         <activity
-            android:name=".admin.AdminHomeActivity"
+            android:name=".screen.pegawai.PegawaiHomeActivity"
             android:exported="false"
-            android:label="@string/title_activity_admin_home" />
+            android:label="@string/title_activity_pegawai_home" />
         <activity
             android:name=".pelanggan.PelangganRegisterActivity"
             android:exported="false" />
@@ -40,7 +40,7 @@
             android:name=".pelanggan.PelangganLoginActivity"
             android:exported="false" />
         <activity
-            android:name=".admin.AdminLoginActivity"
+            android:name=".screen.pegawai.PegawaiLoginActivity"
             android:exported="false" />
         <activity
             android:name=".HomeActivity"

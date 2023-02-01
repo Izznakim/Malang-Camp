@@ -6,10 +6,10 @@ import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.firmansyah.malangcamp.admin.AdminHomeActivity
 import com.firmansyah.malangcamp.databinding.ActivityPelangganLoginBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 //  Halaman login sebagai pelanggan
 class PelangganLoginActivity : AppCompatActivity() {
@@ -72,7 +72,7 @@ class PelangganLoginActivity : AppCompatActivity() {
                     if (id != null) {
                         ref.child(id).get().addOnSuccessListener { snapshot ->
                             binding.progressBar.visibility = View.GONE
-                            if (!snapshot.child("isAdmin").exists()) {
+                            if (!snapshot.child("isPegawai").exists()) {
                                 Intent(
                                     this@PelangganLoginActivity,
                                     PelangganHomeActivity::class.java
@@ -82,7 +82,7 @@ class PelangganLoginActivity : AppCompatActivity() {
                                     startActivity(intent)
                                 }
                             } else {
-                                binding.progressBar.visibility= View.GONE
+                                binding.progressBar.visibility = View.GONE
                                 Toast.makeText(
                                     this,
                                     "Pelanggan belum terdaftar",
@@ -107,9 +107,9 @@ class PelangganLoginActivity : AppCompatActivity() {
         if (idAuth != null) {
             binding.progressBar.visibility= View.VISIBLE
             ref.child(idAuth).get().addOnSuccessListener { snapshot ->
-                if (!snapshot.child("isAdmin").exists()) {
-                    Intent(this,PelangganHomeActivity::class.java).also { intent ->
-                        binding.progressBar.visibility= View.GONE
+                if (!snapshot.child("isPegawai").exists()) {
+                    Intent(this, PelangganHomeActivity::class.java).also { intent ->
+                        binding.progressBar.visibility = View.GONE
                         intent.flags =
                             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(intent)

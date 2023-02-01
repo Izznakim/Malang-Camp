@@ -1,14 +1,16 @@
-package com.firmansyah.malangcamp.admin
+package com.firmansyah.malangcamp.screen.pegawai
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.IS_PEGAWAI_PATH
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.USERS_PATH
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class AdminLoginViewModel : ViewModel() {
-    private val database = Firebase.database.getReference("users")
+class PegawaiLoginViewModel : ViewModel() {
+    private val database = Firebase.database.getReference(USERS_PATH)
     private val auth = Firebase.auth
 
     private var _errorText = mutableStateOf("")
@@ -21,15 +23,15 @@ class AdminLoginViewModel : ViewModel() {
     val isIntent: State<Boolean> = _isIntent
 
     init {
-        getAdminStart()
+        getPegawaiStart()
     }
 
-    private fun getAdminStart() {
+    private fun getPegawaiStart() {
         val idAuth = auth.currentUser?.uid
         if (idAuth != null) {
             _isLoading.value = true
             database.child(idAuth).get().addOnSuccessListener { snapshot ->
-                if (snapshot.child("isAdmin").exists()) {
+                if (snapshot.child(IS_PEGAWAI_PATH).exists()) {
                     _isLoading.value = false
                     _isIntent.value = true
                 } else {
@@ -43,24 +45,24 @@ class AdminLoginViewModel : ViewModel() {
         }
     }
 
-    fun getAdmin(email: String, password: String) {
+    fun getPegawai(email: String, password: String, blmDftrText: String, failLoad: String) {
         _isLoading.value = true
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
             if (it.isSuccessful) {
                 val id = auth.currentUser?.uid
                 if (id != null) {
                     database.child(id).get().addOnSuccessListener { snapshot ->
-                        if (snapshot.child("isAdmin").value == true) {
+                        if (snapshot.child(IS_PEGAWAI_PATH).value == true) {
                             _isLoading.value = false
                             _isIntent.value = true
                             _errorText.value = ""
                         } else {
                             _isLoading.value = false
-                            _errorText.value = "Maaf, Anda belum terdaftar sebagai Admin"
+                            _errorText.value = blmDftrText
                         }
                     }.addOnFailureListener {
                         _isLoading.value = false
-                        _errorText.value = "Gagal untuk memuat data"
+                        _errorText.value = failLoad
                     }
                 }
             } else {

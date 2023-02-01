@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.widget.Toast
+import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.model.Barang
 import com.firmansyah.malangcamp.model.Pembayaran
 import java.text.NumberFormat
@@ -37,7 +38,7 @@ fun copyPhoneNumber(context: Context, pembayaran: Pembayaran?) {
     clipboard.setPrimaryClip(clip)
     Toast.makeText(
         context,
-        "Nomor Telpon telah disalin",
+        context.getString(R.string.nomor_telpon_telah_disalin),
         Toast.LENGTH_LONG
     )
         .show()

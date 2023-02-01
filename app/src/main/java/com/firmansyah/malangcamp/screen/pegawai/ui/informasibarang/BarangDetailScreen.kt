@@ -1,4 +1,4 @@
-package com.firmansyah.malangcamp.admin.ui.informasibarang
+package com.firmansyah.malangcamp.screen.pegawai.ui.informasibarang
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -8,10 +8,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -34,12 +31,22 @@ import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.component.GetImageFromGallery
 import com.firmansyah.malangcamp.component.editTextDeskBarang
 import com.firmansyah.malangcamp.model.Barang
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.BARANG_LAINNYA
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.JAKET
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.SEPATU
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.SLEEPING_BAG
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.TAS
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.TENDA
 import com.firmansyah.malangcamp.theme.MalangCampTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun BarangDetailScreen(
     navController: NavHostController,
     barang: Barang?,
+    scaffoldState: ScaffoldState,
+    coroutineScope: CoroutineScope,
     barangDetailViewModel: BarangDetailViewModel = viewModel()
 ) {
     MalangCampTheme {
@@ -95,7 +102,7 @@ fun BarangDetailScreen(
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.Words
                 ),
-                titleDesk = "Nama Barang",
+                titleDesk = stringResource(R.string.nama_barang),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp),
@@ -118,12 +125,12 @@ fun BarangDetailScreen(
                     textAlign = TextAlign.Center
                 )
                 when (mBarang.jenis) {
-                    SEPATU, JAKET, TAS, SLEEPING_BAG, TENDA -> {
+                    SEPATU, JAKET, TAS, SLEEPING_BAG -> {
                         ukuranBarang = editTextDeskBarang(
                             ukuranBarang,
                             false,
                             stringResource(id = R.string.ukuran),
-                            "Ukuran barang",
+                            stringResource(R.string.ukuran_barang),
                             KeyboardOptions(
                                 imeAction = ImeAction.Done
                             ),
@@ -138,7 +145,7 @@ fun BarangDetailScreen(
             when (mBarang.jenis) {
                 SLEEPING_BAG -> {
                     Text(
-                        text = "Berbahan ${mBarang.bahan}",
+                        text = stringResource(R.string.Berbahan___, mBarang.bahan),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 8.dp),
@@ -146,11 +153,25 @@ fun BarangDetailScreen(
                     )
                 }
                 TENDA -> {
+                    ukuranBarang = editTextDeskBarang(
+                        ukuranBarang,
+                        false,
+                        stringResource(id = R.string.ukuran),
+                        stringResource(R.string.ukuran_tenda),
+                        KeyboardOptions(
+                            imeAction = ImeAction.Done
+                        ),
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxWidth()
+                            .padding(start = 8.dp)
+                    )
                     tipeTenda = editTextDeskBarang(
                         deskBarang = tipeTenda,
                         trim = false,
                         placeholderText = stringResource(id = R.string.tipe),
-                        titleDesk = "Tipe tenda", keyboardOptions = KeyboardOptions(
+                        titleDesk = stringResource(R.string.tipe_tenda),
+                        keyboardOptions = KeyboardOptions(
                             capitalization = KeyboardCapitalization.Sentences,
                             imeAction = ImeAction.Done
                         )
@@ -164,7 +185,8 @@ fun BarangDetailScreen(
                             deskBarang = frameTenda,
                             trim = true,
                             placeholderText = stringResource(id = R.string.frame),
-                            titleDesk = "Frame tenda", modifier = Modifier
+                            titleDesk = stringResource(R.string.frame_tenda),
+                            modifier = Modifier
                                 .fillMaxWidth()
                                 .weight(1f)
                                 .padding(end = 8.dp),
@@ -177,7 +199,8 @@ fun BarangDetailScreen(
                             deskBarang = pasakTenda,
                             trim = true,
                             placeholderText = stringResource(id = R.string.pasak),
-                            titleDesk = "Pasak tenda", modifier = Modifier
+                            titleDesk = stringResource(R.string.pasak_tenda),
+                            modifier = Modifier
                                 .fillMaxWidth()
                                 .weight(1f)
                                 .padding(start = 8.dp),
@@ -193,7 +216,7 @@ fun BarangDetailScreen(
                         deskBarang = warnaBarang,
                         trim = false,
                         placeholderText = stringResource(id = R.string.warna),
-                        titleDesk = "Warna barang",
+                        titleDesk = stringResource(R.string.warna_barang),
                         keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences)
                     )
                 }
@@ -207,7 +230,7 @@ fun BarangDetailScreen(
                     deskBarang = stockBarang,
                     trim = true,
                     placeholderText = stringResource(id = R.string.stock),
-                    titleDesk = "Stock barang",
+                    titleDesk = stringResource(R.string.stock_barang),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,
                         imeAction = ImeAction.Done
@@ -221,7 +244,7 @@ fun BarangDetailScreen(
                     deskBarang = hargaBarang,
                     trim = true,
                     placeholderText = stringResource(id = R.string.harga),
-                    titleDesk = "Harga barang",
+                    titleDesk = stringResource(R.string.harga_barang),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Number,
                         imeAction = ImeAction.Done
@@ -238,7 +261,7 @@ fun BarangDetailScreen(
                         deskBarang = caraPemasangan,
                         trim = false,
                         placeholderText = stringResource(id = R.string.cara_pemasangan),
-                        titleDesk = "Cara pemasangan",
+                        titleDesk = stringResource(R.string.cara_untuk_memasang_tenda),
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.None),
                         singleLine = false,
                         minLines = 6, maxLines = 10
@@ -249,7 +272,7 @@ fun BarangDetailScreen(
                         deskBarang = kegunaanBarang,
                         trim = false,
                         placeholderText = stringResource(id = R.string.kegunaan_barang),
-                        titleDesk = "Kegunaan barang",
+                        titleDesk = stringResource(R.string.kegunaan_pada_barang),
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.None),
                         singleLine = false,
                         minLines = 6, maxLines = 10
@@ -276,9 +299,9 @@ fun BarangDetailScreen(
                     onClick = {
                         mBarang.let {
                             barangDetailViewModel.updateBarang(
-                                //                                            context,
                                 imageUri,
                                 it,
+                                context.getString(R.string.barang_id___jpg, it.id),
                                 namaBarang,
                                 ukuranBarang,
                                 tipeTenda,
@@ -292,6 +315,12 @@ fun BarangDetailScreen(
                             )
                         }
                         navController.popBackStack()
+                        barangDetailViewModel.getMsg(context.getString(R.string.sukses_mengupdate))
+                        barangDetailViewModel.msg.also {
+                            coroutineScope.launch {
+                                scaffoldState.snackbarHostState.showSnackbar(it)
+                            }
+                        }
                     },
                     modifier = Modifier
                         .wrapContentSize()
@@ -306,11 +335,4 @@ fun BarangDetailScreen(
         }
     }
 }
-
-const val SEPATU = "Sepatu"
-const val JAKET = "Jaket"
-const val TAS = "Tas"
-const val SLEEPING_BAG = "Sleeping Bag"
-const val TENDA = "Tenda"
-const val BARANG_LAINNYA = "Barang Lainnya"
 

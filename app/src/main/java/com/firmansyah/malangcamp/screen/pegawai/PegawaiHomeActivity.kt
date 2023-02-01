@@ -1,4 +1,4 @@
-package com.firmansyah.malangcamp.admin
+package com.firmansyah.malangcamp.screen.pegawai
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -26,13 +27,16 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.firmansyah.malangcamp.HomeActivity
 import com.firmansyah.malangcamp.R
+import com.firmansyah.malangcamp.screen.BotNavItemPegawai
+import com.firmansyah.malangcamp.screen.NavigationGraph
 import com.firmansyah.malangcamp.theme.MalangCampTheme
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
 
-//  Halaman home Admin untuk menampung fragment
-class AdminHomeActivity : ComponentActivity() {
+//  Halaman home Pegawai untuk menampung fragment
+class PegawaiHomeActivity : ComponentActivity() {
 
     private lateinit var auth: FirebaseAuth
 
@@ -42,26 +46,29 @@ class AdminHomeActivity : ComponentActivity() {
 
         setContent {
             MalangCampTheme {
-                AdminHome()
+                PegawaiHome()
             }
         }
     }
 
     @Composable
-    fun AdminHome() {
+    fun PegawaiHome() {
         val navController = rememberNavController()
+        val scaffoldState: ScaffoldState = rememberScaffoldState()
+        val coroutineScope: CoroutineScope = rememberCoroutineScope()
         Scaffold(
-            bottomBar = { BotNavAdmin(navController = navController) },
-            topBar = { TopAppBarAdmin() }) {
+            bottomBar = { BotNavPegawai(navController = navController) },
+            topBar = { TopAppBarPegawai() }, scaffoldState = scaffoldState
+        ) {
             Column(modifier = Modifier.padding(it)) {
-                NavigationGraph(navController = navController)
+                NavigationGraph(navController = navController, scaffoldState, coroutineScope)
             }
         }
     }
 
     @Composable
-    fun BotNavAdmin(navController: NavController) {
-        val items = listOf(BotNavItemAdmin.ListBooking, BotNavItemAdmin.ListBarang)
+    fun BotNavPegawai(navController: NavController) {
+        val items = listOf(BotNavItemPegawai.ListBooking, BotNavItemPegawai.ListBarang)
         BottomNavigation(
             backgroundColor = MaterialTheme.colors.onPrimary,
             contentColor = MaterialTheme.colors.primary
@@ -73,10 +80,11 @@ class AdminHomeActivity : ComponentActivity() {
                     icon = {
                         Image(
                             painter = painterResource(id = item.icon),
-                            contentDescription = item.title, modifier = Modifier.size(20.dp)
+                            contentDescription = stringResource(id = item.title),
+                            modifier = Modifier.size(20.dp)
                         )
                     },
-                    label = { Text(item.title) },
+                    label = { Text(stringResource(item.title)) },
                     alwaysShowLabel = true,
                     selected = currentRoute == item.route,
                     selectedContentColor = MaterialTheme.colors.primary,
@@ -97,10 +105,15 @@ class AdminHomeActivity : ComponentActivity() {
     }
 
     @Composable
-    fun TopAppBarAdmin() {
+    fun TopAppBarPegawai() {
         val context = LocalContext.current
         TopAppBar(
-            title = { Text(text = "Homepage Pegawai", fontWeight = FontWeight.Bold) },
+            title = {
+                Text(
+                    text = stringResource(R.string.homepage_pegawai),
+                    fontWeight = FontWeight.Bold
+                )
+            },
             actions = {
                 IconButton(onClick = {
                     auth.signOut()
@@ -120,26 +133,26 @@ class AdminHomeActivity : ComponentActivity() {
 
     @Preview
     @Composable
-    fun TopAppBarAdminPreview() {
+    fun TopAppBarPegawaiPreview() {
         MalangCampTheme {
-            TopAppBarAdmin()
+            TopAppBarPegawai()
         }
     }
 
     @Preview
     @Composable
-    fun AdminHomePreview() {
+    fun PegawaiHomePreview() {
         MalangCampTheme {
-            AdminHome()
+            PegawaiHome()
         }
     }
 
     @Preview
     @Composable
-    fun BotNavAdminPreview() {
+    fun BotNavPegawaiPreview() {
         MalangCampTheme {
             val navController = rememberNavController()
-            BotNavAdmin(navController)
+            BotNavPegawai(navController)
         }
     }
 }

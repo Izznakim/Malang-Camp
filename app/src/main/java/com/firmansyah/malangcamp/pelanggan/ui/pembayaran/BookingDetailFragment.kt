@@ -36,7 +36,7 @@ class BookingDetailFragment : DialogFragment() {
     private lateinit var storageBuktiRef: StorageReference
 
     private var pembayaran: Pembayaran? = null
-    private var isAdmin: Boolean? = false
+    private var isPegawai: Boolean? = false
     private val listKeranjang: ArrayList<Keranjang> = arrayListOf()
 //    private var _binding: FragmentBookingDetailBinding? = null
 
@@ -44,7 +44,7 @@ class BookingDetailFragment : DialogFragment() {
 
     companion object {
         const val EXTRA_PEMBAYARAN = "extra_pembayaran"
-        const val EXTRA_ISADMIN = "extra_isAdmin"
+        const val EXTRA_ISPEGAWAI = "extra_isPegawai"
     }
 
     override fun onCreateView(
@@ -74,7 +74,7 @@ class BookingDetailFragment : DialogFragment() {
 
         if (arguments != null) {
             pembayaran = arguments?.getParcelable(EXTRA_PEMBAYARAN)
-            isAdmin = arguments?.getBoolean(EXTRA_ISADMIN, false)
+            isPegawai = arguments?.getBoolean(EXTRA_ISPEGAWAI, false)
         }
 
         val currencyFormat = NumberFormat.getCurrencyInstance()
@@ -101,7 +101,7 @@ class BookingDetailFragment : DialogFragment() {
     @SuppressLint("SetTextI18n")
 //    private fun bnd(currencyFormat: NumberFormat, barangSewa: ArrayList<Keranjang>?) {
 //        with(binding) {
-//            if (isAdmin == false) {
+//            if (isPegawai == false) {
 //                llValidasi.visibility = View.VISIBLE
 //            }
 ////
@@ -153,7 +153,7 @@ class BookingDetailFragment : DialogFragment() {
 //
 //            val idPembayaran = pembayaran?.idPembayaran
 //            when {
-//                isAdmin == true -> {
+//                isPegawai == true -> {
 ////                    tvNoTelp.setTextColor(Color.BLUE)
 ////                    tvNoTelp.setOnClickListener {
 ////                        val phone = tvNoTelp.text

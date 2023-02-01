@@ -1,4 +1,4 @@
-package com.firmansyah.malangcamp.admin
+package com.firmansyah.malangcamp.screen.pegawai
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Surface
@@ -19,26 +20,28 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.component.*
 import com.firmansyah.malangcamp.theme.MalangCampTheme
 
-//  Halaman login sebagai admin
-class AdminLoginActivity : ComponentActivity() {
-    private val loginViewModel by viewModels<AdminLoginViewModel>()
+//  Halaman login sebagai pegawai
+class PegawaiLoginActivity : ComponentActivity() {
+    private val loginViewModel by viewModels<PegawaiLoginViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             MalangCampTheme {
-                AdminLogin(loginViewModel)
+                PegawaiLogin(loginViewModel)
             }
         }
     }
 }
 
 @Composable
-private fun AdminLogin(viewModel: AdminLoginViewModel) {
+private fun PegawaiLogin(viewModel: PegawaiLoginViewModel) {
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var emailError by rememberSaveable { mutableStateOf(true) }
@@ -63,17 +66,21 @@ private fun AdminLogin(viewModel: AdminLoginViewModel) {
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                LogoLoginAdmin()
-                LoginAdmin()
+                Logo(
+                    drwbl = R.drawable.mountains,
+                    contentDesc = R.string.login_pegawai,
+                    modifier = Modifier.size(146.dp)
+                )
+                LoginPegawai()
                 emailError = emailInput(email = email.trim(), onEmailValueChange = { newValue ->
                     email = newValue.trim()
                 })
                 passwordError = passwordInput(password = password.trim(),
                     onPasswordValueChange = { newValue -> password = newValue.trim() })
-                ButtonAdminLogin(viewModel, email, password, emailError, passwordError)
+                ButtonPegawaiLogin(viewModel, email, password, emailError, passwordError, context)
 
                 if (viewModel.isIntent.value) {
-                    Intent(context, AdminHomeActivity::class.java).also { intent ->
+                    Intent(context, PegawaiHomeActivity::class.java).also { intent ->
                         intent.flags =
                             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         context.startActivity(intent)

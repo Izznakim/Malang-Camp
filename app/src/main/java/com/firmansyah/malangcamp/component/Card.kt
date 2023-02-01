@@ -15,10 +15,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.firmansyah.malangcamp.R
-import com.firmansyah.malangcamp.admin.Screen
 import com.firmansyah.malangcamp.model.Barang
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.BARANG
 import com.firmansyah.malangcamp.other.currencyIdrFormat
 import com.firmansyah.malangcamp.other.rating
+import com.firmansyah.malangcamp.screen.Screen
 import com.firmansyah.malangcamp.theme.black
 
 
@@ -33,7 +34,7 @@ fun ItemBarangCard(
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 16.dp),
         onClick = {
-            navController.currentBackStackEntry?.savedStateHandle?.set("barang", barang)
+            navController.currentBackStackEntry?.savedStateHandle?.set(BARANG, barang)
             navController.navigate(Screen.BarangDetailScreen.route)
         }
     ) {
@@ -65,7 +66,7 @@ fun ItemBarangCard(
                     Text(text = barang.stock.toString())
                     Icon(
                         imageVector = Icons.Filled.Star,
-                        contentDescription = "Gambar Rate",
+                        contentDescription = stringResource(R.string.gambar_rate),
                         modifier = Modifier.padding(start = 16.dp),
                         tint = Color.Yellow
                     )

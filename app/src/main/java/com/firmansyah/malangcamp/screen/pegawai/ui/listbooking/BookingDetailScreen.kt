@@ -1,9 +1,10 @@
-package com.firmansyah.malangcamp.admin.ui.listbooking
+package com.firmansyah.malangcamp.screen.pegawai.ui.listbooking
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Divider
+import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -15,11 +16,14 @@ import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.model.Pembayaran
 import com.firmansyah.malangcamp.theme.MalangCampTheme
 import com.firmansyah.malangcamp.theme.black
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun BookingDetailScreen(
     navController: NavHostController,
     pembayaran: Pembayaran?,
+    scaffoldState: ScaffoldState,
+    coroutineScope: CoroutineScope,
     bookingDetailViewModel: BookingDetailViewModel = viewModel()
 ) {
     bookingDetailViewModel.getPembayaran(pembayaran)
@@ -48,7 +52,9 @@ fun BookingDetailScreen(
             item { TglSerahTerima(mPembayaran) }
             item {
                 Divider(
-                    thickness = 1.dp, color = black, modifier = Modifier.padding(top = 16.dp)
+                    thickness = 1.dp,
+                    color = black,
+                    modifier = Modifier.padding(top = 16.dp)
                 )
             }
             listKeranjang(listKeranjang)
@@ -59,7 +65,13 @@ fun BookingDetailScreen(
             item { BuktiPembayaranImage(mPembayaran, context) }
             item {
                 ButtonConfirm(
-                    navController, idPembayaran, barangSewa, bookingDetailViewModel, context
+                    navController,
+                    idPembayaran,
+                    barangSewa,
+                    bookingDetailViewModel,
+                    context,
+                    scaffoldState,
+                    coroutineScope
                 )
             }
         }

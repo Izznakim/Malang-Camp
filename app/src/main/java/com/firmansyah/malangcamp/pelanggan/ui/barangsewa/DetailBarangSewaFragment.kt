@@ -17,6 +17,7 @@ import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.databinding.FragmentDetailBarangSewaBinding
 import com.firmansyah.malangcamp.model.Barang
 import com.firmansyah.malangcamp.model.Keranjang
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.EXTRA_IMAGE
 import com.firmansyah.malangcamp.other.ZoomImageActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -164,7 +165,7 @@ class DetailBarangSewaFragment : DialogFragment() {
 
                 imgBarang.setOnClickListener {
                     Intent(activity, ZoomImageActivity::class.java).also {
-                        it.putExtra(ZoomImageActivity.EXTRA_IMAGE, barang?.gambar)
+                        it.putExtra(EXTRA_IMAGE, barang?.gambar)
                         startActivity(it)
                     }
                 }

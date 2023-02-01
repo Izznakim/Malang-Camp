@@ -1,5 +1,6 @@
 package com.firmansyah.malangcamp.component
 
+import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -16,19 +17,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.firmansyah.malangcamp.admin.Screen
+import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.model.Pembayaran
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.PEMBAYARAN
 import com.firmansyah.malangcamp.other.currencyIdrFormat
+import com.firmansyah.malangcamp.screen.Screen
 import com.firmansyah.malangcamp.theme.black
 
 
 @OptIn(ExperimentalMaterialApi::class)
-fun LazyListScope.bookingItem(listPembayaran: List<Pembayaran>, navController: NavHostController) {
+fun LazyListScope.bookingItem(
+    listPembayaran: List<Pembayaran>,
+    navController: NavHostController,
+    context: Context
+) {
     items(items = listPembayaran, itemContent = {
         Card(
             onClick = {
-                navController.currentBackStackEntry?.savedStateHandle?.set("pembayaran", it)
+                navController.currentBackStackEntry?.savedStateHandle?.set(PEMBAYARAN, it)
                 navController.navigate(Screen.BookingDetailScreen.route)
             },
             modifier = Modifier
@@ -41,7 +48,11 @@ fun LazyListScope.bookingItem(listPembayaran: List<Pembayaran>, navController: N
                     .fillMaxWidth()
             ) {
                 Text(
-                    text = "Diambil ${it.tanggalPengambilan}; ${it.jamPengambilan}",
+                    text = context.getString(
+                        R.string.Diambil______,
+                        it.tanggalPengambilan,
+                        it.jamPengambilan
+                    ),
                     fontWeight = FontWeight.Bold
                 )
                 Text(

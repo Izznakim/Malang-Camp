@@ -25,7 +25,7 @@ import com.firmansyah.malangcamp.pelanggan.ui.pembayaran.BookingDetailFragment
 import com.firmansyah.malangcamp.theme.MalangCampTheme
 
 class BookingAdapter(
-    private val listBooking: ArrayList<Pembayaran>, private val isAdmin: Boolean
+    private val listBooking: ArrayList<Pembayaran>, private val isPegawai: Boolean
 ) : RecyclerView.Adapter<BookingAdapter.ListViewHolder>() {
     fun setData(data: List<Pembayaran>) {
         listBooking.clear()
@@ -40,7 +40,7 @@ class BookingAdapter(
             with(binding) {
                 composeListBooking.setContent {
                     MalangCampTheme {
-                        Item(pembayaran, isAdmin)
+                        Item(pembayaran, isPegawai)
                     }
                 }
             }
@@ -62,10 +62,10 @@ class BookingAdapter(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun Item(pembayaran: Pembayaran, isAdmin: Boolean) {
+private fun Item(pembayaran: Pembayaran, isPegawai: Boolean) {
     val context = LocalContext.current
     Card(
-        onClick = { toDetailPembayaran(context, pembayaran, isAdmin) },
+        onClick = { toDetailPembayaran(context, pembayaran, isPegawai) },
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 16.dp, horizontal = 8.dp)
@@ -92,14 +92,14 @@ private fun Item(pembayaran: Pembayaran, isAdmin: Boolean) {
 private fun toDetailPembayaran(
     context: Context,
     pembayaran: Pembayaran,
-    isAdmin: Boolean
+    isPegawai: Boolean
 ) {
     val bookingDetailFragment = BookingDetailFragment()
     val mFragmentManager = (context as AppCompatActivity).supportFragmentManager
     val bundle = Bundle()
 
     bundle.putParcelable(BookingDetailFragment.EXTRA_PEMBAYARAN, pembayaran)
-    bundle.putBoolean(BookingDetailFragment.EXTRA_ISADMIN, isAdmin)
+    bundle.putBoolean(BookingDetailFragment.EXTRA_ISPEGAWAI, isPegawai)
     bookingDetailFragment.arguments = bundle
     bookingDetailFragment.show(mFragmentManager, BookingDetailFragment::class.java.simpleName)
 }

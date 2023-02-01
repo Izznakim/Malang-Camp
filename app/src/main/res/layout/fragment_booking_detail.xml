@@ -208,19 +208,19 @@
 
         <EditText
                 android:id="@+id/etNomorWA"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:clickable="true"
-                android:editable="false"
-                android:focusable="false"
-                android:gravity="center"
-                android:inputType="none"
-                android:longClickable="false"
-                android:text="@string/NmerTlpnAdmin"
-                android:textColor="@color/blue"
-                android:textSize="14sp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:editable="false"
+            android:focusable="false"
+            android:gravity="center"
+            android:inputType="none"
+            android:longClickable="false"
+            android:text="@string/NmerTlpnPegawai"
+            android:textColor="@color/blue"
+            android:textSize="14sp" />
 
             <Button
                 android:id="@+id/btnHapus"

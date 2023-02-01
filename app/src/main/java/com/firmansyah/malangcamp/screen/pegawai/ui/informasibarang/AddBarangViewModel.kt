@@ -1,19 +1,28 @@
-package com.firmansyah.malangcamp.admin.ui.informasibarang
+package com.firmansyah.malangcamp.screen.pegawai.ui.informasibarang
 
 import android.net.Uri
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.firmansyah.malangcamp.model.Barang
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.BARANG
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.IMAGES_LOCATION
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
 class AddBarangViewModel : ViewModel() {
-    private val storageRef = Firebase.storage.getReference("images/")
+    private val storageRef = Firebase.storage.getReference(IMAGES_LOCATION)
 
-    private val databaseRef = Firebase.database.getReference("barang")
+    private val databaseRef = Firebase.database.getReference(BARANG)
 
-//    private var _errorMsg = MutableLiveData<String>()
-//    val errorMsg: LiveData<String> = _errorMsg
+    var msg by mutableStateOf("")
+        private set
+
+    fun getMsg(message: String) {
+        msg = message
+    }
 
     fun uploadToFirebase(
         uri: Uri?, jenisBarang: String,
@@ -54,11 +63,11 @@ class AddBarangViewModel : ViewModel() {
                             gambar = uri.toString()
                         )
                         databaseRef.child(id).setValue(model)
-//                        _errorMsg.value = "Berhasil menambahkan barang"
+                        msg
                     }
                 }
             }.addOnFailureListener {
-//                _errorMsg.value = "${it.message}"
+                msg = it.message.toString()
             }
         }
     }

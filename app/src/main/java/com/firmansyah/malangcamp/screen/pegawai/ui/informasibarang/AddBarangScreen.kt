@@ -1,4 +1,4 @@
-package com.firmansyah.malangcamp.admin.ui.informasibarang
+package com.firmansyah.malangcamp.screen.pegawai.ui.informasibarang
 
 import android.graphics.Bitmap
 import android.net.Uri
@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -25,11 +26,20 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.component.*
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.BARANG_LAINNYA
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.JAKET
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.SEPATU
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.SLEEPING_BAG
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.TAS
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.TENDA
 import com.firmansyah.malangcamp.theme.MalangCampTheme
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun AddBarangScreen(
     navController: NavHostController,
+    scaffoldState: ScaffoldState,
+    coroutineScope: CoroutineScope,
     addBarangViewModel: AddBarangViewModel = viewModel()
 ) {
     var imageUri by rememberSaveable { mutableStateOf<Uri?>(null) }
@@ -98,7 +108,7 @@ fun AddBarangScreen(
                     namaBarang,
                     false,
                     stringResource(id = R.string.nama),
-                    titleDesk = "Nama barang",
+                    titleDesk = stringResource(id = R.string.nama_barang),
                     KeyboardOptions(
                         capitalization = KeyboardCapitalization.Words,
                         imeAction = ImeAction.Next
@@ -108,7 +118,7 @@ fun AddBarangScreen(
                     stockBarang,
                     true,
                     stringResource(id = R.string.stock),
-                    titleDesk = "Stock barang",
+                    titleDesk = stringResource(id = R.string.stock_barang),
                     KeyboardOptions(
                         keyboardType = KeyboardType.Number,
                         imeAction = ImeAction.Next
@@ -118,23 +128,23 @@ fun AddBarangScreen(
                     hargaBarang,
                     true,
                     stringResource(id = R.string.rp_harga_per_hari),
-                    titleDesk = "Harga barang",
+                    titleDesk = stringResource(id = R.string.harga_barang),
                     KeyboardOptions(
                         keyboardType = KeyboardType.Number,
                         imeAction = ImeAction.Next
                     )
                 )
             } else {
-                ErrorText(text = "Anda belum memilih gambarnya")
+                ErrorText(text = stringResource(R.string.anda_belum_memilih_gambarnya))
             }
 
             when (jenisBarang) {
-                "Sepatu", "Jaket", "Tas" -> {
+                SEPATU, JAKET, TAS -> {
                     ukuranBarang = editTextDeskBarang(
                         ukuranBarang,
                         false,
                         stringResource(id = R.string.ukuran),
-                        "Ukuran barang",
+                        stringResource(id = R.string.ukuran_barang),
                         KeyboardOptions(
                             capitalization = KeyboardCapitalization.Characters,
                             imeAction = ImeAction.Next
@@ -144,7 +154,7 @@ fun AddBarangScreen(
                         warnaBarang,
                         false,
                         stringResource(id = R.string.warna),
-                        titleDesk = "Warna barang",
+                        titleDesk = stringResource(id = R.string.warna_barang),
                         KeyboardOptions(
                             capitalization = KeyboardCapitalization.Words,
                             imeAction = ImeAction.Done
@@ -157,12 +167,12 @@ fun AddBarangScreen(
                     caraPemasangan = ""
                     kegunaanBarang = ""
                 }
-                "Sleeping Bag" -> {
+                SLEEPING_BAG -> {
                     ukuranBarang = editTextDeskBarang(
                         ukuranBarang,
                         true,
                         stringResource(id = R.string.ukuran),
-                        "Ukuran barang",
+                        stringResource(id = R.string.ukuran_barang),
                         KeyboardOptions(
                             imeAction = ImeAction.Done,
                             capitalization =
@@ -183,12 +193,12 @@ fun AddBarangScreen(
                     caraPemasangan = ""
                     kegunaanBarang = ""
                 }
-                "Tenda" -> {
+                TENDA -> {
                     ukuranBarang = editTextDeskBarang(
                         ukuranBarang,
                         false,
                         stringResource(id = R.string.ukuran),
-                        titleDesk = "Ukuran tenda",
+                        titleDesk = stringResource(R.string.ukuran_tenda),
                         KeyboardOptions(
                             imeAction = ImeAction.Next
                         )
@@ -197,7 +207,7 @@ fun AddBarangScreen(
                         tipeBarang,
                         false,
                         stringResource(id = R.string.tipe),
-                        titleDesk = "Tipe tenda",
+                        titleDesk = stringResource(R.string.tipe_tenda),
                         KeyboardOptions(
                             imeAction = ImeAction.Next
                         )
@@ -206,7 +216,7 @@ fun AddBarangScreen(
                         frameBarang,
                         true,
                         stringResource(id = R.string.frame),
-                        titleDesk = "Frame tenda",
+                        titleDesk = stringResource(R.string.frame_tenda),
                         KeyboardOptions(
                             keyboardType = KeyboardType.Number,
                             imeAction = ImeAction.Next
@@ -216,7 +226,7 @@ fun AddBarangScreen(
                         pasakBarang,
                         true,
                         stringResource(id = R.string.pasak),
-                        titleDesk = "Pasak tenda",
+                        titleDesk = stringResource(R.string.pasak_tenda),
                         KeyboardOptions(
                             keyboardType = KeyboardType.Number,
                             imeAction = ImeAction.Next
@@ -226,7 +236,7 @@ fun AddBarangScreen(
                         caraPemasangan,
                         false,
                         stringResource(id = R.string.cara_pemasangan),
-                        titleDesk = "Cara untuk memasang tenda",
+                        titleDesk = stringResource(R.string.cara_untuk_memasang_tenda),
                         KeyboardOptions(
                             capitalization = KeyboardCapitalization.Sentences,
                             imeAction = ImeAction.None
@@ -239,12 +249,12 @@ fun AddBarangScreen(
                     warnaBarang = ""
                     kegunaanBarang = ""
                 }
-                "Barang Lainnya" -> {
+                BARANG_LAINNYA -> {
                     kegunaanBarang = editTextDeskBarang(
                         kegunaanBarang,
                         false,
                         stringResource(id = R.string.kegunaan_barang),
-                        "Kegunaan pada barang",
+                        stringResource(R.string.kegunaan_pada_barang),
                         KeyboardOptions(
                             capitalization = KeyboardCapitalization.Sentences,
                             imeAction = ImeAction.None
@@ -290,7 +300,10 @@ fun AddBarangScreen(
                 kegunaanBarang,
                 isError,
                 navController,
-                addBarangViewModel
+                addBarangViewModel,
+                context,
+                scaffoldState,
+                coroutineScope
             )
         }
     }

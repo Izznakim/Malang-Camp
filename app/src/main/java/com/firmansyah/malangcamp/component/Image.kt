@@ -26,25 +26,17 @@ import androidx.core.graphics.drawable.toBitmap
 import coil.compose.AsyncImage
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.model.Pembayaran
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.EXTRA_IMAGE
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.GALLERY_IMAGE
 import com.firmansyah.malangcamp.other.ZoomImageActivity
 
 @Composable
-fun LogoMalangCamp() {
+fun Logo(drwbl: Int, contentDesc: Int, modifier: Modifier) {
     Image(
-        painter = painterResource(id = R.drawable.logo_mc),
-        contentDescription = stringResource(id = R.string.logo_malang_camp),
+        painter = painterResource(id = drwbl),
+        contentDescription = stringResource(id = contentDesc),
         contentScale = ContentScale.Fit,
-        modifier = Modifier.size(226.dp)
-    )
-}
-
-@Composable
-fun LogoLoginAdmin() {
-    Image(
-        painter = painterResource(id = R.drawable.mountains),
-        contentDescription = stringResource(id = R.string.login_admin),
-        contentScale = ContentScale.Fit,
-        modifier = Modifier.size(146.dp)
+        modifier = modifier
     )
 }
 
@@ -69,7 +61,7 @@ fun BuktiPembayaranImage(pembayaran: Pembayaran, context: Context) {
                     ZoomImageActivity::class.java
                 ).also {
                     it.putExtra(
-                        ZoomImageActivity.EXTRA_IMAGE,
+                        EXTRA_IMAGE,
                         pembayaran.buktiPembayaran
                     )
                     context.startActivity(it)
@@ -103,7 +95,7 @@ fun GetImageFromGallery(
             .fillMaxWidth()
             .height(200.dp)
             .padding(top = 16.dp),
-        onClick = { launcher.launch("image/*") },
+        onClick = { launcher.launch(GALLERY_IMAGE) },
         border = BorderStroke(1.dp, Color.Black)
     ) {
         imgUri?.let {

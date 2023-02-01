@@ -26,7 +26,7 @@ import java.util.*
 class BarangAdapter(
     private val listInfoBarang: ArrayList<Barang>,
     private val keranjangRef: DatabaseReference,
-    private val isAdmin: Boolean,
+    private val isPegawai: Boolean,
     private val passData: (Barang) -> Unit
 ) :
     RecyclerView.Adapter<BarangAdapter.ListViewHolder>() {
@@ -58,7 +58,7 @@ class BarangAdapter(
 
             with(binding) {
 
-                if (isAdmin) {
+                if (isPegawai) {
                     deleteButton.visibility = View.VISIBLE
                 } else {
                     deleteButton.visibility = View.GONE
@@ -101,7 +101,7 @@ class BarangAdapter(
                 }
 
                 itemView.setOnClickListener {
-                    if (isAdmin) {
+                    if (isPegawai) {
 //                        val detailInformasiFragment = DetailInformasiFragment()
 //                        val mFragmentManager =
 //                            (itemView.context as AppCompatActivity).supportFragmentManager

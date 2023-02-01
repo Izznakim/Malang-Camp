@@ -1,4 +1,4 @@
-package com.firmansyah.malangcamp.admin.ui.informasibarang
+package com.firmansyah.malangcamp.screen.pegawai.ui.informasibarang
 
 import android.net.Uri
 import androidx.compose.runtime.getValue
@@ -6,15 +6,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.firmansyah.malangcamp.model.Barang
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.BARANG
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.IMAGES_LOCATION
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 
 class BarangDetailViewModel : ViewModel() {
-    private val storageRef = Firebase.storage.getReference("images/")
-    private val databaseRef = Firebase.database.getReference("barang")
+    private val storageRef = Firebase.storage.getReference(IMAGES_LOCATION)
+    private val databaseRef = Firebase.database.getReference(BARANG)
 
     var barang by mutableStateOf(Barang())
+        private set
+
+    var msg by mutableStateOf("")
         private set
 
     fun getBarang(mBarang: Barang?) {
@@ -23,10 +28,14 @@ class BarangDetailViewModel : ViewModel() {
         }
     }
 
+    fun getMsg(message: String) {
+        msg = message
+    }
+
     fun updateBarang(
-//        context: Context,
         uri: Uri?,
-        it: Barang,
+        barang: Barang,
+        pathString: String,
         newNamaBarang: String,
         newUkuranBarang: String,
         newTipeTenda: String,
@@ -39,7 +48,7 @@ class BarangDetailViewModel : ViewModel() {
         newKegunaanBarang: String
     ) {
         var imageUri: Uri?
-        val fileRef = storageRef.child("${it.id}.jpg")
+        val fileRef = storageRef.child(pathString)
         if (uri != null) {
             fileRef.putFile(uri).addOnSuccessListener { task ->
                 if (task.metadata != null && task.metadata?.reference != null) {
@@ -47,7 +56,7 @@ class BarangDetailViewModel : ViewModel() {
                     result.addOnSuccessListener { mUri ->
                         imageUri = mUri
                         uploadToDatabase(
-                            it,
+                            barang,
                             newNamaBarang,
                             newTipeTenda,
                             newUkuranBarang,
@@ -58,15 +67,14 @@ class BarangDetailViewModel : ViewModel() {
                             newHargaBarang,
                             newCaraPemasangan,
                             newKegunaanBarang,
-                            imageUri.toString(),
-//                            context
+                            imageUri.toString()
                         )
                     }
                 }
             }
         } else {
             uploadToDatabase(
-                it,
+                barang,
                 newNamaBarang,
                 newTipeTenda,
                 newUkuranBarang,
@@ -77,8 +85,7 @@ class BarangDetailViewModel : ViewModel() {
                 newHargaBarang,
                 newCaraPemasangan,
                 newKegunaanBarang,
-                it.gambar,
-//                context
+                barang.gambar,
             )
         }
 
@@ -97,7 +104,6 @@ class BarangDetailViewModel : ViewModel() {
         newCaraPemasangan: String,
         newKegunaanBarang: String,
         image: String,
-//        context: Context
     ) {
         val model =
             Barang(
@@ -118,11 +124,9 @@ class BarangDetailViewModel : ViewModel() {
             )
         databaseRef.child(it.id).get().addOnSuccessListener { _ ->
             databaseRef.child(it.id).setValue(model)
-//            Toast.makeText(context, "Sukses mengupdate", Toast.LENGTH_SHORT)
-//                .show()
+            msg
         }.addOnFailureListener {
-//            Toast.makeText(context, e.message, Toast.LENGTH_SHORT)
-//                .show()
+            msg = it.message.toString()
         }
     }
 }
