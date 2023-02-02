@@ -1,6 +1,7 @@
 package com.firmansyah.malangcamp.component
 
 import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Icon
@@ -16,18 +17,21 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.model.Pembayaran
 import com.firmansyah.malangcamp.other.copyPhoneNumber
 import com.firmansyah.malangcamp.other.currencyIdrFormat
+import com.firmansyah.malangcamp.pelanggan.PelangganRegisterActivity
+import com.firmansyah.malangcamp.theme.darkGreen
 import com.firmansyah.malangcamp.theme.green
 
 @Composable
-fun LoginPegawai() {
+fun TextLogin(text: String) {
     Text(
-        text = stringResource(id = R.string.login_pegawai),
+        text = text,
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 16.dp, top = 8.dp, end = 16.dp),
@@ -152,4 +156,30 @@ fun ErrorFailComponent(
                 .padding(8.dp), textAlign = TextAlign.Center
         )
     }
+}
+
+@Composable
+fun TextDaftarSekarang(context: Context) {
+    Text(
+        text = buildAnnotatedString {
+            append(stringResource(id = R.string.belum_memiliki_akun))
+            withStyle(
+                style = SpanStyle(
+                    fontWeight = FontWeight.Bold,
+                    textDecoration = TextDecoration.Underline
+                )
+            ) {
+                append(stringResource(R.string.daftar_sekarang))
+            }
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp, end = 24.dp)
+            .clickable {
+                Intent(context, PelangganRegisterActivity::class.java).also {
+                    context.startActivity(it)
+                }
+            },
+        color = darkGreen, textAlign = TextAlign.End, style = MaterialTheme.typography.caption
+    )
 }

@@ -28,6 +28,7 @@ import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.model.Barang
 import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.DELETE_PATH
+import com.firmansyah.malangcamp.pelanggan.PelangganLoginViewModel
 import com.firmansyah.malangcamp.screen.Screen
 import com.firmansyah.malangcamp.screen.pegawai.PegawaiLoginViewModel
 import com.firmansyah.malangcamp.screen.pegawai.ui.informasibarang.AddBarangViewModel
@@ -92,7 +93,6 @@ fun ButtonPegawaiLogin(
         text = viewModel.errorText.value,
         color = MaterialTheme.colors.error,
         style = MaterialTheme.typography.caption,
-        modifier = Modifier.width(235.dp),
         textAlign = TextAlign.Center
     )
 }
@@ -306,4 +306,40 @@ fun DeleteBarangButton(barang: Barang, databaseRef: DatabaseReference) {
             modifier = Modifier.size(15.dp)
         )
     }
+}
+
+@Composable
+fun ButtonPelangganLogin(
+    viewModel: PelangganLoginViewModel,
+    email: String,
+    password: String,
+    emailError: Boolean,
+    passwordError: Boolean,
+    context: Context
+) {
+    Button(
+        onClick = {
+            val blmDftrText = context.getString(R.string.pelanggan_belum_terdaftar)
+            viewModel.getPelanggan(email, password, blmDftrText)
+        },
+        enabled = !emailError && !passwordError,
+        modifier = Modifier
+            .width(235.dp)
+            .padding(top = 34.dp),
+        colors = ButtonDefaults.buttonColors(
+            green
+        )
+    ) {
+        Text(
+            text = stringResource(id = R.string.masuk),
+            fontWeight = FontWeight.Bold,
+            color = white
+        )
+    }
+    Text(
+        text = viewModel.errorText.value,
+        color = MaterialTheme.colors.error,
+        style = MaterialTheme.typography.caption,
+        textAlign = TextAlign.Center
+    )
 }

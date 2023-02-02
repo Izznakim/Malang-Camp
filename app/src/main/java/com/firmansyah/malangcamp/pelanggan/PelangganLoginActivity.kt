@@ -2,125 +2,100 @@ package com.firmansyah.malangcamp.pelanggan
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Patterns
-import android.view.View
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.firmansyah.malangcamp.databinding.ActivityPelangganLoginBinding
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import com.firmansyah.malangcamp.R
+import com.firmansyah.malangcamp.component.*
+import com.firmansyah.malangcamp.theme.MalangCampTheme
 
 //  Halaman login sebagai pelanggan
-class PelangganLoginActivity : AppCompatActivity() {
-
-    private lateinit var binding:ActivityPelangganLoginBinding
-    private lateinit var auth: FirebaseAuth
-    private lateinit var database: FirebaseDatabase
-    private lateinit var ref: DatabaseReference
+class PelangganLoginActivity : ComponentActivity() {
+    private val viewModel by viewModels<PelangganLoginViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding= ActivityPelangganLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        database= FirebaseDatabase.getInstance()
-        ref=database.getReference("users")
-
-        auth= FirebaseAuth.getInstance()
-
-        with(binding){
-            btnMasuk.setOnClickListener {
-                val email = etEmail.text.toString().trim()
-                val password = etPassword.text.toString().trim()
-
-                if (email.isEmpty()) {
-                    etEmail.error = "Email harus diisi"
-                    etEmail.requestFocus()
-                    return@setOnClickListener
-                }
-
-                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    etEmail.error = "Email tidak valid"
-                    etEmail.requestFocus()
-                    return@setOnClickListener
-                }
-
-                if (password.isEmpty() || password.length < 6) {
-                    etPassword.error = "Password harus lebih dari 6 karakter"
-                    etPassword.requestFocus()
-                    return@setOnClickListener
-                }
-
-                loginPelanggan(email,password)
-            }
-
-            tvRegister.setOnClickListener {
-                Intent(this@PelangganLoginActivity, PelangganRegisterActivity::class.java).also {
-                    startActivity(it)
-                }
+        setContent {
+            MalangCampTheme {
+                PelangganLogin(viewModel)
             }
         }
     }
+}
 
-    private fun loginPelanggan(email: String, password: String) {
-        binding.progressBar.visibility= View.VISIBLE
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) {
-                if (it.isSuccessful) {
-                    val id = auth.currentUser?.uid
-                    if (id != null) {
-                        ref.child(id).get().addOnSuccessListener { snapshot ->
-                            binding.progressBar.visibility = View.GONE
-                            if (!snapshot.child("isPegawai").exists()) {
-                                Intent(
-                                    this@PelangganLoginActivity,
-                                    PelangganHomeActivity::class.java
-                                ).also { intent ->
-                                    intent.flags =
-                                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                    startActivity(intent)
-                                }
-                            } else {
-                                binding.progressBar.visibility = View.GONE
-                                Toast.makeText(
-                                    this,
-                                    "Pelanggan belum terdaftar",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        }.addOnFailureListener{ e->
-                            binding.progressBar.visibility= View.GONE
-                            Toast.makeText(this,e.message,Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }else{
-                    binding.progressBar.visibility= View.GONE
-                    Toast.makeText(this,it.exception?.message, Toast.LENGTH_SHORT).show()
-                }
+@Composable
+fun PelangganLogin(viewModel: PelangganLoginViewModel) {
+    var email by rememberSaveable { mutableStateOf("") }
+    var password by rememberSaveable { mutableStateOf("") }
+    var emailError by rememberSaveable { mutableStateOf(true) }
+    var passwordError by rememberSaveable { mutableStateOf(true) }
+    val context = LocalContext.current
+
+    Surface {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            if (viewModel.isLoading.value) {
+                LinearProgressBar(1f)
+            } else {
+                LinearProgressBar(0f)
             }
-    }
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(bottom = 16.dp, top = 16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Logo(
+                    drwbl = R.drawable.hiking,
+                    contentDesc = R.string.login_pelanggan,
+                    modifier = Modifier
+                        .padding(top = 32.dp)
+                        .size(156.dp)
+                )
+                TextLogin(text = stringResource(id = R.string.login))
+                emailError = emailInput(
+                    email = email.trim(),
+                    onEmailValueChange = { newValue -> email = newValue.trim() })
+                passwordError = passwordInput(
+                    password = password.trim(),
+                    onPasswordValueChange = { newValue -> password = newValue.trim() })
+                TextDaftarSekarang(context)
+                ButtonPelangganLogin(
+                    viewModel = viewModel,
+                    email = email,
+                    password = password,
+                    emailError = emailError,
+                    passwordError = passwordError,
+                    context = context
+                )
 
-    override fun onStart() {
-        super.onStart()
-        val idAuth = auth.currentUser?.uid
-        if (idAuth != null) {
-            binding.progressBar.visibility= View.VISIBLE
-            ref.child(idAuth).get().addOnSuccessListener { snapshot ->
-                if (!snapshot.child("isPegawai").exists()) {
-                    Intent(this, PelangganHomeActivity::class.java).also { intent ->
-                        binding.progressBar.visibility = View.GONE
+                if (viewModel.isIntent.value) {
+                    Intent(context, PelangganHomeActivity::class.java).also { intent ->
                         intent.flags =
                             Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(intent)
+                        context.startActivity(intent)
                     }
                 }
-            }.addOnFailureListener { e ->
-                binding.progressBar.visibility= View.GONE
-                Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
             }
-        }else{
-            binding.progressBar.visibility= View.GONE
         }
     }
 }

@@ -8,7 +8,7 @@
     <string name="masuk">Masuk</string>
     <string name="logo_malang_camp">Logo Malang Camp</string>
     <string name="login">Login</string>
-    <string name="belum_memiliki_akun_daftar_sekarang">Belum memiliki akun?, DAFTAR SEKARANG</string>
+    <string name="belum_memiliki_akun">"Belum memiliki akun?, "</string>
     <string name="daftar">Daftar</string>
     <string name="ulangi_password">Ulangi Password</string>
     <string name="sudah_memiliki_akun">Sudah memiliki akun?</string>
@@ -149,4 +149,7 @@
     <string name="berhasil_menambahkan_barang">Berhasil menambahkan barang</string>
     <string name="anda_belum_memilih_gambarnya">Anda belum memilih gambarnya</string>
     <string name="ukuran_tenda">Ukuran tenda</string>
+    <string name="login_pelanggan">Login pelanggan</string>
+    <string name="pelanggan_belum_terdaftar">Pelanggan belum terdaftar</string>
+    <string name="daftar_sekarang">DAFTAR SEKARANG</string>
 </resources>

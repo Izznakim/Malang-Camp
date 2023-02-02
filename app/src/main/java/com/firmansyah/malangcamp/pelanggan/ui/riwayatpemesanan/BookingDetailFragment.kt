@@ -1,4 +1,4 @@
-package com.firmansyah.malangcamp.pelanggan.ui.pembayaran
+package com.firmansyah.malangcamp.pelanggan.ui.riwayatpemesanan
 
 import android.annotation.SuppressLint
 import android.content.Intent

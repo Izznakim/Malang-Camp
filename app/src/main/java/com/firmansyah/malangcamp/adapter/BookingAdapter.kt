@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.recyclerview.widget.RecyclerView
 import com.firmansyah.malangcamp.databinding.ListBookingBinding
 import com.firmansyah.malangcamp.model.Pembayaran
-import com.firmansyah.malangcamp.pelanggan.ui.pembayaran.BookingDetailFragment
+import com.firmansyah.malangcamp.pelanggan.ui.riwayatpemesanan.BookingDetailFragment
 import com.firmansyah.malangcamp.theme.MalangCampTheme
 
 class BookingAdapter(
