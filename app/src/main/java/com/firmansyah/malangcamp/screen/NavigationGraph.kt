@@ -9,6 +9,9 @@ import com.firmansyah.malangcamp.model.Barang
 import com.firmansyah.malangcamp.model.Pembayaran
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.BARANG
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.PEMBAYARAN
+import com.firmansyah.malangcamp.pelanggan.ui.barangsewa.ListBarangSewaScreen
+import com.firmansyah.malangcamp.pelanggan.ui.pembayaran.PembayaranScreen
+import com.firmansyah.malangcamp.pelanggan.ui.riwayatpemesanan.RiwayatPemesananScreen
 import com.firmansyah.malangcamp.screen.pegawai.ui.informasibarang.AddBarangScreen
 import com.firmansyah.malangcamp.screen.pegawai.ui.informasibarang.BarangDetailScreen
 import com.firmansyah.malangcamp.screen.pegawai.ui.informasibarang.ListBarangScreen
@@ -20,10 +23,14 @@ import kotlinx.coroutines.CoroutineScope
 fun NavigationGraph(
     navController: NavHostController,
     scaffoldState: ScaffoldState,
-    coroutineScope: CoroutineScope
+    coroutineScope: CoroutineScope,
+    pegawai: Boolean
 ) {
-    NavHost(navController, startDestination = BotNavItemPegawai.ListBooking.route) {
-        composable(BotNavItemPegawai.ListBooking.route) {
+    NavHost(
+        navController,
+        startDestination = if (pegawai) BotNavItem.ListBookingScreen.route else BotNavItem.ListBarangSewaScreen.route
+    ) {
+        composable(BotNavItem.ListBookingScreen.route) {
             ListBookingScreen(navController)
         }
         composable(Screen.BookingDetailScreen.route) {
@@ -35,7 +42,7 @@ fun NavigationGraph(
                 coroutineScope
             )
         }
-        composable(BotNavItemPegawai.ListBarang.route) {
+        composable(BotNavItem.ListBarangScreen.route) {
             ListBarangScreen(
                 navController,
                 scaffoldState,
@@ -57,6 +64,18 @@ fun NavigationGraph(
                 scaffoldState,
                 coroutineScope
             )
+        }
+        // TODO: ListBarangSewaScreen -> BarangSewaDetailScreen
+        composable(BotNavItem.ListBarangSewaScreen.route) {
+            ListBarangSewaScreen()
+        }
+        // TODO: PembayaranScreen -> { DatePicker, TimePicker, ImageGallery }
+        composable(BotNavItem.PembayaranScreen.route) {
+            PembayaranScreen()
+        }
+        // TODO: RiwayatPemesananScreen -> DetailPemesananScreen -> { IntentToWhatsApp, RatingScreen/Dialog }
+        composable(BotNavItem.RiwayatPemesananScreen.route) {
+            RiwayatPemesananScreen()
         }
     }
 }

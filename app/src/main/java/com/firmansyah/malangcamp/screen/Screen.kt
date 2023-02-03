@@ -3,15 +3,24 @@ package com.firmansyah.malangcamp.screen
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.ADD_BARANG_SCREEN_ROUTE
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.BARANG_DETAIL_SCREEN_ROUTE
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.BARANG_SEWA_ROUTE
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.BOOKING_DETAIL_SCREEN_ROUTE
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.LIST_BARANG_ROUTE
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.LIST_BOOKING_ROUTE
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.PEMBAYARAN_ROUTE
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.RIWAYAT_PEMESANAN_ROUTE
 
-sealed class BotNavItemPegawai(var title: Int, var icon: Int, var route: String) {
-    object ListBooking :
-        BotNavItemPegawai(R.string.list_booking, R.drawable.note, LIST_BOOKING_ROUTE)
+sealed class BotNavItem(var title: Int, var icon: Int, var route: String) {
+    object ListBookingScreen :
+        BotNavItem(R.string.list_booking, R.drawable.note, LIST_BOOKING_ROUTE)
 
-    object ListBarang : BotNavItemPegawai(R.string.list_barang, R.drawable.hiker, LIST_BARANG_ROUTE)
+    object ListBarangScreen : BotNavItem(R.string.list_barang, R.drawable.hiker, LIST_BARANG_ROUTE)
+    object ListBarangSewaScreen :
+        BotNavItem(R.string.barang_sewa, R.drawable.trekking, BARANG_SEWA_ROUTE)
+
+    object PembayaranScreen : BotNavItem(R.string.pembayaran, R.drawable.buy, PEMBAYARAN_ROUTE)
+    object RiwayatPemesananScreen :
+        BotNavItem(R.string.riwayat, R.drawable.note, RIWAYAT_PEMESANAN_ROUTE)
 }
 
 sealed class Screen(val route: String) {

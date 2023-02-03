@@ -87,7 +87,7 @@
     <string name="pesanan">Pesanan __/__/____</string>
     <string name="terima">Terima</string>
     <string name="tolak">Tolak</string>
-    <string name="riwayat_pemesanan">Riwayat Pemesanan</string>
+    <string name="riwayat">Riwayat</string>
     <string name="title_activity_peraturan_sewa">PeraturanSewaActivity</string>
     <string name="tambah_ke_keranjang">Tambah ke Keranjang</string>
     <string name="harap_foto_bukti_pembayaran_harus_jelas_jika_tidak_kemungkinan_pesanan_anda_di_tolak">HARAP FOTO BUKTI PEMBAYARAN HARUS JELAS, JIKA TIDAK KEMUNGKINAN PESANAN ANDA DI TOLAK.</string>
@@ -165,4 +165,6 @@
     <string name="ulangi_password_error">ulangi password error</string>
     <string name="password_tidak_cocok">Password tidak cocok</string>
     <string name="pembuatan_akun_sukses">Pembuatan akun sukses</string>
+    <string name="homepage_pelanggan">Homepage Pelanggan</string>
+    <string name="drowpdown_menu">Drowpdown menu</string>
 </resources>
