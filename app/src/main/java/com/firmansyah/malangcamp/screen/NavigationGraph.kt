@@ -67,7 +67,7 @@ fun NavigationGraph(
         }
         // TODO: ListBarangSewaScreen -> BarangSewaDetailScreen
         composable(BotNavItem.ListBarangSewaScreen.route) {
-            ListBarangSewaScreen()
+            ListBarangSewaScreen(navController)
         }
         // TODO: PembayaranScreen -> { DatePicker, TimePicker, ImageGallery }
         composable(BotNavItem.PembayaranScreen.route) {

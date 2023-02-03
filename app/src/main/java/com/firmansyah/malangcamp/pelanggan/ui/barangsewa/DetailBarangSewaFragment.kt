@@ -152,14 +152,19 @@ class DetailBarangSewaFragment : DialogFragment() {
                             }
                             else -> jumlah = text.toString().toInt()
                         }
-                        if (jumlah==0){
-                            btnTambah.isEnabled=false
+                        if (jumlah == 0) {
+                            btnTambah.isEnabled = false
                             btnTambah.setBackgroundColor(Color.GRAY)
-                        }else{
-                            btnTambah.isEnabled=true
-                            btnTambah.setBackgroundColor(ContextCompat.getColor(requireContext(),R.color.blue))
+                        } else {
+                            btnTambah.isEnabled = true
+                            btnTambah.setBackgroundColor(
+                                ContextCompat.getColor(
+                                    requireContext(),
+                                    R.color.blue
+                                )
+                            )
                         }
-                    } catch (e: NumberFormatException) {
+                    } catch (_: NumberFormatException) {
                     }
                 }
 

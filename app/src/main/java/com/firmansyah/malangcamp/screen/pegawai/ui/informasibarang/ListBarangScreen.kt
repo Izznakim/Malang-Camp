@@ -30,13 +30,13 @@ fun ListBarangScreen(
     navController: NavHostController,
     scaffoldState: ScaffoldState,
     coroutineScope: CoroutineScope,
-    listBarangViewModel: ListBarangViewModel = viewModel()
+    viewModel: ListBarangViewModel = viewModel()
 ) {
     MalangCampTheme {
         InformasiBarang(
             navController,
             scaffoldState,
-            coroutineScope, listBarangViewModel
+            coroutineScope, viewModel
         )
     }
 }
@@ -77,7 +77,7 @@ private fun InformasiBarang(
                     LazyColumn {
                         items(items = listBarang, itemContent = { barang ->
                             Box(contentAlignment = Alignment.TopStart) {
-                                ItemBarangCard(barang, navController)
+                                ItemBarangCard(barang, navController, pegawai = true, false)
                                 DeleteBarangButton(barang, databaseRef)
                                 DeleteDialog(
                                     barang,

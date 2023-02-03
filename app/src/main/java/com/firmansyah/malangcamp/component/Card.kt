@@ -21,22 +21,30 @@ import com.firmansyah.malangcamp.other.currencyIdrFormat
 import com.firmansyah.malangcamp.other.rating
 import com.firmansyah.malangcamp.screen.Screen
 import com.firmansyah.malangcamp.theme.black
+import com.firmansyah.malangcamp.theme.selectedCardColor
 
 
 @Composable
 @OptIn(ExperimentalMaterialApi::class)
 fun ItemBarangCard(
     barang: Barang,
-    navController: NavHostController
+    navController: NavHostController,
+    pegawai: Boolean,
+    changeCardColor: Boolean
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 16.dp),
         onClick = {
-            navController.currentBackStackEntry?.savedStateHandle?.set(BARANG, barang)
-            navController.navigate(Screen.BarangDetailScreen.route)
-        }
+            if (pegawai) {
+                navController.currentBackStackEntry?.savedStateHandle?.set(BARANG, barang)
+                navController.navigate(Screen.BarangDetailScreen.route)
+            } else {
+                // TODO: Pindah ke Barang Detailnya Pelanggan
+            }
+        },
+        backgroundColor = if (!pegawai && changeCardColor) selectedCardColor else MaterialTheme.colors.surface
     ) {
         Row(
             horizontalArrangement = Arrangement.Center,
