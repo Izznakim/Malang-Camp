@@ -24,17 +24,18 @@ import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.model.Pembayaran
 import com.firmansyah.malangcamp.other.copyPhoneNumber
 import com.firmansyah.malangcamp.other.currencyIdrFormat
+import com.firmansyah.malangcamp.pelanggan.PelangganLoginActivity
 import com.firmansyah.malangcamp.pelanggan.PelangganRegisterActivity
 import com.firmansyah.malangcamp.theme.darkGreen
 import com.firmansyah.malangcamp.theme.green
 
 @Composable
-fun TextLogin(text: String) {
+fun TextLoginRegister(text: String) {
     Text(
         text = text,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, top = 8.dp, end = 16.dp),
+            .padding(top = 8.dp),
         style = MaterialTheme.typography.h4.copy(fontWeight = FontWeight.Bold),
         color = green, textAlign = TextAlign.Center
     )
@@ -181,5 +182,26 @@ fun TextDaftarSekarang(context: Context) {
                 }
             },
         color = darkGreen, textAlign = TextAlign.End, style = MaterialTheme.typography.caption
+    )
+}
+
+@Composable
+fun TextToLogin(context: Context) {
+    Text(
+        text = stringResource(id = R.string.sudah_memiliki_akun),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp)
+            .clickable {
+                Intent(
+                    context,
+                    PelangganLoginActivity::class.java
+                ).also {
+                    context.startActivity(it)
+                }
+            },
+        color = darkGreen,
+        textAlign = TextAlign.Center,
+        textDecoration = TextDecoration.Underline,
     )
 }

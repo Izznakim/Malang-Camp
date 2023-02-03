@@ -152,4 +152,17 @@
     <string name="login_pelanggan">Login pelanggan</string>
     <string name="pelanggan_belum_terdaftar">Pelanggan belum terdaftar</string>
     <string name="daftar_sekarang">DAFTAR SEKARANG</string>
+    <string name="register_pelanggan">Register pelanggan</string>
+    <string name="username_error">username error</string>
+    <string name="username_harus_diisi">Username harus diisi</string>
+    <string name="nama_depan_error">Nama depan error</string>
+    <string name="nama_depan_harus_diisi">Nama Depan harus diisi</string>
+    <string name="nama_belakang_error">nama belakang error</string>
+    <string name="nama_belakang_harus_diisi">Nama Belakang harus diisi</string>
+    <string name="nomor_telepon_error">Nomor Telepon error</string>
+    <string name="nomor_telepon_harus_diisi">Nomor Telepon harus diisi</string>
+    <string name="nomor_telepon_tidak_valid">Nomor Telepon tidak valid</string>
+    <string name="ulangi_password_error">ulangi password error</string>
+    <string name="password_tidak_cocok">Password tidak cocok</string>
+    <string name="pembuatan_akun_sukses">Pembuatan akun sukses</string>
 </resources>

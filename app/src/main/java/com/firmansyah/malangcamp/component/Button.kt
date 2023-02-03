@@ -29,6 +29,7 @@ import com.firmansyah.malangcamp.model.Barang
 import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.DELETE_PATH
 import com.firmansyah.malangcamp.pelanggan.PelangganLoginViewModel
+import com.firmansyah.malangcamp.pelanggan.PelangganRegisterViewModel
 import com.firmansyah.malangcamp.screen.Screen
 import com.firmansyah.malangcamp.screen.pegawai.PegawaiLoginViewModel
 import com.firmansyah.malangcamp.screen.pegawai.ui.informasibarang.AddBarangViewModel
@@ -338,6 +339,53 @@ fun ButtonPelangganLogin(
     }
     Text(
         text = viewModel.errorText.value,
+        color = MaterialTheme.colors.error,
+        style = MaterialTheme.typography.caption,
+        textAlign = TextAlign.Center
+    )
+}
+
+
+@Composable
+fun ButtonPelangganRegister(
+    viewModel: PelangganRegisterViewModel,
+    username: String,
+    email: String,
+    namaDepan: String,
+    namaBelakang: String,
+    nomorTelepon: String,
+    password: String,
+    isNotError: Boolean,
+    context: Context
+) {
+    Button(
+        onClick = {
+            viewModel.registerPelanggan(
+                username,
+                email,
+                namaDepan,
+                namaBelakang,
+                nomorTelepon,
+                password,
+                context.getString(R.string.pembuatan_akun_sukses)
+            )
+        },
+        enabled = isNotError,
+        modifier = Modifier
+            .width(235.dp)
+            .padding(top = 32.dp),
+        colors = ButtonDefaults.buttonColors(
+            green
+        )
+    ) {
+        Text(
+            text = stringResource(id = R.string.daftar),
+            fontWeight = FontWeight.Bold,
+            color = white
+        )
+    }
+    Text(
+        text = viewModel.msgText.value,
         color = MaterialTheme.colors.error,
         style = MaterialTheme.typography.caption,
         textAlign = TextAlign.Center

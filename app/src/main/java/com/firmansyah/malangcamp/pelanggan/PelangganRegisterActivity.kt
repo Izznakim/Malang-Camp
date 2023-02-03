@@ -2,172 +2,214 @@ package com.firmansyah.malangcamp.pelanggan
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Patterns
-import android.view.View
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.firmansyah.malangcamp.databinding.ActivityPelangganRegisterBinding
-import com.firmansyah.malangcamp.model.Pelanggan
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Surface
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.unit.dp
+import com.firmansyah.malangcamp.R
+import com.firmansyah.malangcamp.component.*
+import com.firmansyah.malangcamp.theme.MalangCampTheme
 
 //  Halaman register sebagai pelanggan
-class PelangganRegisterActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityPelangganRegisterBinding
-    private lateinit var auth: FirebaseAuth
-    private lateinit var database: FirebaseDatabase
-    private lateinit var ref: DatabaseReference
+class PelangganRegisterActivity : ComponentActivity() {
+    private val viewModel by viewModels<PelangganRegisterViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityPelangganRegisterBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContent {
+            MalangCampTheme {
+                var username by rememberSaveable { mutableStateOf("") }
+                var namaDepan by rememberSaveable { mutableStateOf("") }
+                var namaBelakang by rememberSaveable { mutableStateOf("") }
+                var nomorTelepon by rememberSaveable { mutableStateOf("") }
+                var email by rememberSaveable { mutableStateOf("") }
+                var password by rememberSaveable { mutableStateOf("") }
+                var ulangiPassword by rememberSaveable { mutableStateOf("") }
 
-        database = FirebaseDatabase.getInstance()
-        ref = database.getReference("users")
+                var usernameError by rememberSaveable { mutableStateOf(false) }
+                var namaDepanError by rememberSaveable { mutableStateOf(false) }
+                var namaBelakangError by rememberSaveable { mutableStateOf(false) }
+                var nomorTeleponError by rememberSaveable { mutableStateOf(false) }
+                var emailError by rememberSaveable { mutableStateOf(false) }
+                var passwordError by rememberSaveable { mutableStateOf(false) }
+                var ulangiPasswordError by rememberSaveable { mutableStateOf(false) }
 
-        auth = FirebaseAuth.getInstance()
+                val context = LocalContext.current
 
-        bnd()
-    }
+                val usernameIsEmpty = username.isEmpty()
 
-    private fun bnd() {
-        with(binding) {
-            btnDaftar.setOnClickListener {
-                val username = etUsername.text.toString().trim()
-                val namaDepan = etNamaDepan.text.toString().trim()
-                val namaBelakang = etNamaBelakang.text.toString().trim()
-                val noTelp = etNoTelp.text.toString().trim()
-                val email = etEmail.text.toString().trim()
-                val password = etPassword.text.toString().trim()
-                val ulangiPassword = etUlangiPassword.text.toString().trim()
+                val namaDepanIsEmpty = namaDepan.isEmpty()
+                val namaBelakangIsEmpty = namaBelakang.isEmpty()
 
-//                Username
-                if (username.isEmpty()) {
-                    etUsername.error = "Username harus diisi"
-                    etUsername.requestFocus()
-                    return@setOnClickListener
-                }
+                val ulangiPasswordNotMatch = ulangiPassword != password
 
-                if (Patterns.EMAIL_ADDRESS.matcher(username).matches()) {
-                    etUsername.error = "Username tidak valid"
-                    etUsername.requestFocus()
-                    return@setOnClickListener
-                }
+                val isNotError =
+                    !(usernameError || namaDepanError || namaBelakangError || nomorTeleponError || emailError || passwordError || ulangiPasswordError)
 
-                if (username.contains(" ")) {
-                    etUsername.error = "Spasi bisa diganti dengan underscore (_)"
-                    etUsername.requestFocus()
-                    return@setOnClickListener
-                }
+                Surface {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        if (viewModel.isLoading.value) {
+                            LinearProgressBar(alpha = 1f)
+                        } else {
+                            LinearProgressBar(alpha = 0f)
+                        }
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState())
+                                .padding(16.dp),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Logo(
+                                drwbl = R.drawable.hiking,
+                                contentDesc = R.string.register_pelanggan,
+                                modifier = Modifier
+                                    .size(124.dp)
+                                    .padding(top = 16.dp)
+                                    .clip(CircleShape)
+                            )
+                            TextLoginRegister(text = stringResource(id = R.string.daftar))
+                            usernameError = registerInput(
+                                profile = username,
+                                onProfileValueChange = { newValue -> username = newValue },
+                                trim = true,
+                                contentDescription = stringResource(R.string.username_error),
+                                placeHolder = stringResource(id = R.string.username),
+                                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                                paddingTop = 32.dp,
+                                isError = usernameIsEmpty,
+                                errorText = stringResource(R.string.username_harus_diisi)
+                            )
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 8.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .weight(1f)
+                                        .padding(end = 4.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    namaDepanError = registerInput(
+                                        profile = namaDepan,
+                                        onProfileValueChange = { newValue -> namaDepan = newValue },
+                                        trim = false,
+                                        contentDescription = stringResource(R.string.nama_depan_error),
+                                        placeHolder = stringResource(id = R.string.nama_depan),
+                                        keyboardOptions = KeyboardOptions(
+                                            capitalization = KeyboardCapitalization.Words,
+                                            imeAction = ImeAction.Next
+                                        ),
+                                        paddingTop = 0.dp,
+                                        isError = namaDepanIsEmpty,
+                                        errorText = stringResource(R.string.nama_depan_harus_diisi)
+                                    )
+                                }
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .weight(1f)
+                                        .padding(start = 4.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    namaBelakangError = registerInput(
+                                        profile = namaBelakang,
+                                        onProfileValueChange = { newValue ->
+                                            namaBelakang = newValue
+                                        },
+                                        trim = false,
+                                        contentDescription = stringResource(R.string.nama_belakang_error),
+                                        placeHolder = stringResource(id = R.string.nama_belakang),
+                                        keyboardOptions = KeyboardOptions(
+                                            capitalization = KeyboardCapitalization.Words,
+                                            imeAction = ImeAction.Next
+                                        ),
+                                        paddingTop = 0.dp,
+                                        isError = namaBelakangIsEmpty,
+                                        errorText = stringResource(R.string.nama_belakang_harus_diisi)
+                                    )
+                                }
+                            }
+                            nomorTeleponError = nomorTeleponInput(
+                                nomorTelepon = nomorTelepon,
+                                onNoTelpValueChange = { newValue -> nomorTelepon = newValue }
+                            )
+                            emailError = emailInput(
+                                email = email.trim(),
+                                onEmailValueChange = { newValue -> email = newValue.trim() },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 8.dp)
+                            )
+                            passwordError = passwordInput(
+                                password = password.trim(),
+                                onPasswordValueChange = { newValue -> password = newValue.trim() })
+                            ulangiPasswordError = registerInput(
+                                profile = ulangiPassword,
+                                onProfileValueChange = { newValue -> ulangiPassword = newValue },
+                                trim = true,
+                                contentDescription = stringResource(R.string.ulangi_password_error),
+                                placeHolder = stringResource(id = R.string.ulangi_password),
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Password,
+                                    imeAction = ImeAction.Done
+                                ),
+                                paddingTop = 8.dp,
+                                isError = ulangiPasswordNotMatch,
+                                visualTransformation = PasswordVisualTransformation(),
+                                errorText = stringResource(R.string.password_tidak_cocok)
+                            )
+                            ButtonPelangganRegister(
+                                viewModel,
+                                username,
+                                email,
+                                namaDepan,
+                                namaBelakang,
+                                nomorTelepon,
+                                password,
+                                isNotError,
+                                context
+                            )
+                            TextToLogin(context)
 
-//                Nama Depan
-                if (namaDepan.isEmpty()) {
-                    etNamaDepan.error = "Nama Depan harus diisi"
-                    etNamaDepan.requestFocus()
-                    return@setOnClickListener
-                }
-
-                if (Patterns.EMAIL_ADDRESS.matcher(namaDepan).matches()) {
-                    etNamaDepan.error = "Nama Depan tidak valid"
-                    etNamaDepan.requestFocus()
-                    return@setOnClickListener
-                }
-
-//                Nama Belakang
-                if (Patterns.EMAIL_ADDRESS.matcher(namaBelakang).matches()) {
-                    etNamaBelakang.error = "Nama Belakang tidak valid"
-                    etNamaBelakang.requestFocus()
-                    return@setOnClickListener
-                }
-
-//                Nomor Telepon
-                if (noTelp.isEmpty()) {
-                    etNoTelp.error = "Nomor telepon harus diisi"
-                    etNoTelp.requestFocus()
-                    return@setOnClickListener
-                }
-
-                if (!Patterns.PHONE.matcher(noTelp).matches()) {
-                    etNoTelp.error = "Nomor telepon tidak valid"
-                    etNoTelp.requestFocus()
-                    return@setOnClickListener
-                }
-//                E-mail
-                if (email.isEmpty()) {
-                    etEmail.error = "Email harus diisi"
-                    etEmail.requestFocus()
-                    return@setOnClickListener
-                }
-
-                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    etEmail.error = "Email tidak valid"
-                    etEmail.requestFocus()
-                    return@setOnClickListener
-                }
-
-//                Password
-                if (password.isEmpty() || password.length < 6) {
-                    etPassword.error = "Password harus lebih dari 6 karakter"
-                    etPassword.requestFocus()
-                    return@setOnClickListener
-                }
-
-                if (ulangiPassword != password) {
-                    etUlangiPassword.error = "Password yang anda masukkan tidak sama"
-                    etUlangiPassword.requestFocus()
-                    return@setOnClickListener
-                }
-
-                registerPelanggan(username, email, namaDepan, namaBelakang, noTelp, password)
-            }
-
-            tvLogin.setOnClickListener {
-                Intent(this@PelangganRegisterActivity, PelangganLoginActivity::class.java).also {
-                    startActivity(it)
+                            if (viewModel.isIntent.value) {
+                                Intent(context, PelangganHomeActivity::class.java).also { intent ->
+                                    intent.flags =
+                                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    context.startActivity(intent)
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
-    }
-
-    private fun registerPelanggan(
-        username: String,
-        email: String,
-        namaDepan: String,
-        namaBelakang: String,
-        noTelp: String,
-        password: String
-    ) {
-        binding.progressBar.visibility= View.VISIBLE
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) {
-                if (it.isSuccessful) {
-                    val id = auth.currentUser?.uid
-                    if (id != null) {
-                        val model =
-                            Pelanggan(id, username, email, namaDepan, namaBelakang, noTelp)
-                        ref.child(id).get().addOnSuccessListener {
-                            Toast.makeText(this, "Pembuatan akun sukses", Toast.LENGTH_SHORT)
-                                .show()
-                            ref.child(id).setValue(model)
-                            Intent(this, PelangganHomeActivity::class.java).also { intent ->
-                                binding.progressBar.visibility = View.GONE
-                                intent.flags =
-                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                startActivity(intent)
-                            }
-                        }.addOnFailureListener { e->
-                            binding.progressBar.visibility = View.GONE
-                            Toast.makeText(this, e.message, Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    }
-                } else {
-                    binding.progressBar.visibility = View.GONE
-                    Toast.makeText(this, it.exception?.message, Toast.LENGTH_SHORT).show()
-                }
-            }
     }
 }

@@ -19,17 +19,20 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.firmansyah.malangcamp.R
 
 @Composable
 fun emailInput(
     email: String,
-    onEmailValueChange: (newValue: String) -> Unit
+    onEmailValueChange: (newValue: String) -> Unit,
+    modifier: Modifier
 ): Boolean {
     val isEmpty = email.isEmpty()
     val isValid = Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    val isError = !isValid
+    val isError = !isValid || isEmpty
 
     TextField(
         value = email,
@@ -53,16 +56,14 @@ fun emailInput(
                 )
             }
         },
-        isError = isEmpty || !isValid,
+        isError = isError,
         placeholder = { Text(text = stringResource(id = R.string.email)) },
         singleLine = true,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Email,
             imeAction = ImeAction.Next
         ),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, top = 32.dp)
+        modifier = modifier
     )
 
     if (isEmpty) {
@@ -102,7 +103,7 @@ fun passwordInput(password: String, onPasswordValueChange: (newValue: String) ->
         ),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, top = 8.dp),
+            .padding(top = 8.dp),
         visualTransformation = PasswordVisualTransformation()
     )
     if (isNotEnough) {
@@ -155,4 +156,91 @@ fun editTextDeskBarang(
         }
     }
     return deskBrng
+}
+
+@Composable
+fun nomorTeleponInput(
+    nomorTelepon: String,
+    onNoTelpValueChange: (newValue: String) -> Unit
+): Boolean {
+    val nomorTeleponIsEmpty = nomorTelepon.isEmpty()
+    val nomorTeleponIsNotValid = !Patterns.PHONE.matcher(nomorTelepon).matches()
+    val isError = nomorTeleponIsEmpty || nomorTeleponIsNotValid
+
+    TextField(
+        value = nomorTelepon.trim(),
+        onValueChange = { newValue -> onNoTelpValueChange(newValue.trim()) },
+        trailingIcon = {
+            if (nomorTeleponIsEmpty) {
+                Icon(
+                    Icons.Filled.Warning,
+                    contentDescription = stringResource(R.string.nomor_telepon_error),
+                    tint = MaterialTheme.colors.error
+                )
+            } else if (nomorTeleponIsNotValid) {
+                Icon(
+                    Icons.Filled.Warning,
+                    contentDescription = stringResource(R.string.nomor_telepon_error),
+                    tint = MaterialTheme.colors.error
+                )
+            }
+        },
+        isError = isError,
+        placeholder = { Text(text = stringResource(id = R.string.nomor_telepon)) },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Phone,
+            imeAction = ImeAction.Next
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 8.dp)
+    )
+    if (nomorTeleponIsEmpty) {
+        ErrorText(text = stringResource(R.string.nomor_telepon_harus_diisi))
+    } else if (nomorTeleponIsNotValid) {
+        ErrorText(text = stringResource(R.string.nomor_telepon_tidak_valid))
+    }
+    return isError
+}
+
+@Composable
+fun registerInput(
+    profile: String,
+    onProfileValueChange: (newValue: String) -> Unit,
+    trim: Boolean,
+    contentDescription: String,
+    placeHolder: String,
+    keyboardOptions: KeyboardOptions,
+    paddingTop: Dp,
+    isError: Boolean,
+    errorText: String,
+    visualTransformation: VisualTransformation = VisualTransformation.None
+): Boolean {
+//    var regProfile by rememberSaveable { mutableStateOf(profile) }
+    TextField(
+        value = if (trim) profile.trim() else profile,
+        onValueChange = { newValue -> onProfileValueChange(if (trim) newValue.trim() else newValue) },
+        trailingIcon = {
+            if (isError) {
+                Icon(
+                    Icons.Filled.Warning,
+                    contentDescription = contentDescription,
+                    tint = MaterialTheme.colors.error
+                )
+            }
+        },
+        isError = isError,
+        placeholder = { Text(text = placeHolder) },
+        singleLine = true,
+        keyboardOptions = keyboardOptions,
+        visualTransformation = visualTransformation,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = paddingTop)
+    )
+    if (isError) {
+        ErrorText(text = errorText)
+    }
+    return isError
 }

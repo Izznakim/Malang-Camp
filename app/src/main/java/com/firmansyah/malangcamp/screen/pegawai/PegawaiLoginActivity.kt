@@ -61,7 +61,7 @@ private fun PegawaiLogin(viewModel: PegawaiLoginViewModel) {
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
-                    .padding(bottom = 16.dp, top = 16.dp),
+                    .padding(16.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -70,10 +70,14 @@ private fun PegawaiLogin(viewModel: PegawaiLoginViewModel) {
                     contentDesc = R.string.login_pegawai,
                     modifier = Modifier.size(146.dp)
                 )
-                TextLogin(stringResource(id = R.string.login_pegawai))
-                emailError = emailInput(email = email.trim(), onEmailValueChange = { newValue ->
-                    email = newValue.trim()
-                })
+                TextLoginRegister(stringResource(id = R.string.login))
+                emailError = emailInput(
+                    email = email.trim(), onEmailValueChange = { newValue ->
+                        email = newValue.trim()
+                    }, modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 32.dp)
+                )
                 passwordError = passwordInput(password = password.trim(),
                     onPasswordValueChange = { newValue -> password = newValue.trim() })
                 ButtonPegawaiLogin(viewModel, email, password, emailError, passwordError, context)

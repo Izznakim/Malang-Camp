@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -16,6 +17,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -60,7 +62,7 @@ fun PelangganLogin(viewModel: PelangganLoginViewModel) {
                 modifier = Modifier
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
-                    .padding(bottom = 16.dp, top = 16.dp),
+                    .padding(16.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -70,11 +72,16 @@ fun PelangganLogin(viewModel: PelangganLoginViewModel) {
                     modifier = Modifier
                         .padding(top = 32.dp)
                         .size(156.dp)
+                        .clip(CircleShape)
                 )
-                TextLogin(text = stringResource(id = R.string.login))
+                TextLoginRegister(text = stringResource(id = R.string.login))
                 emailError = emailInput(
                     email = email.trim(),
-                    onEmailValueChange = { newValue -> email = newValue.trim() })
+                    onEmailValueChange = { newValue -> email = newValue.trim() },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 32.dp)
+                )
                 passwordError = passwordInput(
                     password = password.trim(),
                     onPasswordValueChange = { newValue -> password = newValue.trim() })
