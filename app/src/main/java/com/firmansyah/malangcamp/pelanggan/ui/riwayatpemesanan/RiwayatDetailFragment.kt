@@ -37,11 +37,11 @@ import com.firmansyah.malangcamp.other.ConstVariable.Companion.BARANG
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.BUKTI_LOCATION
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.DITERIMA
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.DITOLAK
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.EXTRA_BARANG
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.EXTRA_PEMBAYARAN
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.NETRAL
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.PEMBAYARAN
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.STOCK_PATH
-import com.firmansyah.malangcamp.pelanggan.ui.barangsewa.DetailBarangSewaFragment.Companion.EXTRA_BARANG
 import com.firmansyah.malangcamp.theme.MalangCampTheme
 import com.firmansyah.malangcamp.theme.black
 import com.google.firebase.database.DatabaseReference

@@ -177,4 +177,7 @@
     <string name="pesanan_anda_di_terima">"pesanan anda di terima. silakan mengambil barang sesuai dengan tanggal dan jam yang di pesan. tetap memakai masker pada saat pengambilan barang.\nHubungi nomor di bawah ini untuk informasi lebih lanjut."</string>
     <string name="pesanan_anda_tidak_bisa_kami_proses">"MAAF, PESANAN ANDA TIDAK BISA KAMI PROSES KARENA TIDAK VALID.\nHubungi nomor di bawah ini untuk informasi lebih lanjut."</string>
     <string name="pesanan_anda_belum_kami_konfirmasi">"MAAF, PESANAN ANDA BELUM KAMI KONFIRMASI. DIMOHON UNTUK MENUNGGU BEBERAPA SAAT LAGI.\nHubungi nomor di bawah ini untuk informasi lebih lanjut."</string>
+    <string name="rating_barang">rating barang</string>
+    <string name="isi_dengan_angka">Isi dengan angka</string>
+    <string name="___telah_ditambahkan_ke_keranjang">%1$s telah ditambahkan ke keranjang</string>
 </resources>

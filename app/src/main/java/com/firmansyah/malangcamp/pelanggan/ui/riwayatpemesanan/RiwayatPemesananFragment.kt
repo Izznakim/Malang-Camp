@@ -77,7 +77,7 @@ class RiwayatPemesananFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        adapter = BookingAdapter(arrayListOf(),false)
+        adapter = BookingAdapter(arrayListOf())
         binding.rvListRiwayat.layoutManager = LinearLayoutManager(activity)
         binding.rvListRiwayat.adapter = adapter
     }

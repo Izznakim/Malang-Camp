@@ -28,7 +28,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.model.Keranjang
-import com.firmansyah.malangcamp.pelanggan.ui.barangsewa.DetailBarangSewaFragment.Companion.EXTRA_BARANG
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.EXTRA_BARANG
 
 //  Dialog rating
 class RatingFragment : DialogFragment() {

@@ -1,7 +1,6 @@
 package com.firmansyah.malangcamp.pelanggan.ui.barangsewa
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +10,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.firmansyah.malangcamp.adapter.BarangAdapter
 import com.firmansyah.malangcamp.databinding.FragmentBarangsewaBinding
-import com.firmansyah.malangcamp.model.Barang
-import com.firmansyah.malangcamp.model.Keranjang
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -68,7 +64,7 @@ class BarangSewaFragment : Fragment() {
     }
 
     private fun initAdapter() {
-        adapter = BarangAdapter(arrayListOf(), keranjangRef, false) {}
+        adapter = BarangAdapter(arrayListOf(), keranjangRef)
         binding.rvInfoBarang.layoutManager = LinearLayoutManager(activity)
         binding.rvInfoBarang.adapter = adapter
     }
