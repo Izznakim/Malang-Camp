@@ -1,18 +1,19 @@
 package com.firmansyah.malangcamp.component
 
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Card
-import androidx.compose.material.Divider
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -24,6 +25,7 @@ import com.firmansyah.malangcamp.other.ConstVariable.Companion.PEMBAYARAN
 import com.firmansyah.malangcamp.other.currencyIdrFormat
 import com.firmansyah.malangcamp.screen.Screen
 import com.firmansyah.malangcamp.theme.black
+import com.google.firebase.database.DatabaseReference
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -66,7 +68,12 @@ fun LazyListScope.bookingItem(
     })
 }
 
-fun LazyListScope.listKeranjang(listKeranjang: ArrayList<Keranjang>) {
+fun LazyListScope.listKeranjang(
+    listKeranjang: ArrayList<Keranjang>,
+    pembayaran: Boolean = false,
+    keranjangRef: DatabaseReference? = null,
+    context: Context? = null
+) {
     items(items = listKeranjang, itemContent = { barang ->
         Column(
             modifier = Modifier
@@ -117,6 +124,21 @@ fun LazyListScope.listKeranjang(listKeranjang: ArrayList<Keranjang>) {
                         .fillMaxWidth(),
                     textAlign = TextAlign.Center
                 )
+                if (pembayaran) {
+                    IconButton(onClick = {
+                        keranjangRef?.child(barang.idBarang)?.get()?.addOnSuccessListener {
+                            it.ref.removeValue()
+                        }?.addOnFailureListener {
+                            Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                        }
+                    }) {
+                        Icon(
+                            imageVector = Icons.Filled.Delete, contentDescription = stringResource(
+                                id = R.string.tombol_hapus
+                            )
+                        )
+                    }
+                }
             }
             Divider(
                 thickness = 1.dp,

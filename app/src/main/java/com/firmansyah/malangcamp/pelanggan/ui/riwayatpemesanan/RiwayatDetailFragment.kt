@@ -42,6 +42,7 @@ import com.firmansyah.malangcamp.other.ConstVariable.Companion.EXTRA_PEMBAYARAN
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.NETRAL
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.PEMBAYARAN
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.STOCK_PATH
+import com.firmansyah.malangcamp.other.currencyIdrFormat
 import com.firmansyah.malangcamp.theme.MalangCampTheme
 import com.firmansyah.malangcamp.theme.black
 import com.google.firebase.database.DatabaseReference
@@ -105,7 +106,7 @@ class RiwayatDetailFragment : DialogFragment() {
                         }
                         listKeranjang(listKeranjang)
                         item { Hari(mPembayaran) }
-                        item { Total(mPembayaran) }
+                        item { Total(currencyIdrFormat().format(mPembayaran.total)) }
                         item { NamaPenyewa(mPembayaran) }
                         item { PhoneNumber(requireContext(), mPembayaran) }
                         item { BuktiPembayaranImage(mPembayaran, requireContext()) }

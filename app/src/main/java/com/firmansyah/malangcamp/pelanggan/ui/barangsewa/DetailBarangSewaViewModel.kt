@@ -46,7 +46,7 @@ class DetailBarangSewaViewModel : ViewModel() {
 
     private fun loadJumlahOnStart() {
         keranjangRef.get().addOnSuccessListener {
-            if (it.exists()) {
+            if (it.child(barang.id).exists()) {
                 _inBasket.value = true
                 _jumlah.value = it.child(barang.id).child(JUMLAH_PATH).value.toString()
             }

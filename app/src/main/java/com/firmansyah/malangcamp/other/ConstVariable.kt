@@ -32,5 +32,7 @@ class ConstVariable {
         const val TENDA = "Tenda"
         const val BARANG_LAINNYA = "Barang Lainnya"
         const val RATING_PATH = "rating"
+        const val DATE_FORMAT = "dd/MM/yyyy"
+        const val TIME_FORMAT = "HH:mm"
     }
 }

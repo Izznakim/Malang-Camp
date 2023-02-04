@@ -180,4 +180,13 @@
     <string name="rating_barang">rating barang</string>
     <string name="isi_dengan_angka">Isi dengan angka</string>
     <string name="___telah_ditambahkan_ke_keranjang">%1$s telah ditambahkan ke keranjang</string>
+    <string name="diambil_pada_tanggal_">Diambil pada tanggal: </string>
+    <string name="_dikembalikan_pada_tanggal_">Dikembalikan pada tanggal: </string>
+    <string name="_pada_jam__">Pada Jam: </string>
+    <string name="harus_disaat_jam_kerja">HARUS DISAAT JAM KERJA\n(07:00 – 20:00)</string>
+    <string name="___Hari">%1$s Hari</string>
+    <string name="nama_penyewa_error">nama penyewa error</string>
+    <string name="nama_penyewa_harus_diisi">Nama Penyewa harus diisi</string>
+    <string name="maaf_ada_stok_yang_belum_siap">Maaf, ada stok yang belum siap</string>
+    <string name="anda_telah_menyewa">Anda telah menyewa</string>
 </resources>

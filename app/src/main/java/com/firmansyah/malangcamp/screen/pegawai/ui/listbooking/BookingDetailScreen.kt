@@ -14,6 +14,7 @@ import androidx.navigation.NavHostController
 import com.firmansyah.malangcamp.component.*
 import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.model.Pembayaran
+import com.firmansyah.malangcamp.other.currencyIdrFormat
 import com.firmansyah.malangcamp.theme.MalangCampTheme
 import com.firmansyah.malangcamp.theme.black
 import kotlinx.coroutines.CoroutineScope
@@ -59,7 +60,7 @@ fun BookingDetailScreen(
             }
             listKeranjang(listKeranjang)
             item { Hari(mPembayaran) }
-            item { Total(mPembayaran) }
+            item { Total(currencyIdrFormat().format(mPembayaran.total)) }
             item { NamaPenyewa(mPembayaran) }
             item { PhoneNumber(context, mPembayaran) }
             item { BuktiPembayaranImage(mPembayaran, context) }
