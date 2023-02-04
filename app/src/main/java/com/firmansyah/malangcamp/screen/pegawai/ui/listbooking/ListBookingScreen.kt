@@ -73,6 +73,6 @@ private fun ListBooking(
     val listPembayaran = listBookingViewModel.listBooking.value
 
     LazyColumn {
-        bookingItem(listPembayaran, navController, context)
+        bookingItem(listPembayaran, navController, context, true)
     }
 }

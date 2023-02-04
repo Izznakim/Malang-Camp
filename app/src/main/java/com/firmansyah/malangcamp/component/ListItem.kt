@@ -1,7 +1,9 @@
 package com.firmansyah.malangcamp.component
 
 import android.content.Context
+import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -21,8 +23,10 @@ import androidx.navigation.NavHostController
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.model.Pembayaran
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.EXTRA_PEMBAYARAN
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.PEMBAYARAN
 import com.firmansyah.malangcamp.other.currencyIdrFormat
+import com.firmansyah.malangcamp.pelanggan.ui.riwayatpemesanan.RiwayatDetailFragment
 import com.firmansyah.malangcamp.screen.Screen
 import com.firmansyah.malangcamp.theme.black
 import com.google.firebase.database.DatabaseReference
@@ -32,13 +36,27 @@ import com.google.firebase.database.DatabaseReference
 fun LazyListScope.bookingItem(
     listPembayaran: List<Pembayaran>,
     navController: NavHostController,
-    context: Context
+    context: Context,
+    pegawai: Boolean
 ) {
     items(items = listPembayaran, itemContent = {
         Card(
             onClick = {
-                navController.currentBackStackEntry?.savedStateHandle?.set(PEMBAYARAN, it)
-                navController.navigate(Screen.BookingDetailScreen.route)
+                if (pegawai) {
+                    navController.currentBackStackEntry?.savedStateHandle?.set(PEMBAYARAN, it)
+                    navController.navigate(Screen.BookingDetailScreen.route)
+                } else {
+                    val riwayatDetailFragment = RiwayatDetailFragment()
+                    val mFragmentManager = (context as AppCompatActivity).supportFragmentManager
+                    val bundle = Bundle()
+
+                    bundle.putParcelable(EXTRA_PEMBAYARAN, it)
+                    riwayatDetailFragment.arguments = bundle
+                    riwayatDetailFragment.show(
+                        mFragmentManager,
+                        RiwayatDetailFragment::class.java.simpleName
+                    )
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()
