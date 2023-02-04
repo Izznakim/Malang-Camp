@@ -9,12 +9,14 @@ class ConstVariable {
         const val IS_PEGAWAI_PATH = "isPegawai"
         const val GALLERY_IMAGE = "image/*"
         const val IMAGES_LOCATION = "images/"
+        const val BUKTI_LOCATION = "bukti/"
         const val BARANG = "barang"
         const val PEMBAYARAN = "pembayaran"
         const val DITOLAK = "ditolak"
         const val DITERIMA = "diterima"
         const val NETRAL = "netral"
         const val EXTRA_IMAGE = "extra_image"
+        const val EXTRA_PEMBAYARAN = "extra_pembayaran"
         const val LIST_BOOKING_ROUTE = "listBooking"
         const val LIST_BARANG_ROUTE = "listBarang"
         const val BOOKING_DETAIL_SCREEN_ROUTE = "bookingDetailScreen"
@@ -26,5 +28,6 @@ class ConstVariable {
         const val SLEEPING_BAG = "Sleeping Bag"
         const val TENDA = "Tenda"
         const val BARANG_LAINNYA = "Barang Lainnya"
+        const val RATING_PATH = "rating"
     }
 }

@@ -12,6 +12,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.firmansyah.malangcamp.HomeActivity
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.databinding.ActivityPelangganHomeBinding
+import com.firmansyah.malangcamp.pelanggan.ui.menu.PelangganAkunActivity
+import com.firmansyah.malangcamp.pelanggan.ui.menu.PeraturanSewaActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth

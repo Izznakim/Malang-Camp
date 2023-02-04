@@ -14,14 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MalangCamp">
         <activity
-            android:name=".pelanggan.PelangganAkunActivity"
+            android:name=".pelanggan.ui.menu.PelangganAkunActivity"
             android:exported="false" />
         <activity
             android:name=".other.ZoomImageActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".pelanggan.PeraturanSewaActivity"
+            android:name=".pelanggan.ui.menu.PeraturanSewaActivity"
             android:exported="false"
             android:label="@string/title_activity_peraturan_sewa"
             android:theme="@style/Theme.MalangCamp.NoActionBar" />

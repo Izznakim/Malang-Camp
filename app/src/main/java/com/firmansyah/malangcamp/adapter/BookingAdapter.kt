@@ -21,11 +21,12 @@ import androidx.compose.ui.unit.dp
 import androidx.recyclerview.widget.RecyclerView
 import com.firmansyah.malangcamp.databinding.ListBookingBinding
 import com.firmansyah.malangcamp.model.Pembayaran
-import com.firmansyah.malangcamp.pelanggan.ui.riwayatpemesanan.BookingDetailFragment
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.EXTRA_PEMBAYARAN
+import com.firmansyah.malangcamp.pelanggan.ui.riwayatpemesanan.RiwayatDetailFragment
 import com.firmansyah.malangcamp.theme.MalangCampTheme
 
 class BookingAdapter(
-    private val listBooking: ArrayList<Pembayaran>, private val isPegawai: Boolean
+    private val listBooking: ArrayList<Pembayaran>
 ) : RecyclerView.Adapter<BookingAdapter.ListViewHolder>() {
     fun setData(data: List<Pembayaran>) {
         listBooking.clear()
@@ -40,7 +41,7 @@ class BookingAdapter(
             with(binding) {
                 composeListBooking.setContent {
                     MalangCampTheme {
-                        Item(pembayaran, isPegawai)
+                        Item(pembayaran)
                     }
                 }
             }
@@ -62,10 +63,10 @@ class BookingAdapter(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun Item(pembayaran: Pembayaran, isPegawai: Boolean) {
+private fun Item(pembayaran: Pembayaran) {
     val context = LocalContext.current
     Card(
-        onClick = { toDetailPembayaran(context, pembayaran, isPegawai) },
+        onClick = { toDetailPembayaran(context, pembayaran) },
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 16.dp, horizontal = 8.dp)
@@ -91,23 +92,21 @@ private fun Item(pembayaran: Pembayaran, isPegawai: Boolean) {
 
 private fun toDetailPembayaran(
     context: Context,
-    pembayaran: Pembayaran,
-    isPegawai: Boolean
+    pembayaran: Pembayaran
 ) {
-    val bookingDetailFragment = BookingDetailFragment()
+    val riwayatDetailFragment = RiwayatDetailFragment()
     val mFragmentManager = (context as AppCompatActivity).supportFragmentManager
     val bundle = Bundle()
 
-    bundle.putParcelable(BookingDetailFragment.EXTRA_PEMBAYARAN, pembayaran)
-    bundle.putBoolean(BookingDetailFragment.EXTRA_ISPEGAWAI, isPegawai)
-    bookingDetailFragment.arguments = bundle
-    bookingDetailFragment.show(mFragmentManager, BookingDetailFragment::class.java.simpleName)
+    bundle.putParcelable(EXTRA_PEMBAYARAN, pembayaran)
+    riwayatDetailFragment.arguments = bundle
+    riwayatDetailFragment.show(mFragmentManager, RiwayatDetailFragment::class.java.simpleName)
 }
 
 @Preview
 @Composable
 fun ItemPreview() {
     MalangCampTheme {
-        Item(Pembayaran(), true)
+        Item(Pembayaran())
     }
 }

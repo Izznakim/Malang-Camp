@@ -1,4 +1,4 @@
-package com.firmansyah.malangcamp.pelanggan
+package com.firmansyah.malangcamp.pelanggan.ui.menu
 
 import android.content.Intent
 import android.net.Uri
