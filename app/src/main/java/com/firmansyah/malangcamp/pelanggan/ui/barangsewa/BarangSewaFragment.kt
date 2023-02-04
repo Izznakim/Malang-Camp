@@ -4,36 +4,36 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.firmansyah.malangcamp.adapter.BarangAdapter
+import androidx.navigation.compose.rememberNavController
+import com.firmansyah.malangcamp.R
+import com.firmansyah.malangcamp.component.ErrorFailComponent
+import com.firmansyah.malangcamp.component.ItemBarangCard
 import com.firmansyah.malangcamp.databinding.FragmentBarangsewaBinding
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
+import com.firmansyah.malangcamp.theme.MalangCampTheme
 
 //  Halaman daftar barang
 class BarangSewaFragment : Fragment() {
 
     private lateinit var barangSewaViewModel: BarangSewaViewModel
     private var _binding: FragmentBarangsewaBinding? = null
-    private lateinit var adapter: BarangAdapter
-    private lateinit var database: FirebaseDatabase
-    private lateinit var databaseRef: DatabaseReference
-    private lateinit var keranjangRef: DatabaseReference
-    private lateinit var storage: FirebaseStorage
-    private lateinit var storageRef: StorageReference
-    private lateinit var auth: FirebaseAuth
 
     // This property is only valid between onCreateView and
     // onDestroyView.
-    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,44 +43,57 @@ class BarangSewaFragment : Fragment() {
         barangSewaViewModel =
             ViewModelProvider(this)[BarangSewaViewModel::class.java]
 
-        auth = FirebaseAuth.getInstance()
-
-        storage = FirebaseStorage.getInstance()
-        storageRef = storage.getReference("images/")
-
-        database = Firebase.database
-        databaseRef = database.getReference("barang")
-        keranjangRef = database.getReference("users/${auth.currentUser?.uid}/keranjang")
-
         _binding = FragmentBarangsewaBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        initAdapter()
-        viewModel()
-    }
-
-    private fun initAdapter() {
-        adapter = BarangAdapter(arrayListOf(), keranjangRef)
-        binding.rvInfoBarang.layoutManager = LinearLayoutManager(activity)
-        binding.rvInfoBarang.adapter = adapter
-    }
-
-    private fun viewModel() {
-        with(barangSewaViewModel) {
-            getListBarang(databaseRef)
-            listBarang.observe(viewLifecycleOwner) {
-                if (it != null) {
-                    adapter.setData(it)
-                }
-            }
-            toast.observe(viewLifecycleOwner) {
-                if (it != null) {
-                    val toast = it.format(this)
-                    Toast.makeText(activity, toast, Toast.LENGTH_SHORT).show()
+        return ComposeView(requireContext()).apply {
+            setContent {
+                val navController = rememberNavController()
+                barangSewaViewModel.getListBarang()
+                val listBarang = barangSewaViewModel.listBarang.value
+                MalangCampTheme {
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        when {
+                            barangSewaViewModel.listBarang.value.isEmpty() -> {
+                                ErrorFailComponent(
+                                    Icons.Filled.Warning,
+                                    stringResource(R.string.data_kosong_di_list_barang),
+                                    stringResource(R.string.masih_belum_ada_barang_yang_ditambahkan)
+                                )
+                            }
+                            barangSewaViewModel.isError.value -> {
+                                ErrorFailComponent(
+                                    icons = Icons.Filled.Close,
+                                    contentDesc = barangSewaViewModel.errorMsg.value,
+                                    textFail = barangSewaViewModel.errorMsg.value
+                                )
+                            }
+                            else -> {
+                                LazyColumn {
+                                    items(items = listBarang, itemContent = { barang ->
+                                        barangSewaViewModel.changeCardColor(barang)
+                                        ItemBarangCard(
+                                            barang,
+                                            navController,
+                                            false,
+                                            barangSewaViewModel.changedColor.value
+                                        )
+                                    })
+                                }
+                            }
+                        }
+                        if (barangSewaViewModel.isLoading.value) {
+                            CircularProgressIndicator(
+                                Modifier
+                                    .alpha(1f)
+                                    .align(Alignment.Center)
+                            )
+                        } else {
+                            CircularProgressIndicator(
+                                Modifier
+                                    .alpha(0f)
+                                    .align(Alignment.Center)
+                            )
+                        }
+                    }
                 }
             }
         }
