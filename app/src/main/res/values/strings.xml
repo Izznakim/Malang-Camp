@@ -189,4 +189,6 @@
     <string name="nama_penyewa_harus_diisi">Nama Penyewa harus diisi</string>
     <string name="maaf_ada_stok_yang_belum_siap">Maaf, ada stok yang belum siap</string>
     <string name="anda_telah_menyewa">Anda telah menyewa</string>
+    <string name="foto_profil">Foto profil</string>
+    <string name="berhasil_mengganti_foto_profil">Berhasil mengganti foto profil</string>
 </resources>

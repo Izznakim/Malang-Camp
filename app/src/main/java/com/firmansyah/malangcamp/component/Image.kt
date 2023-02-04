@@ -35,7 +35,6 @@ fun Logo(drwbl: Int, contentDesc: Int, modifier: Modifier) {
     Image(
         painter = painterResource(id = drwbl),
         contentDescription = stringResource(id = contentDesc),
-        contentScale = ContentScale.Fit,
         modifier = modifier
     )
 }

@@ -9,9 +9,16 @@ class ConstVariable {
         const val KERANJANG_PATH = "keranjang"
         const val IS_PEGAWAI_PATH = "isPegawai"
         const val JUMLAH_PATH = "jumlah"
+        const val FOTO_PROFIL_PATH = "fotoProfil"
+        const val Username_PATH = "username"
+        const val NAMA_DEPAN_PATH = "namaDepan"
+        const val NAMA_BELAKANG_PATH = "namaBelakang"
+        const val Email_PATH = "email"
+        const val NO_TELP_PATH = "noTelp"
         const val GALLERY_IMAGE = "image/*"
         const val IMAGES_LOCATION = "images/"
         const val BUKTI_LOCATION = "bukti/"
+        const val PROFIL_LOCATION = "profil/"
         const val BARANG = "barang"
         const val PEMBAYARAN = "pembayaran"
         const val DITOLAK = "ditolak"
@@ -35,5 +42,6 @@ class ConstVariable {
         const val DATE_FORMAT = "dd/MM/yyyy"
         const val TIME_FORMAT = "HH:mm"
         const val ID_BARANG_PATH = "idBarang"
+        const val EXTRA_UID = "extra_uid"
     }
 }

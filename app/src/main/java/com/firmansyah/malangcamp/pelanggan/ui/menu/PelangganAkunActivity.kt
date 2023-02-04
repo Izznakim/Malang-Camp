@@ -1,102 +1,164 @@
 package com.firmansyah.malangcamp.pelanggan.ui.menu
 
-import android.app.Activity
-import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.firmansyah.malangcamp.databinding.ActivityPelangganAkunBinding
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import com.firmansyah.malangcamp.R
+import com.firmansyah.malangcamp.component.LinearProgressBar
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.EXTRA_UID
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.GALLERY_IMAGE
+import com.firmansyah.malangcamp.theme.MalangCampTheme
 
 //  Halaman akun profile pelanggan
 class PelangganAkunActivity : AppCompatActivity() {
+    private val viewModel by viewModels<PelangganAkunViewModel>()
 
-    private lateinit var database:FirebaseDatabase
-    private lateinit var userRef:DatabaseReference
-    private lateinit var storage:FirebaseStorage
-    private lateinit var profilRef:StorageReference
-    private lateinit var akunId:String
+    private lateinit var akunId: String
 
-    companion object{
-        const val EXTRA_UID="extra_uid"
-    }
-
-    private lateinit var binding: ActivityPelangganAkunBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        supportActionBar?.title="Akun"
+        supportActionBar?.title = "Akun"
 
-        binding = ActivityPelangganAkunBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        akunId = intent.getStringExtra(EXTRA_UID).toString()
 
-        akunId= intent.getStringExtra(EXTRA_UID).toString()
-
-        database= Firebase.database
-        userRef=database.getReference("users")
-
-        storage= FirebaseStorage.getInstance()
-        profilRef=storage.getReference("profil/")
-
-        userRef.child(akunId).get().addOnSuccessListener {
-            val imgProfil=it.child("fotoProfil").value
-            val username=it.child("username").value
-            val namaDepan=it.child("namaDepan").value
-            val namaBelakang=it.child("namaBelakang").value
-            val email=it.child("email").value
-            val noTelp=it.child("noTelp").value
-
-            with(binding){
-                if (imgProfil!=null) {
-                    Glide.with(this@PelangganAkunActivity)
-                        .load(imgProfil)
-                        .apply(RequestOptions())
-                        .into(imgProfile)
+        setContent {
+            viewModel.getUser(akunId)
+            var imageUri by rememberSaveable { mutableStateOf<Uri?>(null) }
+            var bitmap by rememberSaveable { mutableStateOf<Bitmap?>(null) }
+            val launcher =
+                rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri: Uri? ->
+                    imageUri = uri
                 }
-                tvUsername.text= "$username"
-                tvNama.text = "$namaDepan $namaBelakang"
-                tvEmail.text = "$email"
-                tvNoTelp.text = "$noTelp"
-                imgProfile.setOnClickListener {
-                    val intent = Intent()
-                    intent.type = "image/*"
-                    intent.action = Intent.ACTION_GET_CONTENT
-
-                    startActivityForResult(intent, 1)
+            if (imageUri != null) {
+                viewModel.uploadToFirebase(
+                    akunId,
+                    imageUri!!,
+                    getString(R.string.berhasil_mengganti_foto_profil)
+                )
+                if (viewModel.showToast.value) {
+                    Toast.makeText(this, viewModel.toastMsg.value, Toast.LENGTH_SHORT).show()
                 }
             }
-        }
-    }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == 1 && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
-            val imageUri = data.data
-
-            binding.imgProfile.setImageURI(imageUri)
-            if (imageUri != null) {
-                profilRef.child("$akunId.jpg").putFile(imageUri).addOnSuccessListener {
-                    if (it.metadata != null && it.metadata?.reference != null) {
-                        val result = it.storage.downloadUrl
-                        result.addOnSuccessListener { uri ->
-                            val imageUrl = uri.toString()
-                            userRef.child(akunId).child("fotoProfil").setValue(imageUrl)
-                            Toast.makeText(this, "Berhasil mengganti foto profil", Toast.LENGTH_LONG)
-                                .show()
+            MalangCampTheme {
+                Surface {
+                    Column(modifier = Modifier.padding(horizontal = 8.dp)) {
+                        if (viewModel.isLoading.value) {
+                            LinearProgressBar(alpha = 1f)
+                        } else {
+                            LinearProgressBar(alpha = 0f)
                         }
+                        when {
+                            imageUri != null -> {
+                                imageUri?.let {
+                                    bitmap = if (Build.VERSION.SDK_INT < 28) {
+                                        MediaStore.Images
+                                            .Media.getBitmap(
+                                                this@PelangganAkunActivity.contentResolver,
+                                                it
+                                            )
+
+                                    } else {
+                                        val source = ImageDecoder
+                                            .createSource(
+                                                this@PelangganAkunActivity.contentResolver,
+                                                it
+                                            )
+                                        ImageDecoder.decodeBitmap(source)
+                                    }
+                                }
+                                bitmap?.asImageBitmap()?.let {
+                                    Image(
+                                        bitmap = it,
+                                        contentDescription = stringResource(id = R.string.foto_profil),
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(300.dp)
+                                            .clickable {
+                                                launcher.launch(GALLERY_IMAGE)
+                                            }
+                                    )
+                                }
+                            }
+                            viewModel.imgUrl.isEmpty() -> {
+                                Image(
+                                    painter = painterResource(id = R.drawable.ic_sharp_account_circle_24),
+                                    contentDescription = stringResource(id = R.string.foto_profil),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(300.dp)
+                                        .clickable {
+                                            launcher.launch(GALLERY_IMAGE)
+                                        }
+                                )
+                            }
+                            else -> {
+                                AsyncImage(
+                                    model = viewModel.imgUrl,
+                                    contentDescription = stringResource(id = R.string.foto_profil),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(300.dp)
+                                        .clickable {
+                                            launcher.launch(GALLERY_IMAGE)
+                                        }
+                                )
+                            }
+                        }
+
+                        Text(
+                            text = viewModel.username,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 16.dp),
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.h5.copy(fontWeight = FontWeight.Bold)
+                        )
+                        Text(
+                            text = "${viewModel.namaDepan} ${viewModel.namaBelakang}",
+                            modifier = Modifier.padding(top = 16.dp)
+                        )
+                        Text(
+                            text = viewModel.email,
+                            modifier = Modifier.padding(top = 8.dp)
+                        )
+                        Text(
+                            text = viewModel.noTelp,
+                            modifier = Modifier.padding(top = 8.dp)
+                        )
                     }
-                }.addOnFailureListener {
-                    Toast.makeText(this, it.message, Toast.LENGTH_LONG)
-                        .show()
                 }
             }
         }

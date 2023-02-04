@@ -12,6 +12,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.firmansyah.malangcamp.HomeActivity
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.databinding.ActivityPelangganHomeBinding
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.EXTRA_UID
 import com.firmansyah.malangcamp.pelanggan.ui.menu.PelangganAkunActivity
 import com.firmansyah.malangcamp.pelanggan.ui.menu.PeraturanSewaActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -73,7 +74,7 @@ class PelangganHomeActivity : AppCompatActivity() {
             R.id.actionAkun->{
                 val idAuth = auth.currentUser?.uid
                 Intent(this, PelangganAkunActivity::class.java).also { intent ->
-                    intent.putExtra(PelangganAkunActivity.EXTRA_UID,idAuth)
+                    intent.putExtra(EXTRA_UID, idAuth)
                     startActivity(intent)
                 }
             }
