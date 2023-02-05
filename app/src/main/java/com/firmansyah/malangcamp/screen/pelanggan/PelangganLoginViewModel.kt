@@ -27,7 +27,7 @@ class PelangganLoginViewModel : ViewModel() {
         getPelangganOnStart()
     }
 
-    fun getPelangganOnStart() {
+    private fun getPelangganOnStart() {
         val idAuth = auth.currentUser?.uid
         if (idAuth != null) {
             _isLoading.value = true

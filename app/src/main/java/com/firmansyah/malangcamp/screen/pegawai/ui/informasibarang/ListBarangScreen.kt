@@ -10,6 +10,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -49,8 +51,11 @@ private fun InformasiBarang(
     coroutineScope: CoroutineScope,
     listBarangViewModel: ListBarangViewModel
 ) {
+    val scope = rememberCoroutineScope()
     val databaseRef = Firebase.database.getReference(BARANG)
-    listBarangViewModel.getListBarang(databaseRef)
+    LaunchedEffect(key1 = scope) {
+        listBarangViewModel.getListBarang(databaseRef)
+    }
     val listBarang = listBarangViewModel.listBarang.value
     val context = LocalContext.current
 

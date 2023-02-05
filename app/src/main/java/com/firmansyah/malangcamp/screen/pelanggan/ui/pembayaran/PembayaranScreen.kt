@@ -15,8 +15,11 @@ import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -84,7 +87,7 @@ fun PembayaranScreen(
     var jamPengambilan by rememberSaveable { mutableStateOf("") }
     var totalH: Int
 
-    total = getListSewaAndTotal(total, listSewa, viewModel, scaffoldState)
+    total = getListSewaAndTotal(total, listSewa, viewModel)
 
     pengecekanStok(listSewa, listReady, listStock, barangRef)
 
@@ -451,16 +454,10 @@ private fun pengecekanStok(
 private fun getListSewaAndTotal(
     total: Int,
     listSewa: ArrayList<Keranjang>,
-    viewModel: PembayaranViewModel,
-    scaffoldState: ScaffoldState
+    viewModel: PembayaranViewModel
 ): Int {
     var total1 = total
     viewModel.getListBarang()
-    if (viewModel.showToast.value) {
-        LaunchedEffect(key1 = scaffoldState.snackbarHostState) {
-            scaffoldState.snackbarHostState.showSnackbar(message = viewModel.toastMessage.value)
-        }
-    }
     viewModel.listBarang.value.also {
         for (i in it.indices) {
             total1 += it[i].subtotal

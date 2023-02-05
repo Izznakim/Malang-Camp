@@ -287,27 +287,27 @@ fun BarangDetailScreen(
 
                 Button(
                     onClick = {
-                        mBarang.let {
-                            barangDetailViewModel.updateBarang(
-                                imageUri,
-                                it,
-                                context.getString(R.string.barang_id___jpg, it.id),
-                                namaBarang,
-                                ukuranBarang,
-                                tipeTenda,
-                                frameTenda,
-                                pasakTenda,
-                                warnaBarang,
-                                stockBarang,
-                                hargaBarang,
-                                caraPemasangan,
-                                kegunaanBarang
-                            )
-                        }
-                        navController.popBackStack()
-                        barangDetailViewModel.getMsg(context.getString(R.string.sukses_mengupdate))
-                        barangDetailViewModel.msg.also {
-                            coroutineScope.launch {
+                        coroutineScope.launch {
+                            mBarang.let {
+                                barangDetailViewModel.updateBarang(
+                                    imageUri,
+                                    it,
+                                    context.getString(R.string.barang_id___jpg, it.id),
+                                    namaBarang,
+                                    ukuranBarang,
+                                    tipeTenda,
+                                    frameTenda,
+                                    pasakTenda,
+                                    warnaBarang,
+                                    stockBarang,
+                                    hargaBarang,
+                                    caraPemasangan,
+                                    kegunaanBarang
+                                )
+                            }
+                            navController.popBackStack()
+                            barangDetailViewModel.getMsg(context.getString(R.string.sukses_mengupdate))
+                            barangDetailViewModel.msg.also {
                                 scaffoldState.snackbarHostState.showSnackbar(it)
                             }
                         }

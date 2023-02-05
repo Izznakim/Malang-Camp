@@ -51,19 +51,19 @@ fun DeleteDialog(
             confirmButton = {
                 Button(
                     onClick = {
-                        listBarangViewModel.deleteBarang(
-                            databaseRef,
-                            barang.id,
-                            context.getString(R.string.barang_id___jpg, barang.id)
-                        )
-                        listBarangViewModel.getMsg(
-                            context.getString(
-                                R.string.barang_nama__telah_dihapus,
-                                barang.nama
+                        coroutineScope.launch {
+                            listBarangViewModel.deleteBarang(
+                                databaseRef,
+                                barang.id,
+                                context.getString(R.string.barang_id___jpg, barang.id)
                             )
-                        )
-                        listBarangViewModel.msg.also {
-                            coroutineScope.launch {
+                            listBarangViewModel.getMsg(
+                                context.getString(
+                                    R.string.barang_nama__telah_dihapus,
+                                    barang.nama
+                                )
+                            )
+                            listBarangViewModel.msg.also {
                                 scaffoldState.snackbarHostState.showSnackbar(message = it)
                             }
                         }

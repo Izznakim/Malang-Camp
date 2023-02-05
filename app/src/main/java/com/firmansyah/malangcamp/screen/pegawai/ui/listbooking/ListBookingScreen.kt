@@ -9,6 +9,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -26,8 +28,11 @@ fun ListBookingScreen(
     navController: NavHostController,
     listBookingViewModel: ListBookingViewModel = viewModel()
 ) {
+    val scope = rememberCoroutineScope()
     val context = LocalContext.current
-    listBookingViewModel.getListBooking()
+    LaunchedEffect(key1 = scope) {
+        listBookingViewModel.getListBooking()
+    }
     MalangCampTheme {
         Box(modifier = Modifier.fillMaxSize()) {
             if (listBookingViewModel.isLoading.value) {

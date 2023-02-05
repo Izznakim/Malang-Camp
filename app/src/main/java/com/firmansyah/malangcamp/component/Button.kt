@@ -53,8 +53,7 @@ fun ButtonHome(context: Context, intent: Intent, paddingTop: Dp, stringId: Int) 
         colors = ButtonDefaults.buttonColors(backgroundColor = green)
     ) {
         Text(
-            text = stringResource(id = stringId),
-            style = MaterialTheme.typography.h6.copy(
+            text = stringResource(id = stringId), style = MaterialTheme.typography.h6.copy(
                 fontSize = 18.sp
             )
         )
@@ -85,9 +84,7 @@ fun ButtonPegawaiLogin(
         )
     ) {
         Text(
-            text = stringResource(id = R.string.masuk),
-            fontWeight = FontWeight.Bold,
-            color = white
+            text = stringResource(id = R.string.masuk), fontWeight = FontWeight.Bold, color = white
         )
     }
     Text(
@@ -118,10 +115,10 @@ fun ButtonConfirm(
         OutlinedButton(
             onClick = {
                 navController.popBackStack()
-                bookingDetailViewModel.pembayaranDitolak(idPembayaran, barangSewa)
-                bookingDetailViewModel.getMsgSuccess(context.getString(R.string.penyewaan_telah_ditolak))
-                bookingDetailViewModel.msg.also {
-                    coroutineScope.launch {
+                coroutineScope.launch {
+                    bookingDetailViewModel.pembayaranDitolak(idPembayaran, barangSewa)
+                    bookingDetailViewModel.getMsgSuccess(context.getString(R.string.penyewaan_telah_ditolak))
+                    bookingDetailViewModel.msg.also {
                         scaffoldState.snackbarHostState.showSnackbar(message = it)
                     }
                 }
@@ -142,8 +139,8 @@ fun ButtonConfirm(
         Button(
             onClick = {
                 navController.popBackStack()
-                bookingDetailViewModel.pembayaranDiterima(idPembayaran)
                 coroutineScope.launch {
+                    bookingDetailViewModel.pembayaranDiterima(idPembayaran)
                     scaffoldState.snackbarHostState.showSnackbar(message = context.getString(R.string.penyewaan_telah_diterima))
                 }
             },
@@ -159,10 +156,9 @@ fun ButtonConfirm(
 
 @Composable
 fun FabAddBarang(navController: NavHostController) {
-    FloatingActionButton(
-        onClick = {
-            navController.navigate(Screen.AddBarangScreen.route)
-        }) {
+    FloatingActionButton(onClick = {
+        navController.navigate(Screen.AddBarangScreen.route)
+    }) {
         Icon(
             imageVector = Icons.Filled.Add,
             contentDescription = stringResource(id = R.string.tombol_untuk_menambahkan_informasi_barang)
@@ -187,10 +183,7 @@ fun radioButtonJnsBhnBarang(
     ) {
         list.forEach {
             Row {
-                RadioButton(
-                    selected = deskBrng == it,
-                    onClick = { deskBrng = it }
-                )
+                RadioButton(selected = deskBrng == it, onClick = { deskBrng = it })
                 Text(text = it, modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .clickable {
@@ -251,39 +244,39 @@ fun SubmitBarangButton(
 
         Button(
             onClick = {
-                viewModel.uploadToFirebase(
-                    uri = imageUri,
-                    jenisBarang,
-                    namaBarang,
-                    bahanBarang,
-                    tipeBarang,
-                    ukuranBarang,
-                    frameBarang,
-                    pasakBarang,
-                    warnaBarang,
-                    stockBarang,
-                    hargaBarang,
-                    caraPemasangan,
-                    kegunaanBarang
-                )
-                navController.popBackStack()
-                viewModel.getMsg(context.getString(R.string.berhasil_menambahkan_barang))
-                viewModel.msg.also {
-                    coroutineScope.launch {
+                coroutineScope.launch {
+                    viewModel.uploadToFirebase(
+                        uri = imageUri,
+                        jenisBarang,
+                        namaBarang,
+                        bahanBarang,
+                        tipeBarang,
+                        ukuranBarang,
+                        frameBarang,
+                        pasakBarang,
+                        warnaBarang,
+                        stockBarang,
+                        hargaBarang,
+                        caraPemasangan,
+                        kegunaanBarang
+                    )
+                    navController.popBackStack()
+                    viewModel.getMsg(context.getString(R.string.berhasil_menambahkan_barang))
+                    viewModel.msg.also {
                         scaffoldState.snackbarHostState.showSnackbar(it)
                     }
                 }
             },
             modifier = Modifier
                 .padding(horizontal = 32.dp)
-                .wrapContentSize(), colors = ButtonDefaults.buttonColors(
+                .wrapContentSize(),
+            colors = ButtonDefaults.buttonColors(
                 Color.Green
             ),
             enabled = !isError
         ) {
             Text(
-                text = stringResource(id = R.string.submit),
-                fontWeight = FontWeight.Bold
+                text = stringResource(id = R.string.submit), fontWeight = FontWeight.Bold
             )
         }
     }
@@ -332,9 +325,7 @@ fun ButtonPelangganLogin(
         )
     ) {
         Text(
-            text = stringResource(id = R.string.masuk),
-            fontWeight = FontWeight.Bold,
-            color = white
+            text = stringResource(id = R.string.masuk), fontWeight = FontWeight.Bold, color = white
         )
     }
     Text(
@@ -379,9 +370,7 @@ fun ButtonPelangganRegister(
         )
     ) {
         Text(
-            text = stringResource(id = R.string.daftar),
-            fontWeight = FontWeight.Bold,
-            color = white
+            text = stringResource(id = R.string.daftar), fontWeight = FontWeight.Bold, color = white
         )
     }
     Text(

@@ -1,15 +1,12 @@
 package com.firmansyah.malangcamp.other
 
 import android.app.TimePickerDialog
-import android.app.TimePickerDialog.OnTimeSetListener
 import android.content.Context
 import android.content.DialogInterface
 import android.content.res.Resources
 import android.os.Build
 import android.widget.NumberPicker
-import android.widget.NumberPicker.OnValueChangeListener
 import android.widget.TimePicker
-import java.lang.Exception
 
 class CustomTimePickerDialog(
     context: Context?,
