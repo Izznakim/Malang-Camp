@@ -19,6 +19,6 @@
     <fragment
         android:id="@+id/navigation_riwayatPemesanan"
         android:name="com.firmansyah.malangcamp.pelanggan.ui.riwayatpemesanan.RiwayatPemesananFragment"
-        android:label="@string/riwayat_pemesanan"
+        android:label="@string/riwayat"
         tools:layout="@layout/fragment_riwayatpemesanan" />
 </navigation>
