@@ -14,19 +14,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MalangCamp">
         <activity
-            android:name=".pelanggan.ui.menu.PelangganAkunActivity"
+            android:name=".screen.pelanggan.ui.menu.PelangganAkunActivity"
             android:exported="false" />
         <activity
             android:name=".other.ZoomImageActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
-            android:name=".pelanggan.ui.menu.PeraturanSewaActivity"
+            android:name=".screen.pelanggan.ui.menu.PeraturanSewaActivity"
             android:exported="false"
             android:label="@string/title_activity_peraturan_sewa"
             android:theme="@style/Theme.MalangCamp.NoActionBar" />
         <activity
-            android:name=".pelanggan.PelangganHomeActivity"
+            android:name=".screen.pelanggan.PelangganHomeActivity"
             android:exported="false"
             android:label="@string/title_activity_pelanggan_home" />
         <activity
@@ -34,10 +34,10 @@
             android:exported="false"
             android:label="@string/title_activity_pegawai_home" />
         <activity
-            android:name=".pelanggan.PelangganRegisterActivity"
+            android:name=".screen.pelanggan.PelangganRegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".pelanggan.PelangganLoginActivity"
+            android:name=".screen.pelanggan.PelangganLoginActivity"
             android:exported="false" />
         <activity
             android:name=".screen.pegawai.PegawaiLoginActivity"

@@ -1,4 +1,4 @@
-package com.firmansyah.malangcamp.pelanggan.ui.menu
+package com.firmansyah.malangcamp.screen.pelanggan.ui.menu
 
 import android.net.Uri
 import androidx.compose.runtime.State

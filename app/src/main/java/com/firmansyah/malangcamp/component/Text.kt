@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.dp
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.model.Pembayaran
 import com.firmansyah.malangcamp.other.copyPhoneNumber
-import com.firmansyah.malangcamp.pelanggan.PelangganLoginActivity
-import com.firmansyah.malangcamp.pelanggan.PelangganRegisterActivity
+import com.firmansyah.malangcamp.screen.pelanggan.PelangganLoginActivity
+import com.firmansyah.malangcamp.screen.pelanggan.PelangganRegisterActivity
 import com.firmansyah.malangcamp.theme.darkGreen
 import com.firmansyah.malangcamp.theme.green
 

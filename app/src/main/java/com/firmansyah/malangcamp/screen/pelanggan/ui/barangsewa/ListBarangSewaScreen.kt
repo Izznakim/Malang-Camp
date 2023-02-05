@@ -1,4 +1,4 @@
-package com.firmansyah.malangcamp.pelanggan.ui.barangsewa
+package com.firmansyah.malangcamp.screen.pelanggan.ui.barangsewa
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize

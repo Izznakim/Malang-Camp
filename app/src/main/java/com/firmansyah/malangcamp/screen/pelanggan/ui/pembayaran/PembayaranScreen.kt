@@ -1,4 +1,4 @@
-package com.firmansyah.malangcamp.pelanggan.ui.pembayaran
+package com.firmansyah.malangcamp.screen.pelanggan.ui.pembayaran
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
@@ -372,8 +372,8 @@ fun PembayaranScreen(
                     )
                 }
             }
-            if (viewModel.showToast.value) {
-                coroutineScope.launch {
+            coroutineScope.launch {
+                if (viewModel.showToast.value) {
                     scaffoldState.snackbarHostState.showSnackbar(message = viewModel.toastMessage.value)
                 }
             }

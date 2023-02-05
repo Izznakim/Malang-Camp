@@ -44,6 +44,8 @@ fun LazyListScope.bookingItem(
                     navController.navigate(Screen.BookingDetailScreen.route)
                 } else {
                     // TODO: Ke RiwayatDetailScreen
+                    navController.currentBackStackEntry?.savedStateHandle?.set(PEMBAYARAN, it)
+                    navController.navigate(Screen.RiwayatDetailScreen.route)
                 }
             },
             modifier = Modifier

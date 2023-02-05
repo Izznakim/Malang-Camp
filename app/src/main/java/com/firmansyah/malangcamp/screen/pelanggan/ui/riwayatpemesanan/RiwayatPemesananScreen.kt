@@ -1,4 +1,4 @@
-package com.firmansyah.malangcamp.pelanggan.ui.riwayatpemesanan
+package com.firmansyah.malangcamp.screen.pelanggan.ui.riwayatpemesanan
 
 import android.content.Context
 import androidx.compose.foundation.layout.Box

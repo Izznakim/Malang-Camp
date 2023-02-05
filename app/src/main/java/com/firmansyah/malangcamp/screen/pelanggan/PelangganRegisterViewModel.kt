@@ -1,4 +1,4 @@
-package com.firmansyah.malangcamp.pelanggan
+package com.firmansyah.malangcamp.screen.pelanggan
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf

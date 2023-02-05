@@ -1,4 +1,4 @@
-package com.firmansyah.malangcamp.pelanggan.ui.pembayaran
+package com.firmansyah.malangcamp.screen.pelanggan.ui.pembayaran
 
 import android.net.Uri
 import androidx.compose.runtime.State
