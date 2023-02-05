@@ -1,7 +1,5 @@
 package com.firmansyah.malangcamp.component
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -11,7 +9,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -19,11 +16,9 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.model.Barang
-import com.firmansyah.malangcamp.other.ConstVariable
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.BARANG
 import com.firmansyah.malangcamp.other.currencyIdrFormat
 import com.firmansyah.malangcamp.other.rating
-import com.firmansyah.malangcamp.pelanggan.ui.barangsewa.DetailBarangSewaFragment
 import com.firmansyah.malangcamp.screen.Screen
 import com.firmansyah.malangcamp.theme.black
 import com.firmansyah.malangcamp.theme.selectedCardColor
@@ -37,7 +32,6 @@ fun ItemBarangCard(
     pegawai: Boolean,
     changeCardColor: Boolean
 ) {
-    val context = LocalContext.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -47,17 +41,7 @@ fun ItemBarangCard(
                 navController.currentBackStackEntry?.savedStateHandle?.set(BARANG, barang)
                 navController.navigate(Screen.BarangDetailScreen.route)
             } else {
-                val detailBarangSewa = DetailBarangSewaFragment()
-                val mFragmentManager =
-                    (context as AppCompatActivity).supportFragmentManager
-                val bundle = Bundle()
-
-                bundle.putParcelable(ConstVariable.EXTRA_BARANG, barang)
-                detailBarangSewa.show(
-                    mFragmentManager,
-                    DetailBarangSewaFragment::class.java.simpleName
-                )
-                detailBarangSewa.arguments = bundle
+                // TODO: Pindah ke Barang Detailnya Pelanggan
             }
         },
         backgroundColor = if (!pegawai && changeCardColor) selectedCardColor else MaterialTheme.colors.surface

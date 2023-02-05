@@ -8,7 +8,6 @@ import com.firmansyah.malangcamp.other.ConstVariable.Companion.BARANG
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.ID_BARANG_PATH
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.KERANJANG_PATH
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.USERS_PATH
-import com.firmansyah.malangcamp.other.SingleLiveEvent
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -16,13 +15,13 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class BarangSewaViewModel : ViewModel() {
+class ListBarangSewaViewModel : ViewModel() {
 
     private val auth = Firebase.auth
 
     private val databaseRef = Firebase.database.getReference(BARANG)
     private val keranjangRef =
-        Firebase.database.getReference("${USERS_PATH}/${auth.currentUser?.uid}/${KERANJANG_PATH}")
+        Firebase.database.getReference("$USERS_PATH/${auth.currentUser?.uid}/$KERANJANG_PATH")
 
     private val _listBarang = mutableStateOf<List<Barang>>(emptyList())
     val listBarang: State<List<Barang>> = _listBarang
@@ -38,8 +37,6 @@ class BarangSewaViewModel : ViewModel() {
 
     private var _errorMsg = mutableStateOf("")
     val errorMsg: State<String> = _errorMsg
-
-    internal val toast = SingleLiveEvent<String>()
 
     fun getListBarang() {
         _isLoading.value = true
