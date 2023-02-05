@@ -75,7 +75,7 @@ fun NavigationGraph(
         }
         // TODO: RiwayatPemesananScreen -> DetailPemesananScreen -> { IntentToWhatsApp, RatingScreen/Dialog }
         composable(BotNavItem.RiwayatPemesananScreen.route) {
-            RiwayatPemesananScreen()
+            RiwayatPemesananScreen(navController)
         }
     }
 }
