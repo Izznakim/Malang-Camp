@@ -2,7 +2,6 @@ package com.firmansyah.malangcamp.component
 
 import android.content.Context
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -30,6 +29,8 @@ import com.firmansyah.malangcamp.pelanggan.ui.riwayatpemesanan.RiwayatDetailFrag
 import com.firmansyah.malangcamp.screen.Screen
 import com.firmansyah.malangcamp.theme.black
 import com.google.firebase.database.DatabaseReference
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -90,7 +91,8 @@ fun LazyListScope.listKeranjang(
     listKeranjang: ArrayList<Keranjang>,
     pembayaran: Boolean = false,
     keranjangRef: DatabaseReference? = null,
-    context: Context? = null
+    scaffoldState: ScaffoldState? = null,
+    coroutineScope: CoroutineScope? = null
 ) {
     items(items = listKeranjang, itemContent = { barang ->
         Column(
@@ -147,7 +149,9 @@ fun LazyListScope.listKeranjang(
                         keranjangRef?.child(barang.idBarang)?.get()?.addOnSuccessListener {
                             it.ref.removeValue()
                         }?.addOnFailureListener {
-                            Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                            coroutineScope?.launch {
+                                scaffoldState?.snackbarHostState?.showSnackbar(message = it.message.toString())
+                            }
                         }
                     }) {
                         Icon(

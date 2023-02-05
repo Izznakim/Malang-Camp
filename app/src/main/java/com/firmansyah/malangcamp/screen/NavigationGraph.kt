@@ -71,7 +71,7 @@ fun NavigationGraph(
         }
         // TODO: PembayaranScreen -> { DatePicker, TimePicker, ImageGallery }
         composable(BotNavItem.PembayaranScreen.route) {
-            PembayaranScreen()
+            PembayaranScreen(scaffoldState, coroutineScope)
         }
         // TODO: RiwayatPemesananScreen -> DetailPemesananScreen -> { IntentToWhatsApp, RatingScreen/Dialog }
         composable(BotNavItem.RiwayatPemesananScreen.route) {
