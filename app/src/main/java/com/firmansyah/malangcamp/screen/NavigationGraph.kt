@@ -9,6 +9,7 @@ import com.firmansyah.malangcamp.model.Barang
 import com.firmansyah.malangcamp.model.Pembayaran
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.BARANG
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.PEMBAYARAN
+import com.firmansyah.malangcamp.pelanggan.ui.barangsewa.BarangSewaDetailScreen
 import com.firmansyah.malangcamp.pelanggan.ui.barangsewa.ListBarangSewaScreen
 import com.firmansyah.malangcamp.pelanggan.ui.pembayaran.PembayaranScreen
 import com.firmansyah.malangcamp.pelanggan.ui.riwayatpemesanan.RiwayatPemesananScreen
@@ -68,6 +69,15 @@ fun NavigationGraph(
         // TODO: ListBarangSewaScreen -> BarangSewaDetailScreen
         composable(BotNavItem.ListBarangSewaScreen.route) {
             ListBarangSewaScreen(navController)
+        }
+        composable(Screen.BarangSewaDetailScreen.route) {
+            val barang =
+                navController.previousBackStackEntry?.savedStateHandle?.get<Barang>(BARANG)
+            BarangSewaDetailScreen(
+                navController, barang,
+                scaffoldState,
+                coroutineScope
+            )
         }
         // TODO: PembayaranScreen -> { DatePicker, TimePicker, ImageGallery }
         composable(BotNavItem.PembayaranScreen.route) {

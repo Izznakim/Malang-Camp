@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.firmansyah.malangcamp.model.Barang
+import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.JUMLAH_PATH
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.KERANJANG_PATH
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.USERS_PATH
@@ -13,7 +14,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
-class DetailBarangSewaViewModel : ViewModel() {
+class BarangSewaDetailViewModel : ViewModel() {
     private val auth = Firebase.auth
 
     private val keranjangRef =
@@ -28,11 +29,11 @@ class DetailBarangSewaViewModel : ViewModel() {
     private val _jumlah = mutableStateOf("")
     var jumlah: State<String> = _jumlah
 
-    private val _toastMessage = mutableStateOf("")
-    var toastMessage: State<String> = _toastMessage
+    private val _msg = mutableStateOf("")
+    var msg: State<String> = _msg
 
-    private val _showToast = mutableStateOf(false)
-    var showToast: State<Boolean> = _showToast
+    private val _showMsg = mutableStateOf(false)
+    var showMsg: State<Boolean> = _showMsg
 
     init {
         loadJumlahOnStart()
@@ -51,8 +52,21 @@ class DetailBarangSewaViewModel : ViewModel() {
                 _jumlah.value = it.child(barang.id).child(JUMLAH_PATH).value.toString()
             }
         }.addOnFailureListener {
-            _toastMessage.value = it.message.toString()
-            _showToast.value = true
+            _msg.value = it.message.toString()
+            _showMsg.value = true
         }
+    }
+
+    fun putToKeranjang(mBarang: Barang, jumlahKeranjang: Int, message: String) {
+        val model = Keranjang(
+            mBarang.id,
+            mBarang.nama,
+            mBarang.harga,
+            jumlahKeranjang,
+            mBarang.harga * jumlahKeranjang
+        )
+        keranjangRef.child(mBarang.id).setValue(model)
+        _showMsg.value = true
+        _msg.value = message
     }
 }

@@ -21,7 +21,6 @@ import com.firmansyah.malangcamp.other.currencyIdrFormat
 import com.firmansyah.malangcamp.other.rating
 import com.firmansyah.malangcamp.screen.Screen
 import com.firmansyah.malangcamp.theme.black
-import com.firmansyah.malangcamp.theme.selectedCardColor
 
 
 @Composable
@@ -41,10 +40,12 @@ fun ItemBarangCard(
                 navController.currentBackStackEntry?.savedStateHandle?.set(BARANG, barang)
                 navController.navigate(Screen.BarangDetailScreen.route)
             } else {
-                // TODO: Pindah ke Barang Detailnya Pelanggan
+                navController.currentBackStackEntry?.savedStateHandle?.set(BARANG, barang)
+                navController.navigate(Screen.BarangSewaDetailScreen.route)
             }
         },
-        backgroundColor = if (!pegawai && changeCardColor) selectedCardColor else MaterialTheme.colors.surface
+        // TODO:
+//        backgroundColor = if (!pegawai && changeCardColor) selectedCardColor else MaterialTheme.colors.surface
     ) {
         Row(
             horizontalArrangement = Arrangement.Center,

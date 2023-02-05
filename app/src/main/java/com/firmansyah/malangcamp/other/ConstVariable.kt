@@ -35,6 +35,7 @@ class ConstVariable {
         const val LIST_BARANG_SEWA_SCREEN_ROUTE = "listBarangSewaScreen"
         const val PEMBAYARAN_SCREEN_ROUTE = "pembayaranScreen"
         const val RIWAYAT_PEMESANAN_SCREEN_ROUTE = "riwayatPemesananScreen"
+        const val BARANG_SEWA_DETAIL_SCREEN_ROUTE = "barangSewaDetailScreen"
         const val SEPATU = "Sepatu"
         const val JAKET = "Jaket"
         const val TAS = "Tas"
