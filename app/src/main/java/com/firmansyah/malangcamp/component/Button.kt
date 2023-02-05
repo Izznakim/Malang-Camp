@@ -28,12 +28,12 @@ import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.model.Barang
 import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.DELETE_PATH
-import com.firmansyah.malangcamp.pelanggan.PelangganLoginViewModel
-import com.firmansyah.malangcamp.pelanggan.PelangganRegisterViewModel
 import com.firmansyah.malangcamp.screen.Screen
 import com.firmansyah.malangcamp.screen.pegawai.PegawaiLoginViewModel
 import com.firmansyah.malangcamp.screen.pegawai.ui.informasibarang.AddBarangViewModel
 import com.firmansyah.malangcamp.screen.pegawai.ui.listbooking.BookingDetailViewModel
+import com.firmansyah.malangcamp.screen.pelanggan.PelangganLoginViewModel
+import com.firmansyah.malangcamp.screen.pelanggan.PelangganRegisterViewModel
 import com.firmansyah.malangcamp.theme.green
 import com.firmansyah.malangcamp.theme.white
 import com.google.firebase.database.DatabaseReference

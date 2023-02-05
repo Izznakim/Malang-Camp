@@ -1,4 +1,4 @@
-package com.firmansyah.malangcamp.pelanggan
+package com.firmansyah.malangcamp.screen.pelanggan
 
 import android.content.Intent
 import android.os.Bundle
@@ -42,7 +42,6 @@ class PelangganRegisterActivity : ComponentActivity() {
             }
         }
     }
-
 }
 
 @Composable

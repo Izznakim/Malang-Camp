@@ -1,4 +1,4 @@
-package com.firmansyah.malangcamp.screen.pegawai.ui.listbooking
+package com.firmansyah.malangcamp.screen.pelanggan.ui.riwayatpemesanan
 
 import android.content.Context
 import androidx.compose.foundation.layout.Box
@@ -22,32 +22,32 @@ import com.firmansyah.malangcamp.component.bookingItem
 import com.firmansyah.malangcamp.theme.MalangCampTheme
 
 @Composable
-fun ListBookingScreen(
+fun RiwayatPemesananScreen(
     navController: NavHostController,
-    listBookingViewModel: ListBookingViewModel = viewModel()
+    viewModel: RiwayatPemesananViewModel = viewModel()
 ) {
     val context = LocalContext.current
-    listBookingViewModel.getListBooking()
+    viewModel.getListRiwayat()
     MalangCampTheme {
         Box(modifier = Modifier.fillMaxSize()) {
             when {
-                listBookingViewModel.listBooking.value.isEmpty() -> {
+                viewModel.listRiwayat.value.isEmpty() -> {
                     ErrorFailComponent(
                         Icons.Filled.Warning,
                         stringResource(R.string.data_kosong_di_list_booking),
                         stringResource(R.string.masih_belum_ada_yang_menyewa)
                     )
                 }
-                listBookingViewModel.isError.value -> {
+                viewModel.isError.value -> {
                     ErrorFailComponent(
                         icons = Icons.Filled.Close,
-                        contentDesc = listBookingViewModel.errorMsg.value,
-                        textFail = listBookingViewModel.errorMsg.value
+                        contentDesc = viewModel.errorMsg.value,
+                        textFail = viewModel.errorMsg.value
                     )
                 }
-                else -> ListBooking(navController, listBookingViewModel, context)
+                else -> ListRiwayat(navController, viewModel, context)
             }
-            if (listBookingViewModel.isLoading.value) {
+            if (viewModel.isLoading.value) {
                 CircularProgressIndicator(
                     Modifier
                         .alpha(1f)
@@ -65,14 +65,14 @@ fun ListBookingScreen(
 }
 
 @Composable
-private fun ListBooking(
+fun ListRiwayat(
     navController: NavHostController,
-    listBookingViewModel: ListBookingViewModel,
+    viewModel: RiwayatPemesananViewModel,
     context: Context
 ) {
-    val listPembayaran = listBookingViewModel.listBooking.value
+    val listPembayaran = viewModel.listRiwayat.value
 
     LazyColumn {
-        bookingItem(listPembayaran, navController, context, true)
+        bookingItem(listPembayaran, navController, context, false)
     }
 }

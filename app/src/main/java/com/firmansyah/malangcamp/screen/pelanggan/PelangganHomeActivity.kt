@@ -1,4 +1,4 @@
-package com.firmansyah.malangcamp.pelanggan
+package com.firmansyah.malangcamp.screen.pelanggan
 
 import android.content.Context
 import android.content.Intent
@@ -20,10 +20,11 @@ import androidx.navigation.compose.rememberNavController
 import com.firmansyah.malangcamp.HomeActivity
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.component.BotNav
-import com.firmansyah.malangcamp.pelanggan.ui.menu.PelangganAkunActivity
-import com.firmansyah.malangcamp.pelanggan.ui.menu.PeraturanSewaActivity
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.EXTRA_UID
 import com.firmansyah.malangcamp.screen.BotNavItem
 import com.firmansyah.malangcamp.screen.NavigationGraph
+import com.firmansyah.malangcamp.screen.pelanggan.ui.menu.PelangganAkunActivity
+import com.firmansyah.malangcamp.screen.pelanggan.ui.menu.PeraturanSewaActivity
 import com.firmansyah.malangcamp.theme.MalangCampTheme
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -126,7 +127,7 @@ class PelangganHomeActivity : ComponentActivity() {
         IconButton(onClick = {
             val idAuth = auth.currentUser?.uid
             Intent(context, PelangganAkunActivity::class.java).also { intent ->
-                intent.putExtra(PelangganAkunActivity.EXTRA_UID, idAuth)
+                intent.putExtra(EXTRA_UID, idAuth)
                 context.startActivity(intent)
             }
         }) {

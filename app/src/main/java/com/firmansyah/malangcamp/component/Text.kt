@@ -23,9 +23,8 @@ import androidx.compose.ui.unit.dp
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.model.Pembayaran
 import com.firmansyah.malangcamp.other.copyPhoneNumber
-import com.firmansyah.malangcamp.other.currencyIdrFormat
-import com.firmansyah.malangcamp.pelanggan.PelangganLoginActivity
-import com.firmansyah.malangcamp.pelanggan.PelangganRegisterActivity
+import com.firmansyah.malangcamp.screen.pelanggan.PelangganLoginActivity
+import com.firmansyah.malangcamp.screen.pelanggan.PelangganRegisterActivity
 import com.firmansyah.malangcamp.theme.darkGreen
 import com.firmansyah.malangcamp.theme.green
 
@@ -78,7 +77,7 @@ fun Hari(pembayaran: Pembayaran) {
 }
 
 @Composable
-fun Total(pembayaran: Pembayaran) {
+fun Total(textTotal: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -89,7 +88,7 @@ fun Total(pembayaran: Pembayaran) {
             fontWeight = FontWeight.SemiBold
         )
         Text(
-            text = currencyIdrFormat().format(pembayaran.total),
+            text = textTotal,
             textAlign = TextAlign.End,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier.fillMaxWidth()

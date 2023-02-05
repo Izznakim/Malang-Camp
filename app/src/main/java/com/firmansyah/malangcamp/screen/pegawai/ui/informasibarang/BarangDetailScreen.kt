@@ -125,12 +125,15 @@ fun BarangDetailScreen(
                     textAlign = TextAlign.Center
                 )
                 when (mBarang.jenis) {
-                    SEPATU, JAKET, TAS, SLEEPING_BAG -> {
+                    SEPATU, JAKET, TAS, SLEEPING_BAG, TENDA -> {
                         ukuranBarang = editTextDeskBarang(
                             ukuranBarang,
                             false,
                             stringResource(id = R.string.ukuran),
-                            stringResource(R.string.ukuran_barang),
+                            if (mBarang.jenis == TENDA)
+                                stringResource(R.string.ukuran_tenda)
+                            else
+                                stringResource(R.string.ukuran_barang),
                             KeyboardOptions(
                                 imeAction = ImeAction.Done
                             ),
@@ -153,19 +156,6 @@ fun BarangDetailScreen(
                     )
                 }
                 TENDA -> {
-                    ukuranBarang = editTextDeskBarang(
-                        ukuranBarang,
-                        false,
-                        stringResource(id = R.string.ukuran),
-                        stringResource(R.string.ukuran_tenda),
-                        KeyboardOptions(
-                            imeAction = ImeAction.Done
-                        ),
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxWidth()
-                            .padding(start = 8.dp)
-                    )
                     tipeTenda = editTextDeskBarang(
                         deskBarang = tipeTenda,
                         trim = false,

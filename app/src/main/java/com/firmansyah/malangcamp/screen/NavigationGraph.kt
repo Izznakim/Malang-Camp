@@ -9,14 +9,16 @@ import com.firmansyah.malangcamp.model.Barang
 import com.firmansyah.malangcamp.model.Pembayaran
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.BARANG
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.PEMBAYARAN
-import com.firmansyah.malangcamp.pelanggan.ui.barangsewa.ListBarangSewaScreen
-import com.firmansyah.malangcamp.pelanggan.ui.pembayaran.PembayaranScreen
-import com.firmansyah.malangcamp.pelanggan.ui.riwayatpemesanan.RiwayatPemesananScreen
 import com.firmansyah.malangcamp.screen.pegawai.ui.informasibarang.AddBarangScreen
 import com.firmansyah.malangcamp.screen.pegawai.ui.informasibarang.BarangDetailScreen
 import com.firmansyah.malangcamp.screen.pegawai.ui.informasibarang.ListBarangScreen
 import com.firmansyah.malangcamp.screen.pegawai.ui.listbooking.BookingDetailScreen
 import com.firmansyah.malangcamp.screen.pegawai.ui.listbooking.ListBookingScreen
+import com.firmansyah.malangcamp.screen.pelanggan.ui.barangsewa.BarangSewaDetailScreen
+import com.firmansyah.malangcamp.screen.pelanggan.ui.barangsewa.ListBarangSewaScreen
+import com.firmansyah.malangcamp.screen.pelanggan.ui.pembayaran.PembayaranScreen
+import com.firmansyah.malangcamp.screen.pelanggan.ui.riwayatpemesanan.RiwayatDetailScreen
+import com.firmansyah.malangcamp.screen.pelanggan.ui.riwayatpemesanan.RiwayatPemesananScreen
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
@@ -69,13 +71,30 @@ fun NavigationGraph(
         composable(BotNavItem.ListBarangSewaScreen.route) {
             ListBarangSewaScreen(navController)
         }
-        // TODO: PembayaranScreen -> { DatePicker, TimePicker, ImageGallery }
+        composable(Screen.BarangSewaDetailScreen.route) {
+            val barang =
+                navController.previousBackStackEntry?.savedStateHandle?.get<Barang>(BARANG)
+            BarangSewaDetailScreen(
+                navController, barang,
+                scaffoldState,
+                coroutineScope
+            )
+        }
         composable(BotNavItem.PembayaranScreen.route) {
-            PembayaranScreen()
+            PembayaranScreen(scaffoldState, coroutineScope)
         }
         // TODO: RiwayatPemesananScreen -> DetailPemesananScreen -> { IntentToWhatsApp, RatingScreen/Dialog }
         composable(BotNavItem.RiwayatPemesananScreen.route) {
-            RiwayatPemesananScreen()
+            RiwayatPemesananScreen(navController)
+        }
+        composable(Screen.RiwayatDetailScreen.route) {
+            val pembayaran =
+                navController.previousBackStackEntry?.savedStateHandle?.get<Pembayaran>(PEMBAYARAN)
+            RiwayatDetailScreen(
+                navController, pembayaran,
+                scaffoldState,
+                coroutineScope
+            )
         }
     }
 }

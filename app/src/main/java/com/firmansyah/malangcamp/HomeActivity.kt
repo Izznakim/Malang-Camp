@@ -17,8 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.firmansyah.malangcamp.component.ButtonHome
 import com.firmansyah.malangcamp.component.Logo
-import com.firmansyah.malangcamp.pelanggan.PelangganLoginActivity
 import com.firmansyah.malangcamp.screen.pegawai.PegawaiLoginActivity
+import com.firmansyah.malangcamp.screen.pelanggan.PelangganLoginActivity
 import com.firmansyah.malangcamp.theme.MalangCampTheme
 import com.firmansyah.malangcamp.theme.darkGreen
 
