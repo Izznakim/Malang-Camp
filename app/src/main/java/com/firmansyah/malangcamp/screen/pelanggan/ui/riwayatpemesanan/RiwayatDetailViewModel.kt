@@ -6,12 +6,13 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.model.Pembayaran
-import com.firmansyah.malangcamp.other.ConstVariable
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.BARANG
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.RATING_PATH
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
 class RiwayatDetailViewModel : ViewModel() {
-    private val barangRef = Firebase.database.getReference(ConstVariable.BARANG)
+    private val barangRef = Firebase.database.getReference(BARANG)
 
     var pembayaran by mutableStateOf(Pembayaran())
         private set
@@ -26,7 +27,7 @@ class RiwayatDetailViewModel : ViewModel() {
         val listNilai: ArrayList<Int> = arrayListOf()
 
         barangSewa?.forEach {
-            barangRef.child(it.idBarang).child(ConstVariable.RATING_PATH).get()
+            barangRef.child(it.idBarang).child(RATING_PATH).get()
                 .addOnSuccessListener { data ->
                     listNilai.clear()
                     listNilai.add(rating)
@@ -36,7 +37,7 @@ class RiwayatDetailViewModel : ViewModel() {
                         ?.forEach { item ->
                             listNilai.add(item.toInt())
                         }
-                    barangRef.child(it.idBarang).child(ConstVariable.RATING_PATH).setValue(
+                    barangRef.child(it.idBarang).child(RATING_PATH).setValue(
                         listNilai.joinToString { item -> item.toString() }
                     )
                 }

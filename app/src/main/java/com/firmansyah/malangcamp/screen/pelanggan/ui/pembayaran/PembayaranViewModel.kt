@@ -6,11 +6,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.model.Pembayaran
-import com.firmansyah.malangcamp.other.ConstVariable
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.BARANG
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.BUKTI_LOCATION
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.KERANJANG_PATH
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.NETRAL
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.PEMBAYARAN
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.STOCK_PATH
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.USERS_PATH
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -97,7 +98,7 @@ class PembayaranViewModel : ViewModel() {
                                 nomorTelepon,
                                 imageUrl,
                                 total * selisihHari,
-                                ConstVariable.NETRAL,
+                                NETRAL,
                                 listSewa
                             )
                             pembayaranRef.child(idPembayar)
@@ -115,7 +116,7 @@ class PembayaranViewModel : ViewModel() {
 
             for (i in listSewa.indices) {
                 barangRef.child(listSewa[i].idBarang).child(
-                    ConstVariable.STOCK_PATH
+                    STOCK_PATH
                 )
                     .setValue(listStock[i] - listSewa[i].jumlah)
             }

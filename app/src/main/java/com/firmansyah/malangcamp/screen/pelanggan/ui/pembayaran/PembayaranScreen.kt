@@ -35,9 +35,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.component.*
 import com.firmansyah.malangcamp.model.Keranjang
-import com.firmansyah.malangcamp.other.ConstVariable
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.BARANG
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.DATE_FORMAT
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.KERANJANG_PATH
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.STOCK_PATH
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.TIME_FORMAT
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.USERS_PATH
 import com.firmansyah.malangcamp.other.CustomTimePickerDialog
 import com.firmansyah.malangcamp.other.currencyIdrFormat
@@ -62,7 +64,7 @@ fun PembayaranScreen(
     val auth = Firebase.auth
     val keranjangRef =
         Firebase.database.getReference("${USERS_PATH}/${auth.currentUser?.uid}/${KERANJANG_PATH}")
-    val barangRef = Firebase.database.getReference(ConstVariable.BARANG)
+    val barangRef = Firebase.database.getReference(BARANG)
     val context = LocalContext.current
 
     val listSewa: ArrayList<Keranjang> = arrayListOf()
@@ -95,8 +97,8 @@ fun PembayaranScreen(
     var nomorTeleponFail by rememberSaveable { mutableStateOf(false) }
 
     val kalender = Calendar.getInstance()
-    val dateFormat = ConstVariable.DATE_FORMAT
-    val timeFormat = ConstVariable.TIME_FORMAT
+    val dateFormat = DATE_FORMAT
+    val timeFormat = TIME_FORMAT
     val date = SimpleDateFormat(dateFormat, Locale.getDefault())
     val time = SimpleDateFormat(timeFormat, Locale.getDefault())
     val dateSetListener =

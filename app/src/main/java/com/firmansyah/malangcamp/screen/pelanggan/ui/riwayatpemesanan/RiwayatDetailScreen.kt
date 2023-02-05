@@ -28,13 +28,13 @@ import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.component.*
 import com.firmansyah.malangcamp.model.Keranjang
 import com.firmansyah.malangcamp.model.Pembayaran
-import com.firmansyah.malangcamp.other.ConstVariable
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.BARANG
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.BUKTI_LOCATION
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.DITERIMA
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.DITOLAK
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.NETRAL
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.PEMBAYARAN
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.STOCK_PATH
 import com.firmansyah.malangcamp.other.currencyIdrFormat
 import com.firmansyah.malangcamp.theme.MalangCampTheme
 import com.firmansyah.malangcamp.theme.black
@@ -157,12 +157,12 @@ fun RiwayatDetailScreen(
                                         NETRAL -> {
                                             for (i in mPembayaran.barangSewa.indices) {
                                                 barangRef.child(mPembayaran.barangSewa[i].idBarang)
-                                                    .child(ConstVariable.STOCK_PATH).get()
+                                                    .child(STOCK_PATH).get()
                                                     .addOnSuccessListener { snapshot ->
                                                         val value = snapshot.getValue<Int>()
                                                         if (value != null) {
                                                             barangRef.child(mPembayaran.barangSewa[i].idBarang)
-                                                                .child(ConstVariable.STOCK_PATH)
+                                                                .child(STOCK_PATH)
                                                                 .setValue(value + mPembayaran.barangSewa[i].jumlah)
                                                         }
                                                     }.addOnFailureListener { e ->

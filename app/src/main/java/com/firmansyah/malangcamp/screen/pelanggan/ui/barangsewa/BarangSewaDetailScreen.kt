@@ -28,7 +28,13 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.firmansyah.malangcamp.R
 import com.firmansyah.malangcamp.model.Barang
-import com.firmansyah.malangcamp.other.ConstVariable
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.BARANG_LAINNYA
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.EXTRA_IMAGE
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.JAKET
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.SEPATU
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.SLEEPING_BAG
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.TAS
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.TENDA
 import com.firmansyah.malangcamp.other.ZoomImageActivity
 import com.firmansyah.malangcamp.other.currencyIdrFormat
 import com.firmansyah.malangcamp.other.rating
@@ -70,7 +76,7 @@ fun BarangSewaDetailScreen(
                     .padding(top = 8.dp)
                     .clickable {
                         Intent(context, ZoomImageActivity::class.java).also {
-                            it.putExtra(ConstVariable.EXTRA_IMAGE, mBarang.gambar)
+                            it.putExtra(EXTRA_IMAGE, mBarang.gambar)
                             context.startActivity(it)
                         }
                     }
@@ -103,7 +109,7 @@ fun BarangSewaDetailScreen(
                         .padding(end = 8.dp)
                 )
                 when (mBarang.jenis) {
-                    ConstVariable.SEPATU, ConstVariable.JAKET, ConstVariable.TAS, ConstVariable.SLEEPING_BAG -> {
+                    SEPATU, JAKET, TAS, SLEEPING_BAG -> {
                         Text(
                             text = stringResource(R.string.ukuran___, mBarang.ukuran),
                             modifier = Modifier
@@ -115,7 +121,7 @@ fun BarangSewaDetailScreen(
                 }
             }
             when (mBarang.jenis) {
-                ConstVariable.SLEEPING_BAG -> {
+                SLEEPING_BAG -> {
                     TextDetailBarangSewa(
                         stringResource(
                             R.string.bahan___,
@@ -123,7 +129,7 @@ fun BarangSewaDetailScreen(
                         )
                     )
                 }
-                ConstVariable.TENDA -> {
+                TENDA -> {
                     Text(
                         text = stringResource(R.string.ukuran___, mBarang.ukuran),
                         modifier = Modifier
@@ -137,7 +143,7 @@ fun BarangSewaDetailScreen(
                         stringResource(R.string.pasak___, mBarang.pasak)
                     )
                 }
-                ConstVariable.SEPATU, ConstVariable.JAKET, ConstVariable.TAS -> {
+                SEPATU, JAKET, TAS -> {
                     TextDetailBarangSewa(
                         stringResource(
                             R.string.warna___,
@@ -151,13 +157,13 @@ fun BarangSewaDetailScreen(
                 currencyIdrFormat().format(mBarang.harga)
             )
             when (mBarang.jenis) {
-                ConstVariable.TENDA -> {
+                TENDA -> {
                     ParagraphTextDeskBarang(
                         mBarang.caraPemasangan,
                         R.string.cara_pemasangan___
                     )
                 }
-                ConstVariable.BARANG_LAINNYA -> {
+                BARANG_LAINNYA -> {
                     ParagraphTextDeskBarang(
                         mBarang.kegunaanBarang,
                         R.string.kegunaan_barang___
