@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.firmansyah.malangcamp.model.Pembayaran
+import com.firmansyah.malangcamp.other.ConstVariable.Companion.ID_AKUN_PATH
 import com.firmansyah.malangcamp.other.ConstVariable.Companion.PEMBAYARAN
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -37,7 +38,7 @@ class RiwayatPemesananViewModel : ViewModel() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val list: ArrayList<Pembayaran> = arrayListOf()
                 snapshot.children.forEach {
-                    if (it.child("idAkun").value == auth.currentUser?.uid) {
+                    if (it.child(ID_AKUN_PATH).value == auth.currentUser?.uid) {
                         val pembayaran = it.getValue(Pembayaran::class.java)
                         if (pembayaran != null) {
                             list.add(pembayaran)

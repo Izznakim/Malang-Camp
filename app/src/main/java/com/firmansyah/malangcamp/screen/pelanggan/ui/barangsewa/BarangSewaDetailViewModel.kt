@@ -32,9 +32,6 @@ class BarangSewaDetailViewModel : ViewModel() {
     private val _msg = mutableStateOf("")
     var msg: State<String> = _msg
 
-    private val _showMsg = mutableStateOf(false)
-    var showMsg: State<Boolean> = _showMsg
-
     init {
         loadJumlahOnStart()
     }
@@ -53,7 +50,6 @@ class BarangSewaDetailViewModel : ViewModel() {
             }
         }.addOnFailureListener {
             _msg.value = it.message.toString()
-            _showMsg.value = true
         }
     }
 
@@ -66,7 +62,6 @@ class BarangSewaDetailViewModel : ViewModel() {
             mBarang.harga * jumlahKeranjang
         )
         keranjangRef.child(mBarang.id).setValue(model)
-        _showMsg.value = true
         _msg.value = message
     }
 }

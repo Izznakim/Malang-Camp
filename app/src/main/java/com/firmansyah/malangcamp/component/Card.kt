@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,7 +29,6 @@ fun ItemBarangCard(
     barang: Barang,
     navController: NavHostController,
     pegawai: Boolean,
-    changeCardColor: Boolean
 ) {
     Card(
         modifier = Modifier
@@ -43,9 +42,7 @@ fun ItemBarangCard(
                 navController.currentBackStackEntry?.savedStateHandle?.set(BARANG, barang)
                 navController.navigate(Screen.BarangSewaDetailScreen.route)
             }
-        },
-        // TODO:
-//        backgroundColor = if (!pegawai && changeCardColor) selectedCardColor else MaterialTheme.colors.surface
+        }
     ) {
         Row(
             horizontalArrangement = Arrangement.Center,

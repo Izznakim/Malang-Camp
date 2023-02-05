@@ -51,7 +51,9 @@ class PelangganAkunViewModel : ViewModel() {
 
     fun getUser(akunId: String) {
         userRef.child(akunId).get().addOnSuccessListener {
-            imgUrl = it.child(FOTO_PROFIL_PATH).value.toString()
+            if (it.child(FOTO_PROFIL_PATH).value != null) {
+                imgUrl = it.child(FOTO_PROFIL_PATH).value.toString()
+            }
             username = it.child(Username_PATH).value.toString()
             namaDepan = it.child(NAMA_DEPAN_PATH).value.toString()
             namaBelakang = it.child(NAMA_BELAKANG_PATH).value.toString()

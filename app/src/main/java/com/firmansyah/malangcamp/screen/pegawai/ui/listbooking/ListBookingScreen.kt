@@ -30,23 +30,6 @@ fun ListBookingScreen(
     listBookingViewModel.getListBooking()
     MalangCampTheme {
         Box(modifier = Modifier.fillMaxSize()) {
-            when {
-                listBookingViewModel.listBooking.value.isEmpty() -> {
-                    ErrorFailComponent(
-                        Icons.Filled.Warning,
-                        stringResource(R.string.data_kosong_di_list_booking),
-                        stringResource(R.string.masih_belum_ada_yang_menyewa)
-                    )
-                }
-                listBookingViewModel.isError.value -> {
-                    ErrorFailComponent(
-                        icons = Icons.Filled.Close,
-                        contentDesc = listBookingViewModel.errorMsg.value,
-                        textFail = listBookingViewModel.errorMsg.value
-                    )
-                }
-                else -> ListBooking(navController, listBookingViewModel, context)
-            }
             if (listBookingViewModel.isLoading.value) {
                 CircularProgressIndicator(
                     Modifier
@@ -59,6 +42,23 @@ fun ListBookingScreen(
                         .alpha(0f)
                         .align(Alignment.Center)
                 )
+                when {
+                    listBookingViewModel.listBooking.value.isEmpty() -> {
+                        ErrorFailComponent(
+                            Icons.Filled.Warning,
+                            stringResource(R.string.data_kosong_di_list_booking),
+                            stringResource(R.string.masih_belum_ada_yang_menyewa)
+                        )
+                    }
+                    listBookingViewModel.isError.value -> {
+                        ErrorFailComponent(
+                            icons = Icons.Filled.Close,
+                            contentDesc = listBookingViewModel.errorMsg.value,
+                            textFail = listBookingViewModel.errorMsg.value
+                        )
+                    }
+                    else -> ListBooking(navController, listBookingViewModel, context)
+                }
             }
         }
     }

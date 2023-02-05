@@ -30,23 +30,6 @@ fun RiwayatPemesananScreen(
     viewModel.getListRiwayat()
     MalangCampTheme {
         Box(modifier = Modifier.fillMaxSize()) {
-            when {
-                viewModel.listRiwayat.value.isEmpty() -> {
-                    ErrorFailComponent(
-                        Icons.Filled.Warning,
-                        stringResource(R.string.data_kosong_di_list_booking),
-                        stringResource(R.string.masih_belum_ada_yang_menyewa)
-                    )
-                }
-                viewModel.isError.value -> {
-                    ErrorFailComponent(
-                        icons = Icons.Filled.Close,
-                        contentDesc = viewModel.errorMsg.value,
-                        textFail = viewModel.errorMsg.value
-                    )
-                }
-                else -> ListRiwayat(navController, viewModel, context)
-            }
             if (viewModel.isLoading.value) {
                 CircularProgressIndicator(
                     Modifier
@@ -59,6 +42,23 @@ fun RiwayatPemesananScreen(
                         .alpha(0f)
                         .align(Alignment.Center)
                 )
+                when {
+                    viewModel.listRiwayat.value.isEmpty() -> {
+                        ErrorFailComponent(
+                            Icons.Filled.Warning,
+                            stringResource(R.string.data_kosong_di_list_booking),
+                            stringResource(R.string.masih_belum_ada_yang_menyewa)
+                        )
+                    }
+                    viewModel.isError.value -> {
+                        ErrorFailComponent(
+                            icons = Icons.Filled.Close,
+                            contentDesc = viewModel.errorMsg.value,
+                            textFail = viewModel.errorMsg.value
+                        )
+                    }
+                    else -> ListRiwayat(navController, viewModel, context)
+                }
             }
         }
     }

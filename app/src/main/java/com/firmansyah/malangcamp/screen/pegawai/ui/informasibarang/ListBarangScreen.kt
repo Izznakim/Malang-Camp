@@ -58,40 +58,6 @@ private fun InformasiBarang(
         FabAddBarang(navController)
     }, isFloatingActionButtonDocked = true) {
         Box(modifier = Modifier.fillMaxSize()) {
-            when {
-                listBarangViewModel.listBarang.value.isEmpty() -> {
-                    ErrorFailComponent(
-                        Icons.Filled.Warning,
-                        stringResource(R.string.data_kosong_di_list_barang),
-                        stringResource(R.string.masih_belum_ada_barang_yang_ditambahkan)
-                    )
-                }
-                listBarangViewModel.isError.value -> {
-                    ErrorFailComponent(
-                        icons = Icons.Filled.Close,
-                        contentDesc = listBarangViewModel.errorMsg.value,
-                        textFail = listBarangViewModel.errorMsg.value
-                    )
-                }
-                else -> {
-                    LazyColumn {
-                        items(items = listBarang, itemContent = { barang ->
-                            Box(contentAlignment = Alignment.TopStart) {
-                                ItemBarangCard(barang, navController, pegawai = true, false)
-                                DeleteBarangButton(barang, databaseRef)
-                                DeleteDialog(
-                                    barang,
-                                    databaseRef,
-                                    listBarangViewModel,
-                                    scaffoldState,
-                                    coroutineScope,
-                                    context
-                                )
-                            }
-                        })
-                    }
-                }
-            }
             if (listBarangViewModel.isLoading.value) {
                 CircularProgressIndicator(
                     Modifier
@@ -104,6 +70,40 @@ private fun InformasiBarang(
                         .alpha(0f)
                         .align(Alignment.Center)
                 )
+                when {
+                    listBarangViewModel.listBarang.value.isEmpty() -> {
+                        ErrorFailComponent(
+                            Icons.Filled.Warning,
+                            stringResource(R.string.data_kosong_di_list_barang),
+                            stringResource(R.string.masih_belum_ada_barang_yang_ditambahkan)
+                        )
+                    }
+                    listBarangViewModel.isError.value -> {
+                        ErrorFailComponent(
+                            icons = Icons.Filled.Close,
+                            contentDesc = listBarangViewModel.errorMsg.value,
+                            textFail = listBarangViewModel.errorMsg.value
+                        )
+                    }
+                    else -> {
+                        LazyColumn {
+                            items(items = listBarang, itemContent = { barang ->
+                                Box(contentAlignment = Alignment.TopStart) {
+                                    ItemBarangCard(barang, navController, pegawai = true)
+                                    DeleteBarangButton(barang, databaseRef)
+                                    DeleteDialog(
+                                        barang,
+                                        databaseRef,
+                                        listBarangViewModel,
+                                        scaffoldState,
+                                        coroutineScope,
+                                        context
+                                    )
+                                }
+                            })
+                        }
+                    }
+                }
             }
         }
     }

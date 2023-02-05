@@ -15,11 +15,8 @@ import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -87,7 +84,7 @@ fun PembayaranScreen(
     var jamPengambilan by rememberSaveable { mutableStateOf("") }
     var totalH: Int
 
-    total = getListSewaAndTotal(total, listSewa, viewModel)
+    total = getListSewaAndTotal(total, listSewa, viewModel, scaffoldState)
 
     pengecekanStok(listSewa, listReady, listStock, barangRef)
 
@@ -341,6 +338,11 @@ fun PembayaranScreen(
                                 listStock,
                                 context.getString(R.string.anda_telah_menyewa)
                             )
+                            coroutineScope.launch {
+                                if (viewModel.showToast.value) {
+                                    scaffoldState.snackbarHostState.showSnackbar(message = viewModel.toastMessage.value)
+                                }
+                            }
                         } else {
                             coroutineScope.launch {
                                 scaffoldState.snackbarHostState.showSnackbar(
@@ -370,11 +372,6 @@ fun PembayaranScreen(
                         text = stringResource(id = R.string.sewa),
                         textAlign = TextAlign.Center
                     )
-                }
-            }
-            coroutineScope.launch {
-                if (viewModel.showToast.value) {
-                    scaffoldState.snackbarHostState.showSnackbar(message = viewModel.toastMessage.value)
                 }
             }
         }
@@ -454,10 +451,16 @@ private fun pengecekanStok(
 private fun getListSewaAndTotal(
     total: Int,
     listSewa: ArrayList<Keranjang>,
-    viewModel: PembayaranViewModel
+    viewModel: PembayaranViewModel,
+    scaffoldState: ScaffoldState
 ): Int {
     var total1 = total
     viewModel.getListBarang()
+    if (viewModel.showToast.value) {
+        LaunchedEffect(key1 = scaffoldState.snackbarHostState) {
+            scaffoldState.snackbarHostState.showSnackbar(message = viewModel.toastMessage.value)
+        }
+    }
     viewModel.listBarang.value.also {
         for (i in it.indices) {
             total1 += it[i].subtotal

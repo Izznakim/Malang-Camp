@@ -9,8 +9,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -47,11 +50,6 @@ fun BarangSewaDetailScreen(
     var jumlah by rememberSaveable { mutableStateOf(0) }
     if (viewModel.inBasket.value) {
         jumlah = viewModel.jumlah.value.toInt()
-    }
-    if (viewModel.showMsg.value) {
-        LaunchedEffect(scaffoldState.snackbarHostState) {
-            scaffoldState.snackbarHostState.showSnackbar(viewModel.msg.value)
-        }
     }
 
     MalangCampTheme {
@@ -216,13 +214,16 @@ fun BarangSewaDetailScreen(
             }
             Button(onClick = {
                 if (jumlah > 0) {
-                    viewModel.putToKeranjang(
-                        mBarang, jumlah, context.getString(
-                            R.string.___telah_ditambahkan_ke_keranjang,
-                            mBarang.nama
-                        )
-                    )
                     navController.popBackStack()
+                    coroutineScope.launch {
+                        viewModel.putToKeranjang(
+                            mBarang, jumlah, context.getString(
+                                R.string.___telah_ditambahkan_ke_keranjang,
+                                mBarang.nama
+                            )
+                        )
+                        scaffoldState.snackbarHostState.showSnackbar(viewModel.msg.value)
+                    }
                 }
             }, modifier = Modifier.padding(top = 16.dp), enabled = jumlah != 0) {
                 Text(text = stringResource(id = R.string.tambah_ke_keranjang))

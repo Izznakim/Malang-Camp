@@ -44,7 +44,7 @@ class ConstVariable {
         const val RATING_PATH = "rating"
         const val DATE_FORMAT = "dd/MM/yyyy"
         const val TIME_FORMAT = "HH:mm"
-        const val ID_BARANG_PATH = "idBarang"
         const val EXTRA_UID = "extra_uid"
+        const val ID_AKUN_PATH = "idAkun"
     }
 }

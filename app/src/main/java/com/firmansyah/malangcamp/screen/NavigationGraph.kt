@@ -67,7 +67,6 @@ fun NavigationGraph(
                 coroutineScope
             )
         }
-        // TODO: ListBarangSewaScreen -> BarangSewaDetailScreen
         composable(BotNavItem.ListBarangSewaScreen.route) {
             ListBarangSewaScreen(navController)
         }
@@ -83,7 +82,6 @@ fun NavigationGraph(
         composable(BotNavItem.PembayaranScreen.route) {
             PembayaranScreen(scaffoldState, coroutineScope)
         }
-        // TODO: RiwayatPemesananScreen -> DetailPemesananScreen -> { IntentToWhatsApp, RatingScreen/Dialog }
         composable(BotNavItem.RiwayatPemesananScreen.route) {
             RiwayatPemesananScreen(navController)
         }
